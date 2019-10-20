@@ -5,10 +5,10 @@
     <properties>
     <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
     <property name="hibernate.hbm2ddl.auto" value="update"/>
-    <property name="hibernate.connection.url" value="jdbc:postgresql://127.0.0.1:5432/mydb"/>
+    <property name="hibernate.connection.url" value="jdbc:postgresql://127.0.0.1:5432/users"/>
     <property name="hibernate.connection.username" value="postgres"/>
     <property name="hibernate.connection.password" value="root1to2gross"/>
-    <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL94Dialect"/>
+    <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL81Dialect"/>
     </properties>
   </persistence-unit>
 </persistence>

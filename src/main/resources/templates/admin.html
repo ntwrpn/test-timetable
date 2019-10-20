@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="utf-8"/>
+    <link type="text/css" rel="stylesheet" href="/css/jquery-ui.min.css"/>
+    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"/>
+    <link type="text/css" rel="stylesheet" href="/css/material-icons.css"/>
+    <link type="text/css" rel="stylesheet" href="/css/main.css"/>
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
+    <script src="/js/materialize.min.js"></script>
+    <script src="/js/admin.js"></script>
+
+</head>
+
+<body>
+
+
+  <nav class="nav-extended green accent-4">
+
+      <div class="nav-wrapper">
+          <a href="#" class="brand-logo">БНТУ</a>
+          <ul class="right hide-on-med-and-down">
+            <li><a href="home.html"><i class="material-icons">home</i></a></li>
+            <li><a href="#"><i class="material-icons">refresh</i></a></li>
+            <li><a href="#"><i class="material-icons">more_vert</i></a></li>
+          </ul>
+
+
+
+      </div>
+
+			<div class="nav-content">
+					<ul class="tabs tabs-transparent">
+            <li class="tab col s3"><a href='#users-list'>
+                      <i class="material-icons left">people</i>
+                      Аккаунты</a></li>
+            <li class="tab col s3"><a href='#roles-list'>
+							<i class="material-icons left">info</i>
+              Роли</a></li>
+          </ul>
+    </div>
+    </nav>
+
+
+
+
+		<div class="row">
+		<div class="col m3 l3">
+			<ul class="collapsible">
+				<li>
+					<div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Кабинет</div>
+					<div class="collapsible-body"><span>
+						<a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="/home">
+							<i class="material-icons left">home</i>
+                                                        Мой кабинет</a><hr></hr>
+						<a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="#exams-schedule">
+							<i class="material-icons left">event</i>
+							Расписание экзаменов</a><br/><hr></hr>
+
+					</span></div>
+				</li>
+				<li>
+					<div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Объекты</div>
+					<div class="collapsible-body"><span>
+
+						<a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  th:href="@{/user}">User Page</a>
+						<hr></hr>
+						<a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  th:href="@{/admin}">Admin Page</a>
+
+						<hr></hr>
+						<a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="#exams-schedule">
+							<i class="material-icons left">subject</i>
+							Объекты</a>
+
+						<hr></hr>
+						<a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="#users-list">
+							<i class="material-icons left">people</i>
+							Список пользователей</a>
+							<hr></hr>
+							<a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="#roles-list">
+								<i class="material-icons left">info</i>
+								Список ролей</a>
+					</span>
+				</div>
+				</li>
+				<li>
+					<div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Аккаунт</div>
+					<div class="collapsible-body"><span>
+
+
+						<a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="#exams-schedule">
+							<i class="material-icons left">account_circle</i>
+							Мой аккаунт</a><hr></hr>
+
+						<a class="waves-effect waves-light btn yellow accent-4" style="width: 100%;" href="#exams-schedule">
+							<i class="material-icons left">settings</i>
+							Настройки</a><hr></hr>
+
+						<a class="waves-effect waves-light btn red accent-4 extendfull" style="width: 100%;" href="#exams-schedule">
+							<i class="material-icons left">exit_to_app</i>
+							Выход</a>
+					</span></div>
+				</li>
+			</ul>
+		</div>
+  <div id="users-list" class="col s8">
+
+    <h4 class="tab-body-header">Список пользователей</h4>
+
+    <div class="row">
+
+
+			<div class="right">
+                    <a class="waves-effect waves-light btn green accent-4" href="#">
+                    <i class="material-icons left">add</i>
+                    Добавить</a>
+
+        <a class="waves-effect waves-light btn green accent-4" href="#">
+                    <i class="material-icons left">email</i>
+                    Пригласить</a>
+				</div>
+
+				<div>
+        <table id = "data-tr-table" class="highlight">
+        </table>
+    </div>
+
+    </div>
+</div>
+
+    <div id="roles-list" class="col s8">
+			<h4 class="tab-body-header">Список ролей</h4>
+
+      </div>
+		</div>
+</body>
+
+</html>
