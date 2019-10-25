@@ -196,7 +196,7 @@ const renderDataList = (data) => {
 
    
 }
-
+/*
 const openTableEvent = (event) => {
     //var List = require("collections/list");
     let value = event.currentTarget.id;
@@ -229,6 +229,32 @@ const openTableEvent = (event) => {
         }
 
     });
+}*/
+
+const openTableEvent = (event) => {
+    //var List = require("collections/list");
+    let value = event.currentTarget.id;
+    renderTableEvent(value);
+}
+
+
+const renderTableEvent = (value) => {
+    localStorage.setItem("current_open_table", value);
+    $.get("/"+value+"/", function(data, status){ 
+    saveJSONDataToLocalStorage(value, data);
+    var container = document.getElementById("data-tr-table");
+    //var list = new List([1, 2, 3]);
+    while (container.hasChildNodes()) {
+         container.removeChild(container.lastChild);
+    }
+    if (data.length>0){
+        var thread = createThread(data);
+        container.appendChild(thread);
+        var tbody = createTbody(data);
+        container.appendChild(tbody);
+    }
+	});
+
 }
 
 const createThread = (data) => {
@@ -276,7 +302,7 @@ const createTbody = (data) => {
       
       var a = document.createElement("a");
       a.className = 'btn-floating btn-large waves-effect waves-light green accent-4';
-      a.href = '#1';
+      //a.href = '#';
       a.value = input.id;
       //a.textContent = 'Удалить';
       a.addEventListener("click", deleteValueFromTable);
@@ -307,7 +333,7 @@ const deleteValueFromTable = (event) => {
         'type': 'DELETE',
         'url': "/"+value+"/"+id,
         'success': function(response) {
-            location.reload();
+            renderTableEvent(value);
         }
 
     });
@@ -626,11 +652,7 @@ const updateSubjectEvent = () => {
         'dataType': 'json',
         'success': function(response) {
             console.log(response);
-                $.get("/syllabus/", function(data, status){ 
-                saveJSONDataToLocalStorage("subjects", data);
-                console.log(data);
-                renderSubjectsList(data);
-	});
+
         }
 
     });
@@ -650,21 +672,11 @@ const updateSubjectEvent = () => {
     localStorage.removeItem("current_edit_subject_id");
     
     
-    $.ajax({
-        headers: { 
-            'Accept': 'application/json',
-            'Content-Type': 'application/json' 
-        },
-        'type': 'GET',
-        'url': "/syllabus/",
-        'data': "",
-        'dataType': 'json',
-        'success': function(response) {
-            saveJSONDataToLocalStorage("subjects", response);
-            renderSubjectsList(response);
-        }
-
-    });
+    $.get("/syllabus/", function(data, status){ 
+                saveJSONDataToLocalStorage("subjects", data);
+                console.log(data);
+                renderSubjectsList(data);
+	});
 
     subjectCreateMode();
 
