@@ -19,6 +19,7 @@ import com.java.repository.LecternTypeService;
 
 
 import java.util.HashMap;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @Controller
 public class LecternTypeController {
@@ -26,18 +27,21 @@ public class LecternTypeController {
     private LecternTypeService orderService = new LecternTypeService();
 
     @RequestMapping(value="/lecterntype/", method=RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<LecternType>> getLecternTypePage(Model model) {
         List<LecternType> orders = orderService.getAll();
         return new ResponseEntity<List<LecternType>>(orders, HttpStatus.OK);
     }
     
     @RequestMapping(value="/lecterntype/", method=RequestMethod.OPTIONS)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<LecternType> getCorpsKeys(Model model) {
         LecternType order = new LecternType();
         return new ResponseEntity<LecternType>(order, HttpStatus.OK);
     }
     
     @RequestMapping(value="/lecterntype/{id}", method=RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<LecternType> getLecternTypePage(Model model, @PathVariable("id") int id) {
         List<LecternType> orders = orderService.getById(id);
         LecternType order = orders.get(0);
@@ -45,6 +49,7 @@ public class LecternTypeController {
     }
 
     @RequestMapping(value="/lecterntype/", method = RequestMethod.POST, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> add(@RequestBody LecternType obj){
      orderService.add(obj);
      HttpHeaders headers = new HttpHeaders();
@@ -52,6 +57,7 @@ public class LecternTypeController {
     }
  
     @RequestMapping(value="/lecterntype/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody LecternType obj){
      obj.setId(id);
      orderService.update(obj);
@@ -60,6 +66,7 @@ public class LecternTypeController {
     }
 
     @RequestMapping(value = "/lecterntype/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> DeleteLecternType(Model model, @PathVariable Integer id) {
         orderService.delete(id);
         HttpHeaders headers = new HttpHeaders();

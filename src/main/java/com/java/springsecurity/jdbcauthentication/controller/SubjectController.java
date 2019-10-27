@@ -19,6 +19,7 @@ import com.java.repository.SubjectService;
 
 
 import java.util.HashMap;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @Controller
 public class SubjectController {
@@ -26,18 +27,21 @@ public class SubjectController {
     private SubjectService orderService = new SubjectService();
 
     @RequestMapping(value="/subject/", method=RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Subject>> getSubjectPage(Model model) {
         List<Subject> orders = orderService.getAll();
         return new ResponseEntity<List<Subject>>(orders, HttpStatus.OK);
     }
     
     @RequestMapping(value="/subject/", method=RequestMethod.OPTIONS)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Subject> getCorpsKeys(Model model) {
         Subject order = new Subject();
         return new ResponseEntity<Subject>(order, HttpStatus.OK);
     }
     
     @RequestMapping(value="/subject/{id}", method=RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Subject> getSubjectPage(Model model, @PathVariable("id") int id) {
         List<Subject> orders = orderService.getById(id);
         Subject order = orders.get(0);
@@ -45,6 +49,7 @@ public class SubjectController {
     }
 
     @RequestMapping(value="/subject/", method = RequestMethod.POST, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> add(@RequestBody Subject obj){
      orderService.add(obj);
      HttpHeaders headers = new HttpHeaders();
@@ -52,6 +57,7 @@ public class SubjectController {
     }
  
     @RequestMapping(value="/subject/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody Subject obj){
      obj.setId(id);
      orderService.update(obj);
@@ -60,6 +66,7 @@ public class SubjectController {
     }
 
     @RequestMapping(value = "/subject/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> DeleteSubject(Model model, @PathVariable Integer id) {
         orderService.delete(id);
         HttpHeaders headers = new HttpHeaders();

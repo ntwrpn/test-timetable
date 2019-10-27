@@ -19,6 +19,7 @@ import com.java.repository.SyllabusService;
 
 import java.util.HashMap;
 import javax.annotation.security.RolesAllowed;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @Controller
 public class SyllabusController {
@@ -27,7 +28,7 @@ public class SyllabusController {
 
     
     @RequestMapping(value="/syllabus/", method=RequestMethod.GET)
-    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Syllabus>> getSyllabusPage(Model model) {
         List<Syllabus> orders = orderService.getAll();
         return new ResponseEntity<List<Syllabus>>(orders, HttpStatus.OK);
@@ -35,14 +36,14 @@ public class SyllabusController {
     
     
     @RequestMapping(value="/syllabus/{id}", method=RequestMethod.GET)
-    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Syllabus>> getSyllabusPage(Model model, @PathVariable("id") int id) {
         List<Syllabus> orders = orderService.getById(id);
         return new ResponseEntity<List<Syllabus>>(orders, HttpStatus.OK);
     }
 
     @RequestMapping(value="/syllabus/", method = RequestMethod.POST, headers="Accept=application/json")
-    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> add(@RequestBody Syllabus obj){
      orderService.add(obj);
      HttpHeaders headers = new HttpHeaders();
@@ -50,7 +51,7 @@ public class SyllabusController {
     }
  
     @RequestMapping(value="/syllabus/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
-    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody Syllabus obj){
      obj.setId(id);
      orderService.update(obj);
@@ -59,7 +60,7 @@ public class SyllabusController {
     }
 
     @RequestMapping(value = "/syllabus/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
-    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> DeleteSyllabus(Model model, @PathVariable Integer id) {
         orderService.delete(id);
         HttpHeaders headers = new HttpHeaders();

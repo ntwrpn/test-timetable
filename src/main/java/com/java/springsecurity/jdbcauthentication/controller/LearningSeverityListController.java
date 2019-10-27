@@ -18,6 +18,7 @@ import com.java.repository.LearningSeverityListService;
 
 
 import java.util.HashMap;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @Controller
 public class LearningSeverityListController {
@@ -25,18 +26,21 @@ public class LearningSeverityListController {
     private LearningSeverityListService orderService = new LearningSeverityListService();
 
     @RequestMapping(value="/learningseveritylist/", method=RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<LearningSeverityList>> getLearningSeverityListPage(Model model) {
         List<LearningSeverityList> orders = orderService.getAll();
         return new ResponseEntity<List<LearningSeverityList>>(orders, HttpStatus.OK);
     }
     
     @RequestMapping(value="/learningseveritylist/{id}", method=RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<LearningSeverityList>> getLearningSeverityListPage(Model model, @PathVariable("id") int id) {
         List<LearningSeverityList> orders = orderService.getById(id);
         return new ResponseEntity<List<LearningSeverityList>>(orders, HttpStatus.OK);
     }
 
     @RequestMapping(value="/learningseveritylist/", method = RequestMethod.POST, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<LearningSeverityList> add(@RequestBody LearningSeverityList obj){
      orderService.add(obj);
      HttpHeaders headers = new HttpHeaders();
@@ -46,6 +50,7 @@ public class LearningSeverityListController {
     }
  
     @RequestMapping(value="/learningseveritylist/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody LearningSeverityList obj){
      obj.setId(id);
      orderService.update(obj);
@@ -54,12 +59,14 @@ public class LearningSeverityListController {
     }
     
     @RequestMapping(value="/learningseveritylist/bylist", method = RequestMethod.POST, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<LearningSeverityList>> update(@RequestBody List<Integer> obj){
      List<LearningSeverityList> orders = orderService.getAllInArray(obj);
      return new ResponseEntity<List<LearningSeverityList>>(orders, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/learningseveritylist/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> DeleteLearningSeverityList(Model model, @PathVariable Integer id) {
         orderService.delete(id);
         HttpHeaders headers = new HttpHeaders();

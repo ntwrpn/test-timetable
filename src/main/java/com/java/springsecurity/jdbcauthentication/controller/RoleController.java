@@ -19,6 +19,7 @@ import com.java.repository.RoleService;
 
 
 import java.util.HashMap;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @Controller
 public class RoleController {
@@ -26,18 +27,21 @@ public class RoleController {
     private RoleService orderService = new RoleService();
 
     @RequestMapping(value="/role/", method=RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Role>> getRolePage(Model model) {
         List<Role> orders = orderService.getAll();
         return new ResponseEntity<List<Role>>(orders, HttpStatus.OK);
     }
     
     @RequestMapping(value="/role/", method=RequestMethod.OPTIONS)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Role> getCorpsKeys(Model model) {
         Role order = new Role();
         return new ResponseEntity<Role>(order, HttpStatus.OK);
     }
     
     @RequestMapping(value="/role/{id}", method=RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Role> getRolePage(Model model, @PathVariable("id") int id) {
         List<Role> orders = orderService.getById(id);
         Role order = orders.get(0);
@@ -45,6 +49,7 @@ public class RoleController {
     }
 
     @RequestMapping(value="/role/", method = RequestMethod.POST, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> add(@RequestBody Role obj){
      orderService.add(obj);
      HttpHeaders headers = new HttpHeaders();
@@ -52,6 +57,7 @@ public class RoleController {
     }
  
     @RequestMapping(value="/role/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody Role obj){
      obj.setId(id);
      orderService.update(obj);
@@ -60,6 +66,7 @@ public class RoleController {
     }
 
     @RequestMapping(value = "/role/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> DeleteRole(Model model, @PathVariable Integer id) {
         orderService.delete(id);
         HttpHeaders headers = new HttpHeaders();

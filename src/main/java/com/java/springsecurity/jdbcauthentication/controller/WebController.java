@@ -1,6 +1,7 @@
 package com.java.springsecurity.jdbcauthentication.controller;
 
 import javax.annotation.security.RolesAllowed;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,23 +14,21 @@ public class WebController {
         return "home";
     }
     
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/home")
-    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
     public String index(){
 	//ModelAndView model = new ModelAndView("index");
         return "index";
     }
    
-    
+    @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping(value="/user")
-    @RolesAllowed("ROLE_USER")
     public String user(){
         return "user";
     }
   
-    
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/admin")
-    @RolesAllowed("ROLE_ADMIN")
     public String admin(){
         return "admin";
     }

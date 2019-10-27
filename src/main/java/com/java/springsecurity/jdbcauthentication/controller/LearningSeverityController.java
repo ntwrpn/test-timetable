@@ -18,6 +18,7 @@ import com.java.repository.LearningSeverityService;
 
 
 import java.util.HashMap;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @Controller
 public class LearningSeverityController {
@@ -25,18 +26,21 @@ public class LearningSeverityController {
     private LearningSeverityService orderService = new LearningSeverityService();
 
     @RequestMapping(value="/learningseverity/", method=RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<LearningSeverity>> getLearningSeverityPage(Model model) {
         List<LearningSeverity> orders = orderService.getAll();
         return new ResponseEntity<List<LearningSeverity>>(orders, HttpStatus.OK);
     }
     
     @RequestMapping(value="/learningseverity/{id}", method=RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<LearningSeverity>> getLearningSeverityPage(Model model, @PathVariable("id") int id) {
         List<LearningSeverity> orders = orderService.getById(id);
         return new ResponseEntity<List<LearningSeverity>>(orders, HttpStatus.OK);
     }
 
     @RequestMapping(value="/learningseverity/", method = RequestMethod.POST, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> add(@RequestBody LearningSeverity obj){
      orderService.add(obj);
      HttpHeaders headers = new HttpHeaders();
@@ -44,6 +48,7 @@ public class LearningSeverityController {
     }
  
     @RequestMapping(value="/learningseverity/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody LearningSeverity obj){
      obj.setId(id);
      orderService.update(obj);
@@ -52,6 +57,7 @@ public class LearningSeverityController {
     }
 
     @RequestMapping(value = "/learningseverity/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> DeleteLearningSeverity(Model model, @PathVariable Integer id) {
         orderService.delete(id);
         HttpHeaders headers = new HttpHeaders();

@@ -19,6 +19,7 @@ import com.java.repository.CanTeachService;
 
 
 import java.util.HashMap;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @Controller
 public class CanTeachController {
@@ -26,18 +27,21 @@ public class CanTeachController {
     private CanTeachService orderService = new CanTeachService();
 
     @RequestMapping(value="/canteach/", method=RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<CanTeach>> getCanTeachPage(Model model) {
         List<CanTeach> orders = orderService.getAll();
         return new ResponseEntity<List<CanTeach>>(orders, HttpStatus.OK);
     }
     
     @RequestMapping(value="/canteach/", method=RequestMethod.OPTIONS)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<CanTeach> getCorpsKeys(Model model) {
         CanTeach order = new CanTeach();
         return new ResponseEntity<CanTeach>(order, HttpStatus.OK);
     }
     
     @RequestMapping(value="/canteach/{id}", method=RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<CanTeach> getCanTeachPage(Model model, @PathVariable("id") int id) {
         List<CanTeach> orders = orderService.getById(id);
         CanTeach order = orders.get(0);
@@ -45,6 +49,7 @@ public class CanTeachController {
     }
 
     @RequestMapping(value="/canteach/", method = RequestMethod.POST, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> add(@RequestBody CanTeach obj){
      orderService.add(obj);
      HttpHeaders headers = new HttpHeaders();
@@ -52,6 +57,7 @@ public class CanTeachController {
     }
  
     @RequestMapping(value="/canteach/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody CanTeach obj){
      obj.setId(id);
      orderService.update(obj);
@@ -60,6 +66,7 @@ public class CanTeachController {
     }
 
     @RequestMapping(value = "/canteach/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> DeleteCanTeach(Model model, @PathVariable Integer id) {
         orderService.delete(id);
         HttpHeaders headers = new HttpHeaders();

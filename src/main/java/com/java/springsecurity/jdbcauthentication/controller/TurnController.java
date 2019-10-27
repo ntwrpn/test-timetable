@@ -20,6 +20,7 @@ import com.java.repository.TurnService;
 
 import java.util.HashMap;
 import javax.annotation.security.RolesAllowed;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @Controller
 public class TurnController {
@@ -27,21 +28,21 @@ public class TurnController {
     private TurnService orderService = new TurnService();
 
     @RequestMapping(value="/turn/", method=RequestMethod.GET)
-    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Turn>> getTurnPage(Model model) {
         List<Turn> orders = orderService.getAll();
         return new ResponseEntity<List<Turn>>(orders, HttpStatus.OK);
     }
     
     @RequestMapping(value="/turn/", method=RequestMethod.OPTIONS)
-    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Turn> getCorpsKeys(Model model) {
         Turn order = new Turn();
         return new ResponseEntity<Turn>(order, HttpStatus.OK);
     }
     
     @RequestMapping(value="/turn/{id}", method=RequestMethod.GET)
-    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Turn> getTurnPage(Model model, @PathVariable("id") int id) {
         List<Turn> orders = orderService.getById(id);
         Turn order = orders.get(0);
@@ -49,7 +50,7 @@ public class TurnController {
     }
 
     @RequestMapping(value="/turn/", method = RequestMethod.POST, headers="Accept=application/json")
-    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> add(@RequestBody Turn obj){
      orderService.add(obj);
      HttpHeaders headers = new HttpHeaders();
@@ -57,7 +58,7 @@ public class TurnController {
     }
  
     @RequestMapping(value="/turn/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
-    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody Turn obj){
      obj.setId(id);
      orderService.update(obj);
@@ -66,7 +67,7 @@ public class TurnController {
     }
 
     @RequestMapping(value = "/turn/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
-    @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> DeleteTurn(Model model, @PathVariable Integer id) {
         orderService.delete(id);
         HttpHeaders headers = new HttpHeaders();
