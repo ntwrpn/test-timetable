@@ -52,8 +52,7 @@ public class RoleController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> add(@RequestBody Role obj){
      orderService.add(obj);
-     HttpHeaders headers = new HttpHeaders();
-     return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+     return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
  
     @RequestMapping(value="/role/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
@@ -61,16 +60,14 @@ public class RoleController {
     public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody Role obj){
      obj.setId(id);
      orderService.update(obj);
-     HttpHeaders headers = new HttpHeaders();
-     return new ResponseEntity<Void>(headers, HttpStatus.OK);
+     return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/role/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> DeleteRole(Model model, @PathVariable Integer id) {
         orderService.delete(id);
-        HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<Void>(headers, HttpStatus.OK);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
 }

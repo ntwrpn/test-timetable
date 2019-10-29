@@ -52,8 +52,7 @@ public class FacultyController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> add(@RequestBody Faculty obj){
      orderService.add(obj);
-     HttpHeaders headers = new HttpHeaders();
-     return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+     return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
  
     @RequestMapping(value="/faculty/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
@@ -61,16 +60,14 @@ public class FacultyController {
     public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody Faculty obj){
      obj.setId(id);
      orderService.update(obj);
-     HttpHeaders headers = new HttpHeaders();
-     return new ResponseEntity<Void>(headers, HttpStatus.OK);
+     return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/faculty/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> DeleteFaculty(Model model, @PathVariable Integer id) {
         orderService.delete(id);
-        HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<Void>(headers, HttpStatus.OK);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
 }

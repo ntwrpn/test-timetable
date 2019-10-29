@@ -43,7 +43,6 @@ public class LearningSeverityListController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<LearningSeverityList> add(@RequestBody LearningSeverityList obj){
      orderService.add(obj);
-     HttpHeaders headers = new HttpHeaders();
      List<LearningSeverityList> orders = orderService.getLastId();
      LearningSeverityList order = orders.get(0);
      return new ResponseEntity<LearningSeverityList>(order, HttpStatus.CREATED);
@@ -54,8 +53,7 @@ public class LearningSeverityListController {
     public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody LearningSeverityList obj){
      obj.setId(id);
      orderService.update(obj);
-     HttpHeaders headers = new HttpHeaders();
-     return new ResponseEntity<Void>(headers, HttpStatus.OK);
+     return new ResponseEntity<Void>(HttpStatus.OK);
     }
     
     @RequestMapping(value="/learningseveritylist/bylist", method = RequestMethod.POST, headers="Accept=application/json")
@@ -69,8 +67,7 @@ public class LearningSeverityListController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> DeleteLearningSeverityList(Model model, @PathVariable Integer id) {
         orderService.delete(id);
-        HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<Void>(headers, HttpStatus.OK);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
 }

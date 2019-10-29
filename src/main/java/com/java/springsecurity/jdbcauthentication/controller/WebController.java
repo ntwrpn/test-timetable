@@ -17,7 +17,6 @@ public class WebController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/home")
     public String index(){
-	//ModelAndView model = new ModelAndView("index");
         return "index";
     }
    
