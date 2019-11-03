@@ -35,9 +35,8 @@ public class SubgroupController {
     
     @RequestMapping(value="/subgroup/", method=RequestMethod.OPTIONS)
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Subgroup> getCorpsKeys(Model model) {
-        Subgroup order = new Subgroup();
-        return new ResponseEntity<Subgroup>(order, HttpStatus.OK);
+    public ResponseEntity getCorpsKeys(Model model) {
+        return new ResponseEntity(orderService.getFields(), HttpStatus.OK);
     }
     
     @RequestMapping(value="/subgroup/{id}", method=RequestMethod.GET)

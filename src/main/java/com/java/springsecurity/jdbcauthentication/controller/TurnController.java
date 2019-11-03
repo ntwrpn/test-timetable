@@ -36,9 +36,8 @@ public class TurnController {
     
     @RequestMapping(value="/turn/", method=RequestMethod.OPTIONS)
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Turn> getCorpsKeys(Model model) {
-        Turn order = new Turn();
-        return new ResponseEntity<Turn>(order, HttpStatus.OK);
+    public ResponseEntity getCorpsKeys(Model model) {
+        return new ResponseEntity(orderService.getFields(), HttpStatus.OK);
     }
     
     @RequestMapping(value="/turn/{id}", method=RequestMethod.GET)

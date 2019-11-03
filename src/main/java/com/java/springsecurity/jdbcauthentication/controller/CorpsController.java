@@ -35,9 +35,8 @@ public class CorpsController {
     
     @RequestMapping(value="/corps/", method=RequestMethod.OPTIONS)
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Corps> getCorpsKeys(Model model) {
-        Corps order = new Corps();
-        return new ResponseEntity<Corps>(order, HttpStatus.OK);
+    public ResponseEntity getCorpsKeys(Model model) {
+        return new ResponseEntity(orderService.getFields(), HttpStatus.OK);
     }
     
     @RequestMapping(value="/corps/{id}", method=RequestMethod.GET)

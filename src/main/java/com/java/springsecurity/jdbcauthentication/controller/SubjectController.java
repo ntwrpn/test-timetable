@@ -35,9 +35,8 @@ public class SubjectController {
     
     @RequestMapping(value="/subject/", method=RequestMethod.OPTIONS)
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Subject> getCorpsKeys(Model model) {
-        Subject order = new Subject();
-        return new ResponseEntity<Subject>(order, HttpStatus.OK);
+    public ResponseEntity getCorpsKeys(Model model) {
+        return new ResponseEntity(orderService.getFields(), HttpStatus.OK);
     }
     
     @RequestMapping(value="/subject/{id}", method=RequestMethod.GET)

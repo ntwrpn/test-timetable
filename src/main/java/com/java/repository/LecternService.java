@@ -7,7 +7,10 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import com.java.domain.Lectern;
+import java.io.StringWriter;
+import java.lang.reflect.Field;
 import org.springframework.stereotype.Service;
+import org.json.simple.JSONObject;
 
 @Service
 public class LecternService {
@@ -45,6 +48,15 @@ public class LecternService {
         TypedQuery namedQuery = em.createNamedQuery("Lectern.getById", Lectern.class).setParameter("id", id);
         List<Lectern> result=namedQuery.getResultList();   
         return result;
+    }
+    
+
+    public JSONObject getFields() {
+        JSONObject obj = new JSONObject();
+        for (Field field : Lectern.class.getDeclaredFields()) {
+            obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
+        }
+        return obj;
     }
     
 }

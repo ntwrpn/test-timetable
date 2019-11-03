@@ -48,6 +48,12 @@ public class SyllabusController {
      orderService.add(obj);
      return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
+    
+    @RequestMapping(value="/syllabus/", method=RequestMethod.OPTIONS)
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    public ResponseEntity getCorpsKeys(Model model) {
+        return new ResponseEntity(orderService.getFields(), HttpStatus.OK);
+    }
  
     @RequestMapping(value="/syllabus/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")

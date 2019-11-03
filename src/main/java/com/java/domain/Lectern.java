@@ -1,6 +1,7 @@
 
 package com.java.domain;
 
+import java.lang.reflect.Field;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,20 @@ public class Lectern {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id=0;
     
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="faculty_idfaculty", referencedColumnName="idfaculty", nullable = true)
+    private Faculty faculty_idfaculty;
+
+    @Column(name = "fullname")
+    private String fullname;
+
+    @Column(name = "lectern_name")
+    private String lectern_name;
+
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="lectern_type_id", referencedColumnName="idlectern_type", nullable = true)
+    private LecternType lectern_type_id;
+    
     public int getId() {
         return id;
     }
@@ -30,40 +45,23 @@ public class Lectern {
         this.id = id;
     }
 
-    @Column(name = "faculty_id")
-    private int faculty_id;
+    public LecternType getLectern_type_id() {
+        return lectern_type_id;
+    }
 
-    @Column(name = "faculty_idfaculty")
-    private int faculty_idfaculty;
-
-    @Column(name = "fullname")
-    private String fullname;
-
-    @Column(name = "lectern_name")
-    private String lectern_name;
-
-    @Column(name = "lectern_type_id")
-    private int lectern_type_id;
-
+    public void setLectern_type_id(LecternType lectern_type_id) {
+        this.lectern_type_id = lectern_type_id;
+    }
 
     public Lectern() {
     }
 
-    
-    public int getFaculty_id() {
-        return faculty_id;
-    }
-    
-    public void setFaculty_id(int faculty_id) {
-        this.faculty_id=faculty_id;
-    }
-
-    public int getFaculty_idfaculty() {
+    public Faculty getFaculty_idfaculty() {
         return faculty_idfaculty;
     }
-    
-    public void setFaculty_idfaculty(int faculty_idfaculty) {
-        this.faculty_idfaculty=faculty_idfaculty;
+
+    public void setFaculty_idfaculty(Faculty faculty_idfaculty) {
+        this.faculty_idfaculty = faculty_idfaculty;
     }
 
     public String getFullname() {
@@ -81,14 +79,6 @@ public class Lectern {
     public void setLectern_name(String lectern_name) {
         this.lectern_name=lectern_name;
     }
-
-    public int getLectern_type_id() {
-        return lectern_type_id;
-    }
     
-    public void setLectern_type_id(int lectern_type_id) {
-        this.lectern_type_id=lectern_type_id;
-    }
-
 }
 

@@ -35,9 +35,8 @@ public class CanTeachController {
     
     @RequestMapping(value="/canteach/", method=RequestMethod.OPTIONS)
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<CanTeach> getCorpsKeys(Model model) {
-        CanTeach order = new CanTeach();
-        return new ResponseEntity<CanTeach>(order, HttpStatus.OK);
+    public ResponseEntity getCorpsKeys(Model model) {
+        return new ResponseEntity(orderService.getFields(), HttpStatus.OK);
     }
     
     @RequestMapping(value="/canteach/{id}", method=RequestMethod.GET)

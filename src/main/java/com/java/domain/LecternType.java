@@ -16,7 +16,7 @@ import java.util.List;
 
 public class LecternType {
 
-    
+
     @Id
     @Column(name = "idlectern_type")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

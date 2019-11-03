@@ -35,9 +35,8 @@ public class LecternTypeController {
     
     @RequestMapping(value="/lecterntype/", method=RequestMethod.OPTIONS)
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<LecternType> getCorpsKeys(Model model) {
-        LecternType order = new LecternType();
-        return new ResponseEntity<LecternType>(order, HttpStatus.OK);
+    public ResponseEntity getCorpsKeys(Model model) {
+        return new ResponseEntity(orderService.getFields(), HttpStatus.OK);
     }
     
     @RequestMapping(value="/lecterntype/{id}", method=RequestMethod.GET)

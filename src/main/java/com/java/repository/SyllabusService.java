@@ -7,6 +7,8 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import com.java.domain.Syllabus;
+import java.lang.reflect.Field;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -46,7 +48,14 @@ public class SyllabusService {
         List<Syllabus> result=namedQuery.getResultList();   
         return result;
     }
-    
+
+    public JSONObject getFields() {
+        JSONObject obj = new JSONObject();
+        for (Field field : Syllabus.class.getDeclaredFields()) {
+            obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
+        }
+        return obj;
+    }
 }
 
 

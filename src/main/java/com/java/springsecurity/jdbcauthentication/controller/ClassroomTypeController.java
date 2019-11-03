@@ -35,9 +35,8 @@ public class ClassroomTypeController {
     
     @RequestMapping(value="/classroomtype/", method=RequestMethod.OPTIONS)
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<ClassroomType> getCorpsKeys(Model model) {
-        ClassroomType order = new ClassroomType();
-        return new ResponseEntity<ClassroomType>(order, HttpStatus.OK);
+    public ResponseEntity getCorpsKeys(Model model) {
+        return new ResponseEntity(orderService.getFields(), HttpStatus.OK);
     }
     
     @RequestMapping(value="/classroomtype/{id}", method=RequestMethod.GET)

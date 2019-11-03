@@ -35,9 +35,8 @@ public class FacultyController {
     
     @RequestMapping(value="/faculty/", method=RequestMethod.OPTIONS)
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Faculty> getCorpsKeys(Model model) {
-        Faculty order = new Faculty();
-        return new ResponseEntity<Faculty>(order, HttpStatus.OK);
+    public ResponseEntity getCorpsKeys(Model model) {
+        return new ResponseEntity(orderService.getFields(), HttpStatus.OK);
     }
     
     @RequestMapping(value="/faculty/{id}", method=RequestMethod.GET)

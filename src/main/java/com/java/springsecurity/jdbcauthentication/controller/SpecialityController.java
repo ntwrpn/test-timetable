@@ -35,9 +35,8 @@ public class SpecialityController {
     
     @RequestMapping(value="/speciality/", method=RequestMethod.OPTIONS)
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Speciality> getCorpsKeys(Model model) {
-        Speciality order = new Speciality();
-        return new ResponseEntity<Speciality>(order, HttpStatus.OK);
+    public ResponseEntity getCorpsKeys(Model model) {
+        return new ResponseEntity(orderService.getFields(), HttpStatus.OK);
     }
     
     @RequestMapping(value="/speciality/{id}", method=RequestMethod.GET)

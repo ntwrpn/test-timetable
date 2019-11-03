@@ -35,9 +35,8 @@ public class NeededLessonController {
     
     @RequestMapping(value="/neededlesson/", method=RequestMethod.OPTIONS)
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<NeededLesson> getCorpsKeys(Model model) {
-        NeededLesson order = new NeededLesson();
-        return new ResponseEntity<NeededLesson>(order, HttpStatus.OK);
+    public ResponseEntity getCorpsKeys(Model model) {
+        return new ResponseEntity(orderService.getFields(), HttpStatus.OK);
     }
     
     @RequestMapping(value="/neededlesson/{id}", method=RequestMethod.GET)

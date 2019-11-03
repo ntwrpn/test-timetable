@@ -7,6 +7,8 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import com.java.domain.NeededLesson;
+import java.lang.reflect.Field;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -47,7 +49,14 @@ public class NeededLessonService {
         List<NeededLesson> result=namedQuery.getResultList();   
         return result;
     }
-    
+
+    public JSONObject getFields() {
+        JSONObject obj = new JSONObject();
+        for (Field field : NeededLesson.class.getDeclaredFields()) {
+            obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
+        }
+        return obj;
+    }
 }
 
 

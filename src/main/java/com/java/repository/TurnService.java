@@ -7,6 +7,8 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import com.java.domain.Turn;
+import java.lang.reflect.Field;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -47,6 +49,13 @@ public class TurnService {
         return result;
     }
     
+    public JSONObject getFields() {
+        JSONObject obj = new JSONObject();
+        for (Field field : Turn.class.getDeclaredFields()) {
+            obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
+        }
+        return obj;
+    }
 }
 
 
