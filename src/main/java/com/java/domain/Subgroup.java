@@ -18,9 +18,19 @@ public class Subgroup {
 
     
     @Id
-    @Column(name = "idsubgroup")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id=0;
+
+    @Column(name = "count_of_student")
+    private int count_of_student;
+    
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name="groups", referencedColumnName="id", nullable = true)
+    private Groups groups;
+
+    public Subgroup() {
+    }
     
     public int getId() {
         return id;
@@ -30,16 +40,13 @@ public class Subgroup {
         this.id = id;
     }
 
-    @Column(name = "count_of_student")
-    private int count_of_student;
-
-    @Column(name = "group_id")
-    private int group_id;
-
-
-    public Subgroup() {
+    public Groups getGroups() {
+        return groups;
     }
 
+    public void setGroups(Groups groups) {
+        this.groups = groups;
+    }
     
     public int getCount_of_student() {
         return count_of_student;
@@ -49,13 +56,7 @@ public class Subgroup {
         this.count_of_student=count_of_student;
     }
 
-    public int getGroup_id() {
-        return group_id;
-    }
-    
-    public void setGroup_id(int group_id) {
-        this.group_id=group_id;
-    }
+
 
 }
 

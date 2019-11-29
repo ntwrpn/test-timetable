@@ -30,7 +30,7 @@ public class UserRoles {
     private String role;
 
     @ManyToOne(optional=false, fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinColumn(name = "username")
+    @JoinColumn(name="username", referencedColumnName="username")
     @JsonBackReference
     private Users username;
 

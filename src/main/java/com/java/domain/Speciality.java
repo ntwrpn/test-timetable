@@ -18,7 +18,7 @@ public class Speciality {
 
     
     @Id
-    @Column(name = "idspeciality")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id=0;
     
@@ -32,9 +32,10 @@ public class Speciality {
 
     @Column(name = "descr")
     private String descr;
-
-    @Column(name = "lectern_id")
-    private int lectern_id;
+    
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name="lectern", referencedColumnName="id", nullable = true)
+    private Lectern lectern;
 
     @Column(name = "name")
     private String name;
@@ -43,6 +44,13 @@ public class Speciality {
     public Speciality() {
     }
 
+    public Lectern getLectern() {
+        return lectern;
+    }
+
+    public void setLectern(Lectern lectern) {
+        this.lectern = lectern;
+    }
     
     public String getDescr() {
         return descr;
@@ -50,14 +58,6 @@ public class Speciality {
     
     public void setDescr(String descr) {
         this.descr=descr;
-    }
-
-    public int getLectern_id() {
-        return lectern_id;
-    }
-    
-    public void setLectern_id(int lectern_id) {
-        this.lectern_id=lectern_id;
     }
 
     public String getName() {

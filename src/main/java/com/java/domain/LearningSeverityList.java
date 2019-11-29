@@ -26,7 +26,7 @@ public class LearningSeverityList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id=0;
 
-    @ManyToOne(optional=false,fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
     //@JsonIgnoreProperties("plans_id")
     @JsonBackReference
     private Syllabus syllabus;

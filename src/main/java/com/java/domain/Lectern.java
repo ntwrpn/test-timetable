@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-
+import com.java.repository.*;
 @Entity
 @Table(name = "Lectern")
 
@@ -19,21 +19,21 @@ public class Lectern {
 
     
     @Id
-    @Column(name = "idlectern")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id=0;
     
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="faculty_idfaculty", referencedColumnName="idfaculty", nullable = true)
-    private Faculty faculty_idfaculty;
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name="faculty", referencedColumnName="id", nullable = true)
+    private Faculty faculty;
 
     @Column(name = "fullname")
     private String fullname;
 
-    @Column(name = "lectern_name")
-    private String lectern_name;
+    @Column(name = "name")
+    private String name;
 
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name="lectern_type_id", referencedColumnName="idlectern_type", nullable = true)
     private LecternType lectern_type_id;
     
@@ -56,12 +56,12 @@ public class Lectern {
     public Lectern() {
     }
 
-    public Faculty getFaculty_idfaculty() {
-        return faculty_idfaculty;
+    public Faculty getFaculty() {
+        return faculty;
     }
 
-    public void setFaculty_idfaculty(Faculty faculty_idfaculty) {
-        this.faculty_idfaculty = faculty_idfaculty;
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
     }
 
     public String getFullname() {
@@ -72,13 +72,14 @@ public class Lectern {
         this.fullname=fullname;
     }
 
-    public String getLectern_name() {
-        return lectern_name;
+    public String getName() {
+        return name;
     }
-    
-    public void setLectern_name(String lectern_name) {
-        this.lectern_name=lectern_name;
+
+    public void setName(String name) {
+        this.name = name;
     }
+
     
 }
 

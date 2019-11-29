@@ -6,14 +6,11 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "LecternType")
-
+@Table(name = "lecterntype")
 @NamedQueries({
 @NamedQuery(name = "LecternType.getAll", query = "SELECT c from LecternType c"),
 @NamedQuery(name = "LecternType.getById", query = "SELECT c from LecternType c where c.id=:id")
 }) 
-
-
 public class LecternType {
 
 
@@ -32,7 +29,17 @@ public class LecternType {
 
     @Column(name = "descr")
     private String descr;
+    
+    @Column(name = "name")
+    private String name;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public LecternType() {
     }

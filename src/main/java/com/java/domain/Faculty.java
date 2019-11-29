@@ -5,6 +5,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import com.java.repository.CorpsService;
 
 @Entity
 @Table(name = "Faculty")
@@ -19,7 +20,7 @@ public class Faculty {
 
     
     @Id
-    @Column(name = "idfaculty")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id=0;
     
@@ -31,19 +32,17 @@ public class Faculty {
         this.id = id;
     }
 
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name="corps_id", referencedColumnName="id", nullable = true)
-    private Corps corps_id;
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name="corps", referencedColumnName="id", nullable = true)
+    private Corps corps=null;
 
-    public Corps getCorps_id() {
-        return corps_id;
+    public Corps getCorps() {
+        return corps;
     }
 
-    public void setCorps_id(Corps corps_id) {
-        this.corps_id = corps_id;
+    public void setCorps(Corps corps) {
+        this.corps = corps;
     }
-    
-    
 
     @Column(name = "fullname")
     private String fullname;

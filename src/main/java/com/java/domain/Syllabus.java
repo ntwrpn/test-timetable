@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -43,8 +44,7 @@ public class Syllabus {
     //@Column(name = "plans_id")
     //private List<Integer> plans_id;
 
-    @OneToMany(mappedBy="syllabus", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-    //@JsonIgnoreProperties("syllabus")
+    @OneToMany(mappedBy="syllabus", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     @Column(nullable = true)
     private Set<LearningSeverityList> plans_id;

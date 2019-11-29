@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+	<title>Пожалуйста, зарегистрируйтесь!</title>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            <link type="text/css" rel="stylesheet" href="/css/jquery-ui.min.css"/>
+    <link type="text/css" rel="stylesheet" href="/css/jquery-ui.min.css"/>
+    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"/>
+    <link type="text/css" rel="stylesheet" href="/css/material-icons.css"/>
+    <link type="text/css" rel="stylesheet" href="/css/main.css"/>
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
+    <script src="/js/materialize.min.js"></script>
+    <script src="/js/registration.js"></script>
+</head>
+<body>
+        <nav class="nav-extended green accent-4">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">БНТУ</a>
+        </div>
+        </nav>
+
+
+<div id ="login-modal" class="modal">
+	    <div class="modal-content center">
+		<h5 class="loads-modal-header">Регистрация</h5>
+		<div th:if="${param.succes}">
+			<p style="color: green">Вы успешно отправили заявку.</p>
+
+		</div>
+		<form id="register-form">
+			<div class="input-field col s12">
+				<label for="username">Логин:</label>
+				<input type="text" class="validate" id="username" placeholder="Введите логин" name="username"/>
+			</div>
+			<div class="input-field col s12">
+				<label for="username">ФИО:</label>
+				<input type="text" class="validate" id="name" placeholder="Введите ФИО" name="name"/>
+			</div>
+
+			<div class="input-field col s12">
+				<label for="password1">Пароль</label>
+				<input type="password" class="validate" id="password1" placeholder="Введите пароль" name="password1"/>
+			</div>
+			<div class="input-field col s12">
+				<label for="password2">Пароль</label>
+				<input type="password" class="validate" id="password2" placeholder="Повторите пароль" name="password2"/>
+			</div>
+      <a class="modal-close btn waves-effect waves-light green accent-4" onclick="RegistrationClick()" name="action">Отправить заявку
+        <i class="material-icons right">send</i>
+      </a>
+		</form>
+        </div>
+				  </div>
+</body>
+</html>

@@ -7,13 +7,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "Corps")
-
 @NamedQueries({
 @NamedQuery(name = "Corps.getAll", query = "SELECT c from Corps c"),
 @NamedQuery(name = "Corps.getById", query = "SELECT c from Corps c where c.id=:id")
 }) 
-
-
 public class Corps {
 
     
@@ -30,8 +27,8 @@ public class Corps {
         this.id = id;
     }
 
-    @Column(name = "descr")
-    private String descr;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "street")
     private String street;
@@ -41,12 +38,12 @@ public class Corps {
     }
 
     
-    public String getDescr() {
-        return descr;
+    public String getName() {
+        return name;
     }
     
-    public void setDescr(String descr) {
-        this.descr=descr;
+    public void setName(String name) {
+        this.name=name;
     }
 
     public String getStreet() {

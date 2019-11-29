@@ -64,7 +64,7 @@ public class UsersController {
      return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/users/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
+    @RequestMapping(value="/users/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> DeleteUsers(Model model, @PathVariable Integer id) {
         orderService.delete(id);

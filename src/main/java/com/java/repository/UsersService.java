@@ -44,6 +44,12 @@ public class UsersService {
         return result;
     }
     
+    public Users getByName(String username){
+        TypedQuery namedQuery = em.createNamedQuery("Users.getByName", Users.class).setParameter("username", username);
+        List<Users> result=namedQuery.getResultList();   
+        return result.get(0);
+    }
+    
 }
 
 

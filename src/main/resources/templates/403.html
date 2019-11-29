@@ -2,14 +2,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    
 <head>
-<title>Security with Spring Boot</title>
+        <meta charset="utf-8"/>
+    <link type="text/css" rel="stylesheet" href="/css/jquery-ui.min.css"/>
+    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"/>
+    <link type="text/css" rel="stylesheet" href="/css/material-icons.css"/>
+    <link type="text/css" rel="stylesheet" href="/css/main.css"/>
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
+    <script src="/js/materialize.min.js"></script>
+<title>У вас нет прав для просмотра этого раздела!</title>
 </head>
 <body>
-	<h1>Access is Denied!</h1>
-	<a style="color: blue" th:href="@{/}">Home</a>
+        <nav class="nav-extended green accent-4">
+        <div class="nav-wrapper">
+            <a href="/" class="brand-logo">БНТУ</a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="home.html"><i class="material-icons">home</i></a></li>
+                <li><a href="#"><i class="material-icons">refresh</i></a></li>
+                <li><a href="#"><i class="material-icons">more_vert</i></a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="col s12">
+	<h1>У вас нет прав для просмотра этого раздела!</h1>
+	<a class="waves-effect waves-light btn green accent-4" th:href="@{/}">Назад</a>
 	<form th:action="@{/logout}" method="post">
-		<input type="submit" value="Sign Out" />
+		<input class="waves-effect waves-light btn red accent-4" type="submit" value="Выйти" />
 	</form>
+        
+        </div>
 </body>
 </html>

@@ -13,6 +13,23 @@ const saveJSONDataToLocalStorage = (key, data) => {
     localStorage.setItem(key, dataString);
 }
 
+
+const deleteValueFromTable = (event) => {
+    let id = event.currentTarget.value;
+    $.ajax({
+        headers: { 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' 
+        },
+        'type': 'DELETE',
+        'url': "/users/"+id,
+        'success': function(response) {
+            openTableEvent("users");
+        }
+
+    });
+}
+
 const openTableEvent = (value) => {
     //var List = require("collections/list");
     localStorage.setItem("current_open_table", value);
@@ -31,19 +48,6 @@ const openTableEvent = (value) => {
     }
 	});
     let dataformData = getJSONDataFromLocalStorage(value);
-
-      $.ajax({
-        headers: { 
-            'Accept': 'application/json',
-            'Content-Type': 'application/json' 
-        },
-        'type': 'OPTIONS',
-        'url': "/corps/",
-        'success': function(response) {
-            console.log(response);
-        }
-
-    });
 }
 
 const createThread = (data) => {
@@ -87,7 +91,7 @@ const createTbody = (data) => {
       var td = document.createElement("td");
       var a = document.createElement("a");
       a.className = 'btn-floating btn-large waves-effect waves-light btn red';
-      a.href = '#1';
+      //a.href = '#1';
       a.value = input.id;
       //a.textContent = 'Удалить';
       a.addEventListener("click", deleteValueFromTable);
@@ -105,7 +109,7 @@ const createTbody = (data) => {
       a.addEventListener("click", deleteValueFromTable);
       var i = document.createElement("i");
       i.className = 'material-icons';
-      i.textContent = 'mode_edit    ';
+      i.textContent = 'mode_edit';
       a.append(i);
       td.append(a);
       
@@ -117,23 +121,6 @@ const createTbody = (data) => {
       
   });
   return tbody;
-}
-
-const deleteValueFromTable = (event) => {
-    let id = event.currentTarget.value;
-    var value = localStorage.getItem("current_open_table");    
-    $.ajax({
-        headers: { 
-            'Accept': 'application/json',
-            'Content-Type': 'application/json' 
-        },
-        'type': 'DELETE',
-        'url': "/"+value+"/"+id,
-        'success': function(response) {
-            location.reload();
-        }
-
-    });
 }
 
 
