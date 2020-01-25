@@ -1,6 +1,7 @@
 
 package com.java.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.Set;
 import com.java.repository.CorpsService;
 
 @Entity
-@Table(name = "Faculty")
+@Table(name = "faculty")
 
 @NamedQueries({
 @NamedQuery(name = "Faculty.getAll", query = "SELECT c from Faculty c"),
@@ -49,6 +50,19 @@ public class Faculty {
 
     @Column(name = "name")
     private String name;
+    
+    @OneToMany(mappedBy="faculty", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    @Column(nullable = true)
+    private Set<Flow> flow;
+
+    public Set<Flow> getFlow() {
+        return flow;
+    }
+
+    public void setFlow(Set<Flow> flow) {
+        this.flow = flow;
+    }
 
 
     public Faculty() {

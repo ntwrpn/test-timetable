@@ -42,19 +42,6 @@ public class Groups {
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name="speciality", referencedColumnName="id", nullable = true)
     private Speciality speciality;  
-	
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumn(name="faculty", referencedColumnName="id", nullable = true)
-    private Faculty faculty;  
-
-    public Faculty getFaculty() {
-        return faculty;
-    }
-    
-    public void setFaculty(Faculty faculty) {
-        this.faculty = faculty;
-    }
-
 
     public Speciality getSpeciality() {
         return speciality;

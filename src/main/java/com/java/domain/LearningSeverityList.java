@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "LearningSeverityList")
+@Table(name = "learningseveritylist")
 
 @NamedQueries({
 @NamedQuery(name = "LearningSeverityList.getAll", query = "SELECT c from LearningSeverityList c"),
@@ -49,8 +49,17 @@ public class LearningSeverityList {
         this.id = id;
     }
 
-    @Column(name = "name_id")
-    private int name_id;
+    @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @JoinColumn(name="name_id", referencedColumnName="id", nullable = true)
+    private LearningSeverity name_id;
+
+    public LearningSeverity getName_id() {
+        return name_id;
+    }
+
+    public void setName_id(LearningSeverity name_id) {
+        this.name_id = name_id;
+    }
 
     @Column(name = "hours")
     private int hours;
@@ -60,13 +69,7 @@ public class LearningSeverityList {
     }
 
     
-    public int getName_id() {
-        return name_id;
-    }
-    
-    public void setName_id(int name_id) {
-        this.name_id=name_id;
-    }
+
 
     public int getHours() {
         return hours;

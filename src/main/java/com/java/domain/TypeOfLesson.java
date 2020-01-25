@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "TypeOfLesson")
+@Table(name = "typeoflesson")
 
 @NamedQueries({
 @NamedQuery(name = "TypeOfLesson.getAll", query = "SELECT c from TypeOfLesson c"),
