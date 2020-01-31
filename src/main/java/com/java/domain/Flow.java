@@ -1,6 +1,7 @@
 
 package com.java.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.util.Date;
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "Flow")
+@Table(name = "flow")
 @NamedQueries({
 @NamedQuery(name = "Flow.getAll", query = "SELECT c from Flow c"),
 @NamedQuery(name = "Flow.getById", query = "SELECT c from Flow c where c.id=:id")
@@ -39,6 +40,12 @@ public class Flow {
     @JsonManagedReference
     @Column(nullable = true)
     private Set<Groups> groups;
+    
+    
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name="faculty", referencedColumnName="id", nullable = true)
+    @JsonBackReference
+    private Faculty faculty=null;
 
     public Set<Groups> getGroups() {
         return groups;

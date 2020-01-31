@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "ClassroomType")
+@Table(name = "classroomtype")
 
 @NamedQueries({
 @NamedQuery(name = "ClassroomType.getAll", query = "SELECT c from ClassroomType c"),
@@ -18,9 +18,9 @@ public class ClassroomType {
 
     
     @Id
-    @Column(name = "idclassroom_type")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
+    private int id;
     
     public int getId() {
         return id;

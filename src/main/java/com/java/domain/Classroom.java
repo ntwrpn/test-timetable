@@ -30,20 +30,39 @@ public class Classroom {
         this.id = id;
     }
 
-    @Column(name = "classroom_type_id")
-    private int classroom_type_id;
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name="classroom_type_id", referencedColumnName="id", nullable = true)
+    private ClassroomType classroom_type_id;
 
     @Column(name = "classroomc_desc")
     private String classroomc_desc;
 
-    @Column(name = "corps_id")
-    private int corps_id;
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name="corps_id", referencedColumnName="id", nullable = true)
+    private Corps corps_id;
 
     @Column(name = "count_of_place")
     private int count_of_place;
 
-    @Column(name = "lectern_id")
-    private int lectern_id;
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name="lectern_id", referencedColumnName="id", nullable = true)
+    private Lectern lectern_id;
+
+    public Corps getCorps_id() {
+        return corps_id;
+    }
+
+    public void setCorps_id(Corps corps_id) {
+        this.corps_id = corps_id;
+    }
+
+    public Lectern getLectern_id() {
+        return lectern_id;
+    }
+
+    public void setLectern_id(Lectern lectern_id) {
+        this.lectern_id = lectern_id;
+    }
 
     @Column(name = "name")
     private String name;
@@ -52,14 +71,16 @@ public class Classroom {
     public Classroom() {
     }
 
-    
-    public int getClassroom_type_id() {
+    public ClassroomType getClassroom_type_id() {
         return classroom_type_id;
     }
-    
-    public void setClassroom_type_id(int classroom_type_id) {
-        this.classroom_type_id=classroom_type_id;
+
+    public void setClassroom_type_id(ClassroomType classroom_type_id) {
+        this.classroom_type_id = classroom_type_id;
     }
+
+    
+
 
     public String getClassroomc_desc() {
         return classroomc_desc;
@@ -69,13 +90,7 @@ public class Classroom {
         this.classroomc_desc=classroomc_desc;
     }
 
-    public int getCorps_id() {
-        return corps_id;
-    }
-    
-    public void setCorps_id(int corps_id) {
-        this.corps_id=corps_id;
-    }
+
 
     public int getCount_of_place() {
         return count_of_place;
@@ -85,13 +100,7 @@ public class Classroom {
         this.count_of_place=count_of_place;
     }
 
-    public int getLectern_id() {
-        return lectern_id;
-    }
-    
-    public void setLectern_id(int lectern_id) {
-        this.lectern_id=lectern_id;
-    }
+
 
     public String getName() {
         return name;
