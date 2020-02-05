@@ -16,6 +16,9 @@ const saveJSONDataToLocalStorage = (key, data) => {
 
 const deleteValueFromTable = (event) => {
     let id = event.currentTarget.value;
+    console.log(event.currentTarget);
+
+    console.log(id);
     $.ajax({
         headers: { 
             'Accept': 'application/json',
@@ -92,7 +95,7 @@ const createTbody = (data) => {
       var a = document.createElement("a");
       a.className = 'btn-floating btn-large waves-effect waves-light btn red';
       //a.href = '#1';
-      a.value = input.id;
+      a.value = item.username;
       //a.textContent = 'Удалить';
       a.addEventListener("click", deleteValueFromTable);
       var i = document.createElement("i");
@@ -104,7 +107,7 @@ const createTbody = (data) => {
       var a = document.createElement("a");
       a.className = 'btn-floating btn-large waves-effect waves-light green accent-4';
       a.href = '#1';
-      a.value = input.id;
+      a.value = item.username;
       //a.textContent = 'Удалить';
       a.addEventListener("click", deleteValueFromTable);
       var i = document.createElement("i");

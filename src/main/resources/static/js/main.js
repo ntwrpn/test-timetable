@@ -840,14 +840,22 @@ const getJSONfromForm = (formname) => {
     for (let data in formData){
         if (getFieldTypeByOptions(optionType[formData[data]['name']])=="text"){
         json[formData[data]['name']] = formData[data]['value'];
-    }
-    else if (getFieldTypeByOptions(optionType[formData[data]['name']])=="int"){
-         json[formData[data]['name']] = parseInt(formData[data]['value']);
-    } else {
-        let current_data = getDataFromServer(optionType[formData[data]['name']]+"/"+formData[data]['value']);
-        console.log(current_data);
-        json[formData[data]['name']] = current_data;
-    }
+        }
+        else if (getFieldTypeByOptions(optionType[formData[data]['name']])=="int"){
+             json[formData[data]['name']] = parseInt(formData[data]['value']);
+        } else if (optionType[formData[data]['name']]=="set"){
+            let current_data = getDataFromServer([formData[data]['name']]+"/"+formData[data]['value']);
+            if (typeof(json[formData[data]['name']]) == "undefined"){
+                json[formData[data]['name']] = [];
+            }
+            console.log(formData[data]);
+
+            json[formData[data]['name']].push(current_data);
+        } 
+        else {
+            let current_data = getDataFromServer(optionType[formData[data]['name']]+"/"+formData[data]['value']);
+            json[formData[data]['name']] = current_data;
+        }
 
 
     }
@@ -940,7 +948,36 @@ const createPostFormModal = () => {
         modalContent.appendChild(loadField);
 
         modalForm.appendChild(modalContent);
-      } else{
+      } else if (["set"].includes(local_var_type)){
+        let loadCaption = document.createElement("p");
+        loadCaption.innerText = key;
+        loadCaption.id = "add-modal-caption";
+        modalContent.appendChild(loadCaption);
+
+        let loadField = document.createElement("select");
+        loadField.setAttribute("name", key);
+        loadField.className = "select";
+        loadField.multiple = true;
+        loadField.required = true;
+        let big_data;
+        if ("set"==local_var_type) {
+            big_data = getDataFromServer(key);
+        } else{
+            big_data = getDataFromServer(local_var_type);
+        }
+        for (let key_value in big_data){
+          let option = document.createElement("option");
+          option.id = key;
+          option.name = key;
+          option.value = big_data[key_value]["id"];
+          option.innerText = big_data[key_value]["name"];
+          loadField.appendChild(option);
+        }
+        modalContent.appendChild(loadField);
+        modalForm.appendChild(modalContent);
+      
+        }
+      else{
         let loadCaption = document.createElement("p");
         loadCaption.innerText = key;
         loadCaption.id = "add-modal-caption";
