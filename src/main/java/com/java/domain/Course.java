@@ -44,6 +44,7 @@ public class Course {
     private Set<OccupationCounter> countOccupation;
 
     @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @JoinColumn(name="schedule", referencedColumnName="id", nullable = true)
     @JsonBackReference
     private Schedule schedule;
 
