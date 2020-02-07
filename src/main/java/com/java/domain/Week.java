@@ -30,6 +30,7 @@ public class Week {
     private Occupation occupation;
 
     @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @JoinColumn(name="studyPlan", referencedColumnName="id", nullable = true)
     @JsonBackReference
     private StudyPlan studyPlan;
 

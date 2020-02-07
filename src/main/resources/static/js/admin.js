@@ -1,5 +1,3 @@
-
-
 const getJSONDataFromLocalStorage = (key) => {
     let dataString = localStorage.getItem(key);
 
@@ -27,16 +25,40 @@ const deleteValueFromTable = (event) => {
         'type': 'DELETE',
         'url': "/users/"+id,
         'success': function(response) {
-            openTableEvent("users");
+            openTableEvent("users", '?enabled=True');
         }
 
     });
 }
 
-const openTableEvent = (value) => {
+
+const acceptValueFromTable = (event) => {
+  let id = event.currentTarget.value;
+  console.log(event.currentTarget);
+
+  console.log(id);
+  $.ajax({
+      headers: { 
+          'Accept': 'application/json',
+          'Content-Type': 'application/json' 
+      },
+      'type': 'POST',
+      'url': "/users/accept/"+id,
+      'success': function(response) {
+          openTableEvent("users", '?enabled=False');
+      }
+
+  });
+}
+
+const openTableEvent = (value,status) => {
     //var List = require("collections/list");
+
+    clearPostFromModal();
+    createPostFormModal();
+
     localStorage.setItem("current_open_table", value);
-    $.get("/"+value+"/", function(data, status){ 
+    $.get("/"+value+"/"+status, function(data, status){ 
     saveJSONDataToLocalStorage(value, data);
     var container = document.getElementById("data-tr-table");
     //var list = new List([1, 2, 3]);
@@ -46,7 +68,11 @@ const openTableEvent = (value) => {
     if (data.length>0){
         var thread = createThread(data);
         container.appendChild(thread);
-        var tbody = createTbody(data);
+        if (status=='?enabled=False'){
+          var tbody = createTbody(data, true);}
+        else {
+          var tbody = createTbody(data, false);
+        }
         container.appendChild(tbody);
     }
 	});
@@ -54,6 +80,7 @@ const openTableEvent = (value) => {
 }
 
 const createThread = (data) => {
+
   var thread = document.createElement("tr");
   for (let key in data[0]){
     var th = document.createElement("th");
@@ -68,7 +95,7 @@ const createThread = (data) => {
   return thread;
 }
 
-const createTbody = (data) => {
+const createTbody = (data, accept) => {
   var tbody = document.createElement("tbody");
   data.forEach(item => {
       var input = document.createElement("tr");
@@ -103,19 +130,19 @@ const createTbody = (data) => {
       i.textContent = 'delete';
       a.append(i);
       td.append(a);
-      
-      var a = document.createElement("a");
-      a.className = 'btn-floating btn-large waves-effect waves-light green accent-4';
-      a.href = '#1';
-      a.value = item.username;
-      //a.textContent = 'Удалить';
-      a.addEventListener("click", deleteValueFromTable);
-      var i = document.createElement("i");
-      i.className = 'material-icons';
-      i.textContent = 'mode_edit';
-      a.append(i);
-      td.append(a);
-      
+      if (accept==true){
+        var a = document.createElement("a");
+        a.className = 'btn-floating btn-large waves-effect waves-light green accent-4';
+        a.href = '#1';
+        a.value = item.username;
+        //a.textContent = 'Удалить';
+        a.addEventListener("click", acceptValueFromTable);
+        var i = document.createElement("i");
+        i.className = 'material-icons';
+        i.textContent = 'done';
+        a.append(i);
+        td.append(a);
+      }
       
       
      
@@ -132,7 +159,7 @@ $(document).ready(function(){
   $("ul.tabs").tabs();
   $(".sidenav").sidenav();
   $('.modal').modal();
-  openTableEvent("users");
+  openTableEvent("users", '?enabled=True');
 });
 
 

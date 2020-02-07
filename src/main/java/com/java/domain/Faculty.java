@@ -1,6 +1,7 @@
 
 package com.java.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.util.Date;
@@ -51,8 +52,8 @@ public class Faculty {
     @Column(name = "name")
     private String name;
     
-    @OneToMany(mappedBy="faculty", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @OneToMany(mappedBy="faculty", cascade = CascadeType.ALL)
+    @JsonBackReference
     @Column(nullable = true)
     private Set<Flow> flow;
 

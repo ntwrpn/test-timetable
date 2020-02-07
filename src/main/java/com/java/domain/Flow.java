@@ -42,9 +42,9 @@ public class Flow {
     private Set<Groups> groups;
     
     
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(optional=true, fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name="faculty", referencedColumnName="id", nullable = true)
-    @JsonBackReference
+    //@JsonManagedReference
     private Faculty faculty=null;
 
     public Set<Groups> getGroups() {

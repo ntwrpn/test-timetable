@@ -33,6 +33,7 @@ public class Semester {
     private int creditUnits;
 
     @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @JoinColumn(name="subject", referencedColumnName="id", nullable = true)
     @JsonBackReference
     private Subject subject;
 

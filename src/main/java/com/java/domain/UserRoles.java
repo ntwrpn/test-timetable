@@ -14,7 +14,7 @@ import java.util.Set;
 
 @NamedQueries({
 @NamedQuery(name = "UserRoles.getAll", query = "SELECT c from UserRoles c"),
-@NamedQuery(name = "UserRoles.getByRoleId", query = "SELECT c from UserRoles c where c.user_role_id=:user_role_id")
+@NamedQuery(name = "UserRoles.getById", query = "SELECT c from UserRoles c where c.user_role_id=:user_role_id")
 }) 
 
 
@@ -29,10 +29,11 @@ public class UserRoles {
     @Column(name = "role")
     private String role;
 
-    @ManyToOne(optional=false, fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    @JoinColumn(name="username", referencedColumnName="username")
+    @ManyToMany(cascade=CascadeType.ALL)
+    //@JoinColumn(name="username", referencedColumnName="username")
+    @JoinTable(name = "users_roles", joinColumns = { @JoinColumn(name = "user_role_id") }, inverseJoinColumns = { @JoinColumn(name = "username") })
     @JsonBackReference
-    private Users username;
+    private Set<Users> username;
 
     public int getUser_role_id() {
         return user_role_id;
@@ -50,11 +51,11 @@ public class UserRoles {
         this.role = role;
     }
 
-    public Users getUsername() {
+    public Set<Users> getUsername() {
         return username;
     }
 
-    public void setUsername(Users username) {
+    public void setUsername(Set<Users> username) {
         this.username = username;
     }
 

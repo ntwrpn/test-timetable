@@ -13,7 +13,9 @@ import java.util.Set;
 
 @NamedQueries({
 @NamedQuery(name = "Users.getAll", query = "SELECT c from Users c"),
-@NamedQuery(name = "Users.getByName", query = "SELECT c from Users c where c.username=:username")
+@NamedQuery(name = "Users.getByName", query = "SELECT c from Users c where c.username=:username"),
+@NamedQuery(name = "Users.getByEnabled", query = "SELECT c from Users c where c.enabled=:enabled")
+
 }) 
 
 
@@ -30,11 +32,10 @@ public class Users {
     @Column(name = "enabled")
     private boolean enabled = false;   
     
-    @OneToMany(mappedBy="username", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-    //@JsonIgnoreProperties("syllabus")
+    @ManyToMany(mappedBy="username",fetch = FetchType.LAZY)
+    @Column(name = "role")
     @JsonManagedReference
-    @Column(nullable = true)
-    private Set<UserRoles> role=null;
+    private Set<UserRoles> role;
 
     public String getUsername() {
         return username;
@@ -62,7 +63,13 @@ public class Users {
 
     public Users() {
     }
+    public Set<UserRoles> getUserRoles() {
+        return role;
+    }
 
+    public void setUserRoles(Set<UserRoles> role) {
+        this.role = role;
+    }
     
 
 }

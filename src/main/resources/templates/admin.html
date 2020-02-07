@@ -12,7 +12,8 @@
 
     <script src="/js/jquery-3.3.1.min.js"></script>
     <script src="/js/jquery-ui.min.js"></script>
-    <script src="/js/materialize.min.js"></script>
+	<script src="/js/materialize.min.js"></script>
+    <script src="/js/addform.js"></script>
     <script src="/js/admin.js"></script>
 
 </head>
@@ -25,7 +26,7 @@
       <div class="nav-wrapper">
           <a href="#" class="brand-logo">БНТУ</a>
           <ul class="right hide-on-med-and-down">
-            <li><a href="home.html"><i class="material-icons">home</i></a></li>
+            <li><a href="/home"><i class="material-icons">home</i></a></li>
             <li><a href="#"><i class="material-icons">refresh</i></a></li>
             <li><a href="#"><i class="material-icons">more_vert</i></a></li>
           </ul>
@@ -36,12 +37,12 @@
 
 			<div class="nav-content">
 					<ul class="tabs tabs-transparent">
-            <li class="tab col s3"><a href='#users-list'>
+            <li class="tab col s3"><a onclick="openTableEvent('users', '?enabled=True');">
                       <i class="material-icons left">people</i>
                       Аккаунты</a></li>
-            <li class="tab col s3"><a href='#roles-list'>
+            <li class="tab col s3"><a onclick="openTableEvent('users', '?enabled=False');">
 							<i class="material-icons left">info</i>
-              Роли</a></li>
+              Заявки</a></li>
           </ul>
     </div>
     </nav>
@@ -79,9 +80,9 @@
 							<i class="material-icons left">people</i>
 							Список пользователей</a>
 							<hr></hr>
-							<a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="/roles">
+							<a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="#users-list2">
 								<i class="material-icons left">info</i>
-								Список ролей</a>
+								Заявки</a>
 					</span>
 				</div>
 				</li>
@@ -113,7 +114,7 @@
 
 
 			<div class="right">
-                    <a class="waves-effect waves-light btn green accent-4" href="#">
+                    <a class="waves-effect waves-light btn green accent-4" onclick="openAddCreateModal()">
                     <i class="material-icons left">add</i>
                     Добавить</a>
 

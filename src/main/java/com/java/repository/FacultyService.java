@@ -52,7 +52,9 @@ public class FacultyService {
     public JSONObject getFields() {
         JSONObject obj = new JSONObject();
         for (Field field : Faculty.class.getDeclaredFields()) {
+            if (field.getName()!="flow"){
             obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
+            }
         }
         return obj;
     }

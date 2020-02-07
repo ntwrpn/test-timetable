@@ -7,6 +7,9 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import com.java.domain.UserRoles;
+import java.lang.reflect.Field;
+import org.json.simple.JSONObject;
+
 public class UserRolesService {
     public EntityManager em = Persistence.createEntityManagerFactory("COLIBRI").createEntityManager();
 
@@ -39,9 +42,17 @@ public class UserRolesService {
     }
     
     public List<UserRoles> getById(int id){
-        TypedQuery namedQuery = em.createNamedQuery("UserRoles.getById", UserRoles.class).setParameter("id", id);
+        TypedQuery namedQuery = em.createNamedQuery("UserRoles.getById", UserRoles.class).setParameter("user_role_id", id);
         List<UserRoles> result=namedQuery.getResultList();   
         return result;
+    }
+
+    public JSONObject getFields() {
+        JSONObject obj = new JSONObject();
+        for (Field field : UserRoles.class.getDeclaredFields()) {
+            obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
+        }
+        return obj;
     }
     
 }

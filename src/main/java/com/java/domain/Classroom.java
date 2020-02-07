@@ -30,21 +30,21 @@ public class Classroom {
         this.id = id;
     }
 
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name="classroom_type_id", referencedColumnName="id", nullable = true)
     private ClassroomType classroom_type_id;
 
     @Column(name = "classroomc_desc")
     private String classroomc_desc;
 
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name="corps_id", referencedColumnName="id", nullable = true)
     private Corps corps_id;
 
     @Column(name = "count_of_place")
     private int count_of_place;
 
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name="lectern_id", referencedColumnName="id", nullable = true)
     private Lectern lectern_id;
 

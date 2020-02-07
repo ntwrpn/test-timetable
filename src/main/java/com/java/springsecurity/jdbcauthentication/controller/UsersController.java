@@ -25,40 +25,43 @@ import org.springframework.security.access.prepost.PreAuthorize;
 @Controller
 public class UsersController {
 
-    private UsersService orderService = new UsersService();
+    private final UsersService orderService = new UsersService();
 
     @RequestMapping(value="/users/", method=RequestMethod.GET)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Users>> getUsersPage(Model model) {
-        List<Users> orders = orderService.getAll();
+    public ResponseEntity<List<Users>> getUsersPage(@RequestParam(required = false) Boolean enabled, final Model model) {
+        List<Users> orders;
+        if (enabled!=null){
+            orders = orderService.getByEnabled(enabled);
+        } else{
+            orders = orderService.getAll();
+        }
         return new ResponseEntity<List<Users>>(orders, HttpStatus.OK);
     }
     
     @RequestMapping(value="/users/", method=RequestMethod.OPTIONS)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Users> getCorpsKeys(Model model) {
-        Users order = new Users();
-        return new ResponseEntity<Users>(order, HttpStatus.OK);
+    public ResponseEntity getUsersKeys(Model model) {
+        return new ResponseEntity(orderService.getFields(), HttpStatus.OK);
     }
     
     @RequestMapping(value="/users/{id}", method=RequestMethod.GET)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Users> getUsersPage(Model model, @PathVariable("id") int id) {
-        List<Users> orders = orderService.getById(id);
-        Users order = orders.get(0);
+    public ResponseEntity<Users> getUsersPage(final Model model, @PathVariable("id") final String id) {
+        Users order = orderService.getByName(id);
         return new ResponseEntity<Users>(order, HttpStatus.OK);
     }
 
     @RequestMapping(value="/users/", method = RequestMethod.POST, headers="Accept=application/json")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> add(@RequestBody Users obj){
+    public ResponseEntity<Void> add(@RequestBody final Users obj){
      orderService.add(obj);
      return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
  
     @RequestMapping(value="/users/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> update(@PathVariable("id") String id, @RequestBody Users obj){
+    public ResponseEntity<Void> update(@PathVariable("id") final String id, @RequestBody final Users obj){
      obj.setUsername(id);
      orderService.update(obj);
      return new ResponseEntity<Void>(HttpStatus.OK);
@@ -66,8 +69,17 @@ public class UsersController {
 
     @RequestMapping(value="/users/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> DeleteUsers(Model model, @PathVariable Integer id) {
+    public ResponseEntity<Void> DeleteUsers(final Model model, @PathVariable final String id) {
         orderService.delete(id);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/users/accept/{id}", method=RequestMethod.POST, headers="Accept=application/json")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> AcceptUsers(@PathVariable final String id) {
+        Users order = orderService.getByName(id);
+        order.setEnabled(true);
+        orderService.update(order);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
