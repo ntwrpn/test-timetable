@@ -25,7 +25,7 @@ const deleteValueFromTable = (event) => {
         'type': 'DELETE',
         'url': "/users/"+id,
         'success': function(response) {
-            openTableEvent("users", '?enabled=True');
+            openTableEvent("users", "?enabled=True");
         }
 
     });
@@ -45,20 +45,20 @@ const acceptValueFromTable = (event) => {
       'type': 'POST',
       'url': "/users/accept/"+id,
       'success': function(response) {
-          openTableEvent("users", '?enabled=False');
+          openTableEvent("users", "?enabled=False");
       }
 
   });
 }
 
-const openTableEvent = (value,status) => {
+const openTableEvent = (value,add) => {
     //var List = require("collections/list");
 
     clearPostFromModal();
     createPostFormModal();
 
     localStorage.setItem("current_open_table", value);
-    $.get("/"+value+"/"+status, function(data, status){ 
+    $.get("/"+value+"/"+add, function(data, status){ 
     saveJSONDataToLocalStorage(value, data);
     var container = document.getElementById("data-tr-table");
     //var list = new List([1, 2, 3]);
@@ -68,8 +68,10 @@ const openTableEvent = (value,status) => {
     if (data.length>0){
         var thread = createThread(data);
         container.appendChild(thread);
-        if (status=='?enabled=False'){
-          var tbody = createTbody(data, true);}
+        console.log(add);
+        if (add=='?enabled=False'){
+          var tbody = createTbody(data, true);
+        }
         else {
           var tbody = createTbody(data, false);
         }
@@ -159,7 +161,7 @@ $(document).ready(function(){
   $("ul.tabs").tabs();
   $(".sidenav").sidenav();
   $('.modal').modal();
-  openTableEvent("users", '?enabled=True');
+  openTableEvent("users", "?enabled=True");
 });
 
 
