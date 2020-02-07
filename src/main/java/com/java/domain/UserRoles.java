@@ -29,9 +29,7 @@ public class UserRoles {
     @Column(name = "role")
     private String role;
 
-    @ManyToMany(cascade=CascadeType.ALL)
-    //@JoinColumn(name="username", referencedColumnName="username")
-    @JoinTable(name = "users_roles", joinColumns = { @JoinColumn(name = "user_role_id") }, inverseJoinColumns = { @JoinColumn(name = "username") })
+    @ManyToMany(mappedBy="role",fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JsonBackReference
     private Set<Users> username;
 

@@ -32,9 +32,12 @@ public class Users {
     @Column(name = "enabled")
     private boolean enabled = false;   
     
-    @ManyToMany(mappedBy="username",fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    //@JoinColumn(name="username", referencedColumnName="username")
+    @JoinTable(name = "users_roles", joinColumns = { @JoinColumn(name = "username", nullable = false, updatable = false) },
+     inverseJoinColumns = { @JoinColumn(name = "user_role_id", nullable = false, updatable = false) })
     @Column(name = "role")
-    @JsonManagedReference
+    //@JsonManagedReference
     private Set<UserRoles> role;
 
     public String getUsername() {
