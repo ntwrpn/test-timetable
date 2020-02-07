@@ -38,7 +38,7 @@ public class Users {
      inverseJoinColumns = { @JoinColumn(name = "user_role_id", nullable = false, updatable = false) })
     @Column(name = "role")
     //@JsonManagedReference
-    private Set<UserRoles> role;
+    private Set<UserRoles> userRoles;
 
     public String getUsername() {
         return username;
@@ -67,11 +67,11 @@ public class Users {
     public Users() {
     }
     public Set<UserRoles> getUserRoles() {
-        return role;
+        return userRoles;
     }
 
     public void setUserRoles(Set<UserRoles> role) {
-        this.role = role;
+        this.userRoles = role;
     }
     
 

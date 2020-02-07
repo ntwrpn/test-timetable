@@ -29,7 +29,7 @@ public class UsersController {
 
     @RequestMapping(value="/users/", method=RequestMethod.GET)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Users>> getUsersPage(@RequestParam(required = false) Boolean enabled, final Model model) {
+    public ResponseEntity<List<Users>> getUsersPage(@RequestParam(required = false) Boolean enabled, Model model) {
         List<Users> orders;
         if (enabled!=null){
             orders = orderService.getByEnabled(enabled);
@@ -47,21 +47,21 @@ public class UsersController {
     
     @RequestMapping(value="/users/{id}", method=RequestMethod.GET)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Users> getUsersPage(final Model model, @PathVariable("id") final String id) {
+    public ResponseEntity<Users> getUsersPage(Model model, @PathVariable("id") String id) {
         Users order = orderService.getByName(id);
         return new ResponseEntity<Users>(order, HttpStatus.OK);
     }
 
     @RequestMapping(value="/users/", method = RequestMethod.POST, headers="Accept=application/json")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> add(@RequestBody final Users obj){
+    public ResponseEntity<Void> add(@RequestBody Users obj){
      orderService.add(obj);
      return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
  
     @RequestMapping(value="/users/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> update(@PathVariable("id") final String id, @RequestBody final Users obj){
+    public ResponseEntity<Void> update(@PathVariable("id") String id, @RequestBody Users obj){
      obj.setUsername(id);
      orderService.update(obj);
      return new ResponseEntity<Void>(HttpStatus.OK);
@@ -69,14 +69,14 @@ public class UsersController {
 
     @RequestMapping(value="/users/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> DeleteUsers(final Model model, @PathVariable final String id) {
+    public ResponseEntity<Void> DeleteUsers (Model model, @PathVariable String id) {
         orderService.delete(id);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     @RequestMapping(value="/users/accept/{id}", method=RequestMethod.POST, headers="Accept=application/json")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> AcceptUsers(@PathVariable final String id) {
+    public ResponseEntity<Void> AcceptUsers(@PathVariable String id) {
         Users order = orderService.getByName(id);
         order.setEnabled(true);
         orderService.update(order);

@@ -29,7 +29,7 @@ public class UserRoles {
     @Column(name = "role")
     private String role;
 
-    @ManyToMany(mappedBy="role",fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToMany(mappedBy="userRoles",fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JsonBackReference
     private Set<Users> username;
 

@@ -42,7 +42,7 @@ public class RegistrationController {
      Users user = orderService.getByName(obj.getUsername());
      UserRoles roles = new UserRoles();
      roles.setRole("NONE_ROLE");
-     roles.setUsername(user);
+     //roles.setUsername(user);
      rolesService.add(roles);
      return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
