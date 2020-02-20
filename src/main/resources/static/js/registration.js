@@ -15,6 +15,7 @@ const RegistrationClick = () => {
     else{
         let regform = {
             username: json[0]['value'],
+            fullname: json[1]['value'],
             password: json[2]['value']
         }
         

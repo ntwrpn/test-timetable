@@ -185,6 +185,32 @@ const createPostFormModal = () => {
         modalForm.appendChild(modalContent);
       
         }
+        else if (["boolean"].includes(local_var_type)){
+            console.log(local_var_type);
+
+            let loadCaption = document.createElement("p");
+            loadCaption.innerText = key;
+            loadCaption.id = "add-modal-caption";
+            modalContent.appendChild(loadCaption);
+    
+            let loadField = document.createElement("select");
+            loadField.setAttribute("name", key);
+            loadField.className = "select";
+            loadField.required = true;
+            
+            let big_data = ["true", "false"];
+            for (let key_value in big_data){
+              let option = document.createElement("option");
+              option.id = key;
+              option.name = key_value;
+              option.value = key_value;
+              option.innerText = key_value;
+              loadField.appendChild(option);
+            }
+            modalContent.appendChild(loadField);
+            modalForm.appendChild(modalContent);
+          
+        }
       else{
         let loadCaption = document.createElement("p");
         loadCaption.innerText = key;

@@ -8,13 +8,20 @@
     <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"/>
     <link type="text/css" rel="stylesheet" href="/css/material-icons.css"/>
     <link type="text/css" rel="stylesheet" href="/css/main.css"/>
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
-
-    <script src="/js/jquery-3.3.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+	
+	<script src="/js/jquery-3.3.1.min.js"></script>
     <script src="/js/jquery-ui.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css"/>
+  
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+
 	<script src="/js/materialize.min.js"></script>
     <script src="/js/addform.js"></script>
-    <script src="/js/admin.js"></script>
+	<script src="/js/admin.js"></script>
+
+	
 
 </head>
 
@@ -123,10 +130,10 @@
                     Пригласить</a>
 				</div>
 
-				<div>
-        <table id = "data-tr-table" class="highlight">
-        </table>
-    </div>
+				<div id='table-form'>
+        			<table id = "data-tr-table" class="highlight">
+        			</table>
+    			</div>
 
     </div>
 </div>

@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import com.java.domain.Users;
 import com.java.domain.UserRoles;
 import com.java.repository.UserRolesService;
+import java.util.Set;
+import java.util.HashSet;
 
 import com.java.repository.UsersService;
 
@@ -37,13 +39,16 @@ public class RegistrationController {
 
     @RequestMapping(value="/registration/", method = RequestMethod.POST, headers="Accept=application/json")
     public ResponseEntity<Void> add(@RequestBody Users obj){
+     UserRolesService roles = new UserRolesService();
+     Set<UserRoles> role = new HashSet<UserRoles>(roles.getById(1));
      obj.setEnabled(false);
+     obj.setUserRoles(role);
      orderService.add(obj);
      Users user = orderService.getByName(obj.getUsername());
-     UserRoles roles = new UserRoles();
-     roles.setRole("NONE_ROLE");
+
+     //roles.setRole("NONE_ROLE");
      //roles.setUsername(user);
-     rolesService.add(roles);
+     //rolesService.add(roles);
      return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
  

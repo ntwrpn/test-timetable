@@ -43,7 +43,7 @@ public class UserRolesService {
     
     public List<UserRoles> getById(int id){
         TypedQuery namedQuery = em.createNamedQuery("UserRoles.getById", UserRoles.class).setParameter("user_role_id", id);
-        List<UserRoles> result=namedQuery.getResultList();   
+        List<UserRoles> result=namedQuery.getResultList();  
         return result;
     }
 

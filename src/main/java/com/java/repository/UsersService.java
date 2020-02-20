@@ -19,13 +19,13 @@ public class UsersService {
         return objFromDB;
     }
 
-    public void delete(String id){
+    public void delete(Integer id){
         em.getTransaction().begin();
         em.remove(get(id));
         em.getTransaction().commit();
     }
 
-    public Users get(String id){
+    public Users get(Integer id){
         return em.find(Users.class, id);
     }
 
@@ -40,10 +40,10 @@ public class UsersService {
         return namedQuery.getResultList();
     }
     
-    public List<Users> getById(String id){
+    public Users getById(Integer id){
         TypedQuery namedQuery = em.createNamedQuery("Users.getById", Users.class).setParameter("id", id);
-        List<Users> result=namedQuery.getResultList();   
-        return result;
+        List<Users> result=namedQuery.getResultList(); 
+        return result.get(0);
     }
 
     public List<Users> getByEnabled(Boolean enabled){

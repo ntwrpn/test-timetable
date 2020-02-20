@@ -210,11 +210,23 @@ const renderTableEvent = (value) => {
     createPostFormModal();
     $.get("/"+value+"/", function(data, status){ 
     saveJSONDataToLocalStorage(value, data);
-    var container = document.getElementById("data-tr-table");
-   
+    var container = document.getElementById("subjects-form-table");
     while (container.hasChildNodes()) {
-         container.removeChild(container.lastChild);
+        container.removeChild(container.lastChild);
     }
+    container.className='subjects-form';
+    var p = document.createElement("table");
+    p.id='subjects-form-header';
+    p.className="subjects-form-header";
+    p.innerText='Таблицы';
+
+    //var list = new List([1, 2, 3]);
+
+    container.appendChild(p);
+    var table = document.createElement("table");
+    table.id='data-tr-table';
+
+
       var a = document.createElement("a");
       a.className = 'btn-floating btn-large waves-effect waves-light btn greeen accent-4';
       a.dataset.target = "add-modal";
@@ -224,85 +236,111 @@ const renderTableEvent = (value) => {
       i.textContent = 'add';
       a.append(i);
       container.append(a)
+
     if (data.length>0){
         var thread = createThread(data);
-        container.appendChild(thread);
+        table.appendChild(thread);
         var tbody = createTbody(data);
-        container.appendChild(tbody);
+        table.appendChild(tbody);
+        container.append(table);
     }
+    $(document).ready( function () {
+        $('#data-tr-table').DataTable();
+       });
     });
+    
 
 }
 
 const createThread = (data) => {
-  var thread = document.createElement("tr");
-  for (let key in data[0]){
-    var th = document.createElement("th");
-    if (key != 'id'){
-      th.append(key);
-      thread.append(th);
-    }
-  }
-  var th = document.createElement("th");
-  th.append("Действия");
-  thread.append(th);
-  return thread;
-}
-
-const createTbody = (data) => {
-  var tbody = document.createElement("tbody");
-  data.forEach(item => {
-      var input = document.createElement("tr");
-      for (let key in item){
-        var id = 0;
-        var td = document.createElement("td");
-        if (key != 'id'){
-            if (typeof(item[key])!="object"){
-                td.append(item[key]);
-            } else if(item[key]==null) {
-                td.append("None");
-            } else {
-                td.append(item[key].name);
-            }
-          input.append(td);
-        } else{
-          id = item[key];
-          input.id = id;
-        }
+    var threadHeader = document.createElement("thead");
+  
+    var thread = document.createElement("tr");
+    for (let key in data[0]){
+      var th = document.createElement("th");
+      if (key != 'id'){
+        th.append(key);
+        thread.append(th);
       }
+    }
+    var th = document.createElement("th");
+    th.append("Действия");
+    thread.append(th);
+    threadHeader.append(thread);
+    return threadHeader;
+  }
 
-      
-      var td = document.createElement("td");
-      
-      var a = document.createElement("a");
-      a.className = 'btn-floating btn-large waves-effect waves-light green accent-4';
-      a.value = input.id;
-      a.addEventListener("click", deleteValueFromTable);
-      var i = document.createElement("i");
-      i.className = 'material-icons';
-      i.textContent = 'mode_edit';
-      a.append(i);
-      td.append(a);
-     
-      
-      var a = document.createElement("a");
-      a.className = 'btn-floating btn-large waves-effect waves-light btn red';
-      a.href = '#1';
-      a.value = input.id;
-      //a.textContent = 'Удалить';
-      a.addEventListener("click", deleteValueFromTable);
-      var i = document.createElement("i");
-      i.className = 'material-icons';
-      i.textContent = 'delete';
-      a.append(i);
-      td.append(a);
-
-      input.append(td);
-      tbody.appendChild(input);
-      
-  });
-  return tbody;
-}
+  const createTbody = (data, accept) => {
+    var tbody = document.createElement("tbody");
+  
+    data.forEach(item => {
+        var input = document.createElement("tr");
+        for (let key in item){
+          var id = 0;
+          var td = document.createElement("td");
+          if (key != 'id'){
+            if (typeof(item[key])=="object" && item[key]!=null){
+                if (item[key]["name"]==undefined){
+                for (let role in item[key]){
+                  td.append(item[key][role]["name"]);
+                  td.append(" ");
+                  input.append(td);
+                    }
+                    if (item[key].length==0){
+                        td.append(" ");
+                        input.append(td);
+                    }
+                } else {
+                td.append(item[key]["name"]);
+                input.append(td);
+              }
+            } else  if (item[key]==null){
+              td.append(" ");
+              input.append(td);
+            }
+            else {
+            td.append(item[key]);
+            input.append(td);
+              }
+          } else{
+            id = item[key];
+            input.id = id;
+          }
+        }
+        var td = document.createElement("td");
+        var a = document.createElement("a");
+        a.className = 'btn-floating btn-large waves-effect waves-light btn red';
+        //a.href = '#1';
+        a.value = item.id;
+        //a.textContent = 'Удалить';
+        a.addEventListener("click", deleteValueFromTable);
+        var i = document.createElement("i");
+        i.className = 'material-icons';
+        i.textContent = 'delete';
+        a.append(i);
+        td.append(a);
+        if (accept==true){
+          var a = document.createElement("a");
+          a.className = 'btn-floating btn-large waves-effect waves-light green accent-4';
+          a.href = '#1';
+          a.value = item.id;
+          //a.textContent = 'Удалить';
+          a.addEventListener("click", acceptValueFromTable);
+          var i = document.createElement("i");
+          i.className = 'material-icons';
+          i.textContent = 'done';
+          a.append(i);
+          td.append(a);
+        }
+        
+        
+       
+        input.append(td);
+        tbody.appendChild(input);
+        
+    });
+    return tbody;
+  }
 
 const deleteValueFromTable = (event) => {
     let id = event.currentTarget.value;

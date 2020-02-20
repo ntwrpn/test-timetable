@@ -31,7 +31,7 @@ public class UserRoles {
 
     @ManyToMany(mappedBy="userRoles",fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JsonBackReference
-    private Set<Users> username;
+    private Set<Users> users;
 
     public int getUser_role_id() {
         return user_role_id;
@@ -50,11 +50,11 @@ public class UserRoles {
     }
 
     public Set<Users> getUsername() {
-        return username;
+        return users;
     }
 
     public void setUsername(Set<Users> username) {
-        this.username = username;
+        this.users = username;
     }
 
     
