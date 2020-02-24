@@ -9,6 +9,7 @@
     <property name="hibernate.connection.username" value="postgres"/>
     <property name="hibernate.connection.password" value="root1to2gross"/>
     <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL81Dialect"/>
+    <property name="hibernate.event.merge.entity_copy_observer" value="allow"/>
     </properties>
   </persistence-unit>
 </persistence>

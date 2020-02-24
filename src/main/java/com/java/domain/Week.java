@@ -25,14 +25,19 @@ public class Week {
     @Column(name = "colspan")
     private int colspan;
     
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name="occupation", referencedColumnName="id", nullable = true)
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="occupation", referencedColumnName="id")
     private Occupation occupation;
 
-    @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
-    @JoinColumn(name="studyPlan", referencedColumnName="id", nullable = true)
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name="studyplan", referencedColumnName="id")
+    @JsonBackReference(value="studyPlan-week-movement")
     private StudyPlan studyPlan;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
+    @JoinColumn(name="course", referencedColumnName="id", nullable = true)
+    @JsonBackReference(value="course-weeks-movement")
+    private Course course;
 
     public StudyPlan getStudyPlan() {
         return studyPlan;
@@ -51,10 +56,6 @@ public class Week {
     public void setCourse(Course course) {
         this.course = course;
     }
-    
-    @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
-    @JsonBackReference
-    private Course course;
 
     public int getId() {
         return id;

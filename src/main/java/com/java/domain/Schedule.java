@@ -1,6 +1,7 @@
 
 package com.java.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.util.Date;
@@ -14,8 +15,7 @@ import java.util.Set;
 @NamedQuery(name = "Schedule.getAll", query = "SELECT c from Schedule c"),
 @NamedQuery(name = "Schedule.getById", query = "SELECT c from Schedule c where c.id=:id")
 }) 
-
-
+//@JsonIgnoreProperties({"courses", "countOccupation"})
 public class Schedule {
 
     
@@ -25,14 +25,12 @@ public class Schedule {
     private int id=0;
     
     @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    @Column(nullable = true)
+    @JsonManagedReference(value="courses-movement")
     private Set<Course> courses;
        
     @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    @Column(nullable = true)
-    private Set<OccupationCounter> countOccupation;
+    @JsonManagedReference(value="countOccupation-movement")
+    private List<OccupationCounter> countOccupation;
 
     public int getId() {
         return id;
@@ -50,11 +48,11 @@ public class Schedule {
         this.courses = courses;
     }
 
-    public Set<OccupationCounter> getCountOccupation() {
+    public List<OccupationCounter> getCountOccupation() {
         return countOccupation;
     }
 
-    public void setCountOccupation(Set<OccupationCounter> countOccupation) {
+    public void setCountOccupation(List<OccupationCounter> countOccupation) {
         this.countOccupation = countOccupation;
     }
 

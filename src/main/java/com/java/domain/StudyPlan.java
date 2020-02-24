@@ -4,11 +4,10 @@ package com.java.domain;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "StudyPlan")
+@Table(name = "studyplan")
 
 @NamedQueries({
 @NamedQuery(name = "StudyPlan.getAll", query = "SELECT c from StudyPlan c"),
@@ -39,9 +38,8 @@ public class StudyPlan {
     @Column(name = "countOfSem")
     private int countOfSem;  
 
-    @OneToMany(mappedBy="studyPlan", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    @Column(nullable = true)
+    @OneToMany(mappedBy="studyPlan", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @JsonManagedReference(value="studyPlan-week-movement")
     private Set<Week> weeks;
     
     @Column(name = "isChanged")

@@ -26,18 +26,19 @@ public class OccupationCounter {
     @Column(name = "count")
     private int count;
    
-    @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
-    @JoinColumn(name="schedule", referencedColumnName="id", nullable = true)
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @JoinColumn(name="schedule", referencedColumnName="id")
+    @JsonBackReference(value="countOccupation-movement")
     private Schedule schedule;
     
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name="occupation", referencedColumnName="id", nullable = true)
+    @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name="occupation", referencedColumnName="id")
+    @JsonBackReference(value="occupation-movement")
     private Occupation occupation;
     
-    @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
-    @JoinColumn(name="course", referencedColumnName="id", nullable = true)
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @JoinColumn(name="course", referencedColumnName="id")
+    @JsonBackReference(value="course-movement")
     private Course course;
 
     public Course getCourse() {

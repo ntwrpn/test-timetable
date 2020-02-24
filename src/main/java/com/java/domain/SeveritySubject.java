@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "SeveritySubject")
+@Table(name = "severitysubject")
 @NamedQueries({
 @NamedQuery(name = "SeveritySubject.getAll", query = "SELECT c from SeveritySubject c"),
 @NamedQuery(name = "SeveritySubject.getById", query = "SELECT c from SeveritySubject c where c.id=:id")

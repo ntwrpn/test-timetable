@@ -4,6 +4,8 @@ package com.java.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -15,8 +17,6 @@ import java.util.Set;
 @NamedQuery(name = "Course.getAll", query = "SELECT c from Course c"),
 @NamedQuery(name = "Course.getById", query = "SELECT c from Course c where c.id=:id")
 }) 
-
-
 public class Course {
 
     
@@ -25,27 +25,25 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id=0;
     
-
-
     @Column(name = "total")
     private int total;
 
     @Column(name = "name")
     private String name;
     
-    @OneToMany(mappedBy="course", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    @Column(nullable = true)
-    private Set<Week> week;
+    @OneToMany(mappedBy="course", fetch = FetchType.LAZY, cascade = { CascadeType.ALL,CascadeType.PERSIST,CascadeType.MERGE }, orphanRemoval = true)
+    @JsonManagedReference(value="course-weeks-movement")
+    @Column(nullable = false)
+    //@JoinColumn(name="course", nullable=false)
+    private List<Week> weeks;
        
-    @OneToMany(mappedBy="course", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    @Column(nullable = true)
+    @OneToMany(mappedBy="course", cascade=CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value="course-movement")
     private Set<OccupationCounter> countOccupation;
 
-    @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
     @JoinColumn(name="schedule", referencedColumnName="id", nullable = true)
-    @JsonBackReference
+    @JsonBackReference(value="courses-movement")
     private Schedule schedule;
 
     public Schedule getSchedule() {
@@ -80,13 +78,19 @@ public class Course {
         this.name = name;
     }
 
-    public Set<Week> getWeek() {
-        return week;
+    public List<Week> getWeek() {
+        return weeks;
     }
 
-    public void setWeek(Set<Week> week) {
-        this.week = week;
+    public void setWeek(List<Week> weeks) {
+        this.weeks.clear();
+        for (Week week:weeks) {
+            week.setCourse(this);
+        }
+        this.weeks = weeks;
     }
+
+    
 
     public Set<OccupationCounter> getCountOccupation() {
         return countOccupation;

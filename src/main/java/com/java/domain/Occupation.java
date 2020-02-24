@@ -2,6 +2,9 @@
 package com.java.domain;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Date;
 import java.util.List;
 
@@ -12,8 +15,7 @@ import java.util.List;
 @NamedQuery(name = "Occupation.getAll", query = "SELECT c from Occupation c"),
 @NamedQuery(name = "Occupation.getById", query = "SELECT c from Occupation c where c.id=:id")
 }) 
-
-
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Occupation {
 
     

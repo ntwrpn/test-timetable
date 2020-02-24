@@ -13,7 +13,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 @Entity
-@Table(name = "Syllabus")
+@Table(name = "syllabus")
 
 @NamedQueries({
 @NamedQuery(name = "Syllabus.getAll", query = "SELECT c from Syllabus c"),
