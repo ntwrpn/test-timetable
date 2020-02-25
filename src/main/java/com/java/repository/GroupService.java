@@ -52,7 +52,7 @@ public class GroupService {
     public JSONObject getFields() {
         JSONObject obj = new JSONObject();
         for (Field field : Groups.class.getDeclaredFields()) {
-            if (field.getName()!="flow"){
+            if (field.getName()!="flow" && field.getName()!="subgroup"){
                 obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
             }
         }

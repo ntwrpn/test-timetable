@@ -155,12 +155,24 @@ const createTbody = (data, accept) => {
       i.textContent = 'delete';
       a.append(i);
       td.append(a);
+
+      var a = document.createElement("a");
+      a.className = 'btn-floating btn-large waves-effect waves-light btn yellow';
+      //a.href = '#1';
+      a.value = item.id;
+      //a.textContent = 'Удалить';
+      a.addEventListener("click", openToChangeForm);
+      var i = document.createElement("i");
+      i.className = 'material-icons';
+      i.textContent = 'edit';
+      a.append(i);
+      td.append(a);
+
       if (accept==true){
         var a = document.createElement("a");
         a.className = 'btn-floating btn-large waves-effect waves-light green accent-4';
         a.href = '#1';
         a.value = item.id;
-        //a.textContent = 'Удалить';
         a.addEventListener("click", acceptValueFromTable);
         var i = document.createElement("i");
         i.className = 'material-icons';
@@ -168,9 +180,6 @@ const createTbody = (data, accept) => {
         a.append(i);
         td.append(a);
       }
-      
-      
-     
       input.append(td);
       tbody.appendChild(input);
       
@@ -178,6 +187,17 @@ const createTbody = (data, accept) => {
   return tbody;
 }
 
+
+
+const openToChangeForm = (event)=> {
+  let id = event.currentTarget.value;
+  let value = localStorage.getItem("current_open_table");
+  $.get("/"+value+"/"+id+"/", function(data, status){ 
+    clearPostFromModal();
+    createPostFormModal(data);
+    openAddCreateModal();
+  });
+}
 
 $(document).ready(function(){
   $('.collapsible').collapsible();

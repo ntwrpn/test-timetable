@@ -2,12 +2,16 @@
 package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "Groups")
+@Table(name = "groups")
 @NamedQueries({
 @NamedQuery(name = "Groups.getAll", query = "SELECT c from Groups c"),
 @NamedQuery(name = "Groups.getById", query = "SELECT c from Groups c where c.id=:id")
@@ -36,12 +40,18 @@ public class Groups {
     
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name="flow", referencedColumnName="id", nullable = true)
-    @JsonBackReference
+    @JsonBackReference(value="flow-group")
     private Flow flow=null;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name="speciality", referencedColumnName="id", nullable = true)
     private Speciality speciality;  
+
+
+    @OneToMany(mappedBy="groups", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference //(value="subgroup-group")
+    @Column(nullable = true)
+    private Set<Subgroup> subgroup;
 
     public Speciality getSpeciality() {
         return speciality;
@@ -77,6 +87,15 @@ public class Groups {
 
     public void setFlow(Flow flow) {
         this.flow = flow;
+    }
+
+
+    public Set<Subgroup> getSubgroup() {
+        return subgroup;
+    }
+
+    public void setSubgroup(Set<Subgroup> subgroup) {
+        this.subgroup = subgroup;
     }
 
 }

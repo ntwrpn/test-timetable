@@ -3,18 +3,20 @@ package com.java.domain;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "Subgroup")
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+
+@Entity
+@Table(name = "subgroup")
 @NamedQueries({
 @NamedQuery(name = "Subgroup.getAll", query = "SELECT c from Subgroup c"),
 @NamedQuery(name = "Subgroup.getById", query = "SELECT c from Subgroup c where c.id=:id")
-}) 
-
+})
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 
 public class Subgroup {
-
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +27,8 @@ public class Subgroup {
     
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name="groups", referencedColumnName="id", nullable = true)
-    private Groups groups;
+    //@JsonManagedReference(value="subgroup-group")
+    private Groups groups=null;
 
     public Subgroup() {
     }
@@ -53,8 +56,4 @@ public class Subgroup {
     public void setCount_of_student(int count_of_student) {
         this.count_of_student=count_of_student;
     }
-
-
-
 }
-

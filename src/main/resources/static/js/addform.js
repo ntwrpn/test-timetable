@@ -115,7 +115,8 @@ const clearPostFromModal = () => {
     }
 }
 
-const createPostFormModal = () => {
+const createPostFormModal = (changeData) => {
+    console.log(changeData);
     let name = "users";
     let data = getListDataFromServer(name);
 
@@ -141,7 +142,7 @@ const createPostFormModal = () => {
             continue;
         }
         let local_var_type = getFieldTypeByOptions(data[key]);
-      if(["text", "int"].includes(local_var_type)){
+        if(["text", "int"].includes(local_var_type)){
         let loadCaption = document.createElement("p");
         loadCaption.innerText = key;
         loadCaption.id = "add-modal-caption";
@@ -150,6 +151,9 @@ const createPostFormModal = () => {
         let loadField = document.createElement("input");
         loadField.id = key;
         loadField.name = key;
+        if (changeData!=undefined && changeData[key]!=null){
+            loadField.value = changeData[key];
+        }
         loadField.type = local_var_type;
         loadField.className = "validate";
         loadField.required = true;
@@ -179,6 +183,11 @@ const createPostFormModal = () => {
           option.name = key;
           option.value = big_data[key_value]["user_role_id"];
           option.innerText = big_data[key_value]["role"];
+          if (changeData!=undefined && changeData[key]!=null){
+            if (changeData[key].find(obj => obj.user_role_id == big_data[key_value]["user_role_id"])){
+                option.selected=true;
+            }
+           }
           loadField.appendChild(option);
         }
         modalContent.appendChild(loadField);
@@ -205,6 +214,11 @@ const createPostFormModal = () => {
               option.name = key_value;
               option.value = key_value;
               option.innerText = key_value;
+              if (changeData!=undefined && changeData[key]!=null){
+                if (changeData[key]==true){
+                    option.selected=true;
+                }
+               }
               loadField.appendChild(option);
             }
             modalContent.appendChild(loadField);
@@ -229,6 +243,11 @@ const createPostFormModal = () => {
           option.name = key;
           option.value = big_data[key_value]["id"];
           option.innerText = big_data[key_value]["name"];
+          if (changeData!=undefined && changeData[key]!=null){
+            if (changeData[key].includes(key_value)){
+                option.selected=true;
+            }
+           }
           loadField.appendChild(option);
         }
         modalContent.appendChild(loadField);
@@ -241,8 +260,9 @@ const createPostFormModal = () => {
     modalFooter.id = "add-modal-buttons";
 
     let addButton = document.createElement("a");
-    addButton.className = "waves-effect waves-green btn green accent-4";
+    addButton.className = "modal-close waves-effect waves-green btn green accent-4";
     addButton.id = "add-load-button";
+    addButton.href = "#!";
     addButton.innerText = "Добавить";
     addButton.addEventListener("click", addFromEvent);
     modalFooter.appendChild(addButton);
@@ -250,6 +270,7 @@ const createPostFormModal = () => {
     let exitButton = document.createElement("a");
     exitButton.className = "modal-close waves-effect waves-green btn red accent-4";
     exitButton.id = "exit-load-button";
+    exitButton.href = "#!";
     exitButton.innerText = "Выйти";
 
     modalFooter.appendChild(exitButton);

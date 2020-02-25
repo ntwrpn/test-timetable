@@ -204,6 +204,18 @@ const openTableEvent = (event) => {
 }
 
 
+
+const openToChangeForm = (event)=> {
+    let id = event.currentTarget.value;
+    let value = localStorage.getItem("current_open_table");
+    $.get("/"+value+"/"+id+"/", function(data, status){ 
+      clearPostFromModal();
+      createPostFormModal(data);
+      openAddCreateModal();
+    });
+
+  }
+
 const renderTableEvent = (value) => {
     localStorage.setItem("current_open_table", value);
     clearPostFromModal();
@@ -310,15 +322,24 @@ const createThread = (data) => {
         var td = document.createElement("td");
         var a = document.createElement("a");
         a.className = 'btn-floating btn-large waves-effect waves-light btn red';
-        //a.href = '#1';
         a.value = item.id;
-        //a.textContent = 'Удалить';
         a.addEventListener("click", deleteValueFromTable);
         var i = document.createElement("i");
         i.className = 'material-icons';
         i.textContent = 'delete';
         a.append(i);
         td.append(a);
+
+        var a = document.createElement("a");
+        a.className = 'btn-floating btn-large waves-effect waves-light btn yellow';
+        a.value = item.id;
+        a.addEventListener("click", openToChangeForm);
+        var i = document.createElement("i");
+        i.className = 'material-icons';
+        i.textContent = 'edit';
+        a.append(i);
+        td.append(a);
+
         if (accept==true){
           var a = document.createElement("a");
           a.className = 'btn-floating btn-large waves-effect waves-light green accent-4';
@@ -869,6 +890,29 @@ const addFromEvent = () => {
     renderTableEvent(name);
 }
 
+
+const putFromEvent = (id) => {
+    let json = getJSONfromForm("add-modal-content");
+    let name = localStorage.getItem("current_open_table");
+    console.log(json);
+    
+    $.ajax({
+        headers: { 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' 
+        },
+        'type': 'PUT',
+        'async': false,
+        'url': "/"+name+"/"+id+"/",
+        'data': JSON.stringify(json),
+        'dataType': 'json',
+        'success': function(response) {
+            console.log(response);
+        }
+    });
+    renderTableEvent(name);
+}
+
 const getJSONfromForm = (formname) => {
     let formData = $("#"+formname).serializeArray();
     let name = localStorage.getItem("current_open_table");
@@ -945,10 +989,9 @@ const clearPostFromModal = () => {
     }
 }
 
-const createPostFormModal = () => {
+const createPostFormModal = (changeData) => {
     let name = localStorage.getItem("current_open_table");
     let data = getListDataFromServer(name);
-
     let modalForm = document.getElementById("add-modal");
     if (modalForm==null){
         modalForm = document.createElement("div");
@@ -962,6 +1005,11 @@ const createPostFormModal = () => {
     
     let modalHeader = document.createElement("h4");
     modalHeader.innerText = "Добавить запись";
+    let ids;
+    if (changeData!=undefined){
+        ids = changeData.id;
+        modalHeader.innerText = "Изменить запись";
+    }
     modalHeader.id = "add-modal-header";
     modalContent.appendChild(modalHeader);
 
@@ -971,7 +1019,7 @@ const createPostFormModal = () => {
             continue;
         }
         let local_var_type = getFieldTypeByOptions(data[key]);
-      if(["text", "int"].includes(local_var_type)){
+        if(["text", "int"].includes(local_var_type)){
         let loadCaption = document.createElement("p");
         loadCaption.innerText = key;
         loadCaption.id = "add-modal-caption";
@@ -980,6 +1028,9 @@ const createPostFormModal = () => {
         let loadField = document.createElement("input");
         loadField.id = key;
         loadField.name = key;
+        if (changeData!=undefined && changeData[key]!=null){
+            loadField.value = changeData[key];
+        }
         loadField.type = local_var_type;
         loadField.className = "validate";
         loadField.required = true;
@@ -1009,11 +1060,47 @@ const createPostFormModal = () => {
           option.name = key;
           option.value = big_data[key_value]["id"];
           option.innerText = big_data[key_value]["name"];
+          if (changeData!=undefined && changeData[key]!=null){
+            if (changeData[key].find(obj => obj.id == big_data[key_value]["id"])){
+                option.selected=true;
+            }
+           }
           loadField.appendChild(option);
         }
         modalContent.appendChild(loadField);
         modalForm.appendChild(modalContent);
       
+        }
+        else if (["boolean"].includes(local_var_type)){
+            console.log(local_var_type);
+
+            let loadCaption = document.createElement("p");
+            loadCaption.innerText = key;
+            loadCaption.id = "add-modal-caption";
+            modalContent.appendChild(loadCaption);
+    
+            let loadField = document.createElement("select");
+            loadField.setAttribute("name", key);
+            loadField.className = "select";
+            loadField.required = true;
+            
+            let big_data = ["true", "false"];
+            for (let key_value in big_data){
+              let option = document.createElement("option");
+              option.id = key;
+              option.name = key_value;
+              option.value = key_value;
+              option.innerText = key_value;
+              if (changeData!=undefined && changeData[key]!=null){
+                if (changeData[key]==true){
+                    option.selected=true;
+                }
+               }
+              loadField.appendChild(option);
+            }
+            modalContent.appendChild(loadField);
+            modalForm.appendChild(modalContent);
+          
         }
       else{
         let loadCaption = document.createElement("p");
@@ -1033,6 +1120,11 @@ const createPostFormModal = () => {
           option.name = key;
           option.value = big_data[key_value]["id"];
           option.innerText = big_data[key_value]["name"];
+          if (changeData!=undefined && changeData[key]!=null){
+            if (changeData[key].id ==key_value["id"]){
+                option.selected=true;
+            }
+           }
           loadField.appendChild(option);
         }
         modalContent.appendChild(loadField);
@@ -1047,11 +1139,25 @@ const createPostFormModal = () => {
     let addButton = document.createElement("a");
     addButton.className = "waves-effect waves-green btn green accent-4";
     addButton.id = "add-load-button";
+    //addButton.href = "#!";
     addButton.innerText = "Добавить";
-    addButton.addEventListener("click", addFromEvent);
+
+    if (changeData!=undefined){
+        addButton.innerText = "Принять";
+        addButton.addEventListener("click", function(){
+            let body = document.getElementById("body");
+            body.style = '';
+            putFromEvent(ids);
+        });
+
+    } else{
+        addButton.addEventListener("click", addFromEvent);
+
+    }
     modalFooter.appendChild(addButton);
 
     let exitButton = document.createElement("a");
+    exitButton.href = "#!";
     exitButton.className = "modal-close waves-effect waves-green btn red accent-4";
     exitButton.id = "exit-load-button";
     exitButton.innerText = "Выйти";
