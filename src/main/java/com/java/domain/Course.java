@@ -39,10 +39,10 @@ public class Course {
        
     @OneToMany(mappedBy="course", cascade=CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value="course-movement")
-    private Set<OccupationCounter> countOccupation;
+    private List<OccupationCounterCourse> countOccupation;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
-    @JoinColumn(name="schedule", referencedColumnName="id", nullable = true)
+	@JoinColumn(name="schedule", referencedColumnName="id", nullable = true)
     @JsonBackReference(value="courses-movement")
     private Schedule schedule;
 
@@ -90,13 +90,11 @@ public class Course {
         this.weeks = weeks;
     }
 
-    
-
-    public Set<OccupationCounter> getCountOccupation() {
+    public List<OccupationCounterCourse> getCountOccupation() {
         return countOccupation;
     }
 
-    public void setCountOccupation(Set<OccupationCounter> countOccupation) {
+    public void setCountOccupation(List<OccupationCounterCourse> countOccupation) {
         this.countOccupation = countOccupation;
     }
 

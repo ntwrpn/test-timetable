@@ -25,9 +25,9 @@ public class Week {
     @Column(name = "colspan")
     private int colspan;
     
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+   @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="occupation", referencedColumnName="id")
-    private Occupation occupation;
+	private Occupation occupation;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name="studyplan", referencedColumnName="id")
@@ -56,7 +56,7 @@ public class Week {
     public void setCourse(Course course) {
         this.course = course;
     }
-
+    
     public int getId() {
         return id;
     }

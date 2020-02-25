@@ -55,7 +55,7 @@ public class Subject {
     @OneToMany(mappedBy="subject", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     @Column(nullable = true)
-    private Set<Semester> semesters;
+    private List<Semester> semesters;
     
     @OneToMany(mappedBy="subject", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -126,11 +126,11 @@ public class Subject {
         this.isChanged = isChanged;
     }
 
-    public Set<Semester> getSemesters() {
+    public List<Semester> getSemesters() {
         return semesters;
     }
 
-    public void setSemesters(Set<Semester> semesters) {
+    public void setSemesters(List<Semester> semesters) {
         this.semesters = semesters;
     }
 

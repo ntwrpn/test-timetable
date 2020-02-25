@@ -4,6 +4,7 @@ package com.java.domain;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,7 +31,7 @@ public class StudyPlan {
     @OneToMany(mappedBy="studyPlan", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     @Column(nullable = true)
-    private Set<Subject> subject;
+    private List<Subject> subjects;
        
     @Column(name = "coefficient")
     private int coefficient;
@@ -40,7 +41,7 @@ public class StudyPlan {
 
     @OneToMany(mappedBy="studyPlan", cascade = CascadeType.MERGE, orphanRemoval = true)
     @JsonManagedReference(value="studyPlan-week-movement")
-    private Set<Week> weeks;
+    private List<WeekCount> weeks;
     
     @Column(name = "isChanged")
     private boolean isChanged=false;
@@ -82,12 +83,12 @@ public class StudyPlan {
         this.name = name;
     }
 
-    public Set<Subject> getSubject() {
-        return subject;
+    public List<Subject> getSubject() {
+        return subjects;
     }
 
-    public void setSubject(Set<Subject> subject) {
-        this.subject = subject;
+    public void setSubject(List<Subject> subjects) {
+        this.subjects = subjects;
     }
 
     public int getCoefficient() {
@@ -106,11 +107,11 @@ public class StudyPlan {
         this.countOfSem = countOfSem;
     }
 
-    public Set<Week> getWeeks() {
+    public List<WeekCount> getWeeks() {
         return weeks;
     }
 
-    public void setWeeks(Set<Week> weeks) {
+    public void setWeeks(List<WeekCount> weeks) {
         this.weeks = weeks;
     }
 

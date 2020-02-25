@@ -7,15 +7,15 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "occupationcounter")
+@Table(name = "occupationcountercourse")
 
 @NamedQueries({
-@NamedQuery(name = "OccupationCounter.getAll", query = "SELECT c from OccupationCounter c"),
-@NamedQuery(name = "OccupationCounter.getById", query = "SELECT c from OccupationCounter c where c.id=:id")
+@NamedQuery(name = "OccupationCounterCourse.getAll", query = "SELECT c from OccupationCounterCourse c"),
+@NamedQuery(name = "OccupationCounterCourse.getById", query = "SELECT c from OccupationCounterCourse c where c.id=:id")
 }) 
 
 
-public class OccupationCounter {
+public class OccupationCounterCourse {
 
     
     @Id
@@ -26,19 +26,19 @@ public class OccupationCounter {
     @Column(name = "count")
     private int count;
    
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
-    @JoinColumn(name="schedule", referencedColumnName="id")
-    @JsonBackReference(value="countOccupation-movement")
-    private Schedule schedule;
+    /*@ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @JoinColumn(name="schedule", referencedColumnName="id", nullable = true)
+    @JsonBackReference
+    private Schedule schedule;*/
     
     @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name="occupation", referencedColumnName="id")
     @JsonBackReference(value="occupation-movement")
-    private Occupation occupation;
+	private Occupation occupation;
     
-    /*@ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
-    @JoinColumn(name="course", referencedColumnName="id", nullable = true)
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @JoinColumn(name="course", referencedColumnName="id")
+    @JsonBackReference(value="course-movement")
     private Course course;
 
     public Course getCourse() {
@@ -48,7 +48,7 @@ public class OccupationCounter {
     public void setCourse(Course course) {
         this.course = course;
     }
-*/
+
     public int getId() {
         return id;
     }
@@ -73,13 +73,13 @@ public class OccupationCounter {
         this.count = count;
     }
 
-    public Schedule getSchedule() {
+    /*public Schedule getSchedule() {
         return schedule;
     }
 
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
-    }
+    }*/
 
 }
 

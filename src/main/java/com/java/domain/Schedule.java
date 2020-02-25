@@ -15,7 +15,8 @@ import java.util.Set;
 @NamedQuery(name = "Schedule.getAll", query = "SELECT c from Schedule c"),
 @NamedQuery(name = "Schedule.getById", query = "SELECT c from Schedule c where c.id=:id")
 }) 
-//@JsonIgnoreProperties({"courses", "countOccupation"})
+
+
 public class Schedule {
 
     
@@ -25,8 +26,8 @@ public class Schedule {
     private int id=0;
     
     @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference(value="courses-movement")
-    private Set<Course> courses;
+	@JsonManagedReference(value="courses-movement")
+    private List<Course> courses;
        
     @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value="countOccupation-movement")
@@ -40,11 +41,11 @@ public class Schedule {
         this.id = id;
     }
 
-    public Set<Course> getCourses() {
+    public List<Course> getCourses() {
         return courses;
     }
 
-    public void setCourses(Set<Course> courses) {
+    public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
 
