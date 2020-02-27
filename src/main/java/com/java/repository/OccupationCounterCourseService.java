@@ -5,19 +5,18 @@ package com.java.repository;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
-import com.java.domain.Subgroup;
+import com.java.domain.OccupationCounterCourse;
 import java.lang.reflect.Field;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SubgroupService {
+public class OccupationCounterCourseService {
     public EntityManager em = EntityWorker.GetEntityWorker();
 
-
-    public Subgroup add(Subgroup obj){
+    public OccupationCounterCourse add(OccupationCounterCourse obj){
         em.getTransaction().begin();
-        Subgroup objFromDB = em.merge(obj);
+        OccupationCounterCourse objFromDB = em.merge(obj);
         em.getTransaction().commit();
         return objFromDB;
     }
@@ -28,30 +27,30 @@ public class SubgroupService {
         em.getTransaction().commit();
     }
 
-    public Subgroup get(int id){
-        return em.find(Subgroup.class, id);
+    public OccupationCounterCourse get(int id){
+        return em.find(OccupationCounterCourse.class, id);
     }
 
-    public void update(Subgroup obj){
+    public void update(OccupationCounterCourse obj){
         em.getTransaction().begin();
         em.merge(obj);
         em.getTransaction().commit();
     }
 
-    public List<Subgroup> getAll(){
-        TypedQuery<Subgroup> namedQuery = em.createNamedQuery("Subgroup.getAll", Subgroup.class);
+    public List<OccupationCounterCourse> getAll(){
+        TypedQuery<OccupationCounterCourse> namedQuery = em.createNamedQuery("OccupationCounterCourse.getAll", OccupationCounterCourse.class);
         return namedQuery.getResultList();
     }
     
-    public List<Subgroup> getById(int id){
-        TypedQuery namedQuery = em.createNamedQuery("Subgroup.getById", Subgroup.class).setParameter("id", id);
-        List<Subgroup> result=namedQuery.getResultList();   
+    public List<OccupationCounterCourse> getById(int id){
+        TypedQuery namedQuery = em.createNamedQuery("OccupationCounterCourse.getById", OccupationCounterCourse.class).setParameter("id", id);
+        List<OccupationCounterCourse> result=namedQuery.getResultList();   
         return result;
     }
-
+    
     public JSONObject getFields() {
         JSONObject obj = new JSONObject();
-        for (Field field : Subgroup.class.getDeclaredFields()) {
+        for (Field field : OccupationCounterCourse.class.getDeclaredFields()) {
             obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
         }
         return obj;

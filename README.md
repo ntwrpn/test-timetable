@@ -1,8 +1,12 @@
 # test-timetable
 Test timetable in dev
-requirements: glassfish4.0, postgres11, openjdk1.8
+Requirements: 
+ - glassfish4.0
+ - postgres11
+ - openjdk1.8
 
-Structure:
-domain: models
-repository: services
-jdbcauthentication.controller: controlles
+Installation:
+ - install postgres with your credentials
+    CREATE DATABASE users;
+    CREATE USER root_user WITH PASSWORD 'root1to2gross' WITH ALL PRIVILEGES;
+

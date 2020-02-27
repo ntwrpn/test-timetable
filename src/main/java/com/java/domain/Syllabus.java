@@ -1,16 +1,11 @@
 
 package com.java.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import java.util.Collection;
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+
 import java.util.Set;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+
 
 @Entity
 @Table(name = "syllabus")

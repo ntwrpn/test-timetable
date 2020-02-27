@@ -3,7 +3,6 @@
 package com.java.repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import com.java.domain.CanTeach;
@@ -44,7 +43,7 @@ public class CanTeachService {
     
     public List<CanTeach> getById(int id){
         TypedQuery namedQuery = em.createNamedQuery("CanTeach.getById", CanTeach.class).setParameter("id", id);
-        List<CanTeach> result=namedQuery.getResultList();   
+        List<CanTeach> result = namedQuery.getResultList();   
         return result;
     }
     

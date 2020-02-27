@@ -1,10 +1,8 @@
 
 package com.java.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+
 
 @Entity
 @Table(name = "severity")

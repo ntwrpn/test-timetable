@@ -2,13 +2,9 @@
 package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "groups")
@@ -48,10 +44,10 @@ public class Groups {
     private Speciality speciality;  
 
 
-    @OneToMany(mappedBy="groups", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy="groups", cascade=CascadeType.ALL)
     @JsonBackReference //(value="subgroup-group")
     @Column(nullable = true)
-    private Set<Subgroup> subgroup;
+    private List<Subgroup> subgroup;
 
     public Speciality getSpeciality() {
         return speciality;
@@ -90,11 +86,11 @@ public class Groups {
     }
 
 
-    public Set<Subgroup> getSubgroup() {
+    public List<Subgroup> getSubgroup() {
         return subgroup;
     }
 
-    public void setSubgroup(Set<Subgroup> subgroup) {
+    public void setSubgroup(List<Subgroup> subgroup) {
         this.subgroup = subgroup;
     }
 

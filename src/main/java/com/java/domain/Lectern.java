@@ -1,11 +1,8 @@
 
 package com.java.domain;
 
-import java.lang.reflect.Field;
+
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
-import com.java.repository.*;
 @Entity
 @Table(name = "Lectern")
 

@@ -1,219 +1,94 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 <head>
-    <meta charset="utf-8"/>
-    <link type="text/css" rel="stylesheet" href="/css/jquery-ui.min.css"/>
-    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"/>
-    <link type="text/css" rel="stylesheet" href="/css/material-icons.css"/>
-    <link type="text/css" rel="stylesheet" href="/css/main.css"/>
+    <meta charset="utf-8" />
+    <link type="text/css" rel="stylesheet" href="/css/jquery-ui.min.css" />
+    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css" />
+    <link type="text/css" rel="stylesheet" href="/css/material-icons.css" />
+    <link type="text/css" rel="stylesheet" href="/css/main.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
     <script src="/js/jquery-3.3.1.min.js"></script>
     <script src="/js/jquery-ui.min.js"></script>
-
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css"/>
-	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
-
-
     <script src="/js/materialize.min.js"></script>
-    <script src="/js/main.js"></script>
-    
+    <script src="/js/home.js"></script>
 </head>
 
-<body id='body'>
-
+<body>
     <nav class="nav-extended green accent-4">
         <div class="nav-wrapper">
             <a href="/" class="brand-logo">БНТУ</a>
-        </div>
-        <div class="nav-content">
-            <ul class="tabs tabs-transparent">
-                <li class="tab col s3"><a class="active" href="#study-data">Данные</a></li>
-                <li class="tab"><a href="#study-plan">Учебный план</a></li>
-                <li class="tab"><a class="active" href="#study-subjects">Учебные предметы</a></li>
-                <li class="tab"><a href="#terms-distribution">Распределение по семестрам</a></li>
-                <li class="tab"><a href="#exams-schedule">Расписание экзаменов</a></li>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="home.html"><i class="material-icons">home</i></a></li>
+                <li><a href="#"><i class="material-icons">refresh</i></a></li>
+                <li><a href="#"><i class="material-icons">more_vert</i></a></li>
             </ul>
         </div>
     </nav>
 
-    <div id="study-plan" class="col s12">
-        <h4 class="tab-body-header">Учебный план</h4>
 
-        <div class="flex-row">
+    <div class="row">
+        <div class="col m3 l3">
+            <ul class="collapsible">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Кабинет</div>
+                    <div class="collapsible-body"><span>
+			<a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="/home">
+		        <i class="material-icons left">home</i>
+		        Мой кабинет</a>
+                      <hr></hr>
+		      <a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="#exams-schedule">
+		        <i class="material-icons left">event</i>
+		        Расписание экзаменов</a>
+                            <hr></hr>
 
-            <div class="subjects-list">
+				</span></div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Объекты</div>
+                    <div class="collapsible-body"><span>
 
-                <p class="subjects-list-header"><b>Учебные предметы</b></p>
 
-                <ul class="collection sortable connectedSortable">
-                    <li class="subject-item collection-item">Математика</li>
-                    <li class="subject-item collection-item">ООП</li>
-                    <li class="subject-item collection-item">Компьютерная графика</li>
-                </ul>
-            </div>
+					<hr></hr>
+					<a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="/objects">
+		        <i class="material-icons left">subject</i>
+		        Объекты</a>
 
-            <table class="highlight ">
-                <thead>
-                    <tr>
-                        <th>Название дисциплины</th>
-                        <th>Экзаменов</th>
-                        <th>Зачетов</th>
-                        <th>РГР</th>
-                        <th>Контрольных работ</th>
-                        <th>Аудиторные занятия</th>
-                        <th>Лекции</th>
-                        <th>Лабораторные работы</th>
-                        <th>Практические занятия</th>
-                        <th>Всего</th>
-                    </tr>
-                </thead>
-            </table>
+
+				</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Аккаунт</div>
+                    <div class="collapsible-body"><span>
+
+
+					<a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="#exams-schedule">
+		        <i class="material-icons left">account_circle</i>
+		        Мой аккаунт</a><hr></hr>
+
+					<a class="waves-effect waves-light btn yellow accent-4" style="width: 100%;" href="#exams-schedule">
+		        <i class="material-icons left">settings</i>
+		        Настройки</a><hr></hr>
+
+					<a class="waves-effect waves-light btn red accent-4" style="width: 100%;" href="#exams-schedule">
+		        <i class="material-icons left">exit_to_app</i>
+		        Выход</a>
+
+
+				</span></div>
+                </li>
+            </ul>
         </div>
-
-    </div>
-
-    <div id="study-subjects" class="col s12">
-        <h4 class="tab-body-header">Учебные предметы</h4>
-
-        <div class="flex-row study-subjects-body">
-            <div class="subjects-tab subjects-list">
-
-                <p class="subjects-list-header"><b>Учебные предметы</b></p>
-
-                <ul id="subjects-list" class="collection">
-
-                </ul>
-            </div>
-
-            <div id="subjects-form" class="subjects-form">
-                <p id="subjects-form-header" class="subjects-form-header"><b>Добавление учебного предмета</b></p>
-                <div class="subject-name-form-item">
-                    <p class="subject-name-caption">Название учебного предмета</p>
-                    <input id="subject-name" class="subject-name-field" type="text" align="middle"/>
-                </div>
-
-                <div id="loads-form" class="loads-form-list">
-
-                </div>
-
-                <div id="form-buttons" class="text-center">
-                </div>
-            </div>
-
-            <div class="loads-list">
-                <p class="loads-list-header"><b>Нагрузки</b></p>
-
-                <ul id="loads-list">
-
-                </ul>
-            </div>
-        </div>
-    </div>
-	
-	
-    <div id="study-data" class="col s12">
-        <h4 class="tab-body-header">Данные для заполенния</h4>
-        <div class="flex-row study-subjects-body">
-          <div class="subjects-tab subjects-list">
-
-              <p class="subjects-list-header"><b>Формы</b></p>
-
-              <ul id="data-list" class="collection">
-
-              </ul>
-          </div>
-
-          <div id="subjects-form-table" class="subjects-form">
-              <p id="subjects-form-header" class="subjects-form-header"><b>Таблица</b></p>
-              <table class="highlight" id="data-tr-table">
-              </table>
-          </div>
-
-
+        <div class="col m3 l7">
+            <h5>Добро пожаловать в Систему управления расписанием БНТУ</h5>
+            <p>
+            </p>
         </div>
     </div>
 
 
-
-
-    <div id="terms-distribution" class="col s12">
-        <h4 class="tab-body-header">Распределение по семестрам</h4>
-    </div>
-
-    <div id="exams-schedule" class="col s12">
-        <h4 class="tab-body-header">Расписание экзаменов</h4>
-
-        <div class="flex-row">
-            <div class="exams-list ">
-
-                <p class="exams-list-heading"><b>Предметы</b></p>
-
-                <ul class="collection sortable connectedSortable">
-                    <li class="exam-item collection-item draggable">Математика</li>
-                    <li class="exam-item collection-item draggable">ООП</li>
-                    <li class="exam-item collection-item draggable">Компьютерная графика</li>
-                </ul>
-            </div>
-
-            <div class="exams-schedule">
-                <table class="highlight">
-                    <thead>
-                        <tr>
-                            <th class="day-of-week">День недели</th>
-                            <th>Группа 1</th>
-                            <th>Группа 2</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr>
-                            <td>Понедельник</td>
-                            <td>
-                                <ul class="collection sortable connectedSortable">
-                                    <li class="collection-item">8.00
-                                        <ul class="collection sortable connectedSortable"></ul>
-                                    </li>
-                                    <li class="collection-item">10.00
-                                        <ul class="collection sortable connectedSortable"></ul>
-                                    </li>
-                                    <li class="collection-item">12.00
-                                        <ul class="collection sortable connectedSortable"></ul>
-                                    </li>
-                                    <li class="collection-item">14.00
-                                        <ul class="collection sortable connectedSortable"></ul>
-                                    </li>
-                                    <li class="collection-item">16.00
-                                        <ul class="collection sortable connectedSortable"></ul>
-                                    </li>
-                                </ul>
-                            </td>
-
-                            <td>
-                                <ul class="collection">
-                                    <li class="collection-item">8.00
-                                        <ul class="collection sortable connectedSortable"></ul>
-                                    </li>
-                                    <li class="collection-item">10.00
-                                        <ul class="collection sortable connectedSortable"></ul>
-                                    </li>
-                                    <li class="collection-item">12.00
-                                        <ul class="collection sortable connectedSortable"></ul>
-                                    </li>
-                                    <li class="collection-item">14.00
-                                        <ul class="collection sortable connectedSortable"></ul>
-                                    </li>
-                                    <li class="collection-item">16.00
-                                        <ul class="collection sortable connectedSortable"></ul>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
 </body>
 
 </html>

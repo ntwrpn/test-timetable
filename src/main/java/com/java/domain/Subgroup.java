@@ -4,7 +4,6 @@ package com.java.domain;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 
@@ -25,8 +24,8 @@ public class Subgroup {
     @Column(name = "count_of_student")
     private int count_of_student;
     
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name="groups", referencedColumnName="id", nullable = true)
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="groups", referencedColumnName="id")
     //@JsonManagedReference(value="subgroup-group")
     private Groups groups=null;
 

@@ -3,7 +3,6 @@
 package com.java.repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import com.java.domain.Faculty;
@@ -53,7 +52,7 @@ public class FacultyService {
         JSONObject obj = new JSONObject();
         for (Field field : Faculty.class.getDeclaredFields()) {
             if (field.getName()!="flow"){
-            obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
+                obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
             }
         }
         return obj;

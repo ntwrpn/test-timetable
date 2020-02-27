@@ -5,18 +5,18 @@ package com.java.repository;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
-import com.java.domain.Groups;
+import com.java.domain.WeekCount;
 import java.lang.reflect.Field;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GroupService {
+public class WeekCountService {
     public EntityManager em = EntityWorker.GetEntityWorker();
 
-    public Groups add(Groups obj){
+    public WeekCount add(WeekCount obj){
         em.getTransaction().begin();
-        Groups objFromDB = em.merge(obj);
+        WeekCount objFromDB = em.merge(obj);
         em.getTransaction().commit();
         return objFromDB;
     }
@@ -27,33 +27,31 @@ public class GroupService {
         em.getTransaction().commit();
     }
 
-    public Groups get(int id){
-        return em.find(Groups.class, id);
+    public WeekCount get(int id){
+        return em.find(WeekCount.class, id);
     }
 
-    public void update(Groups obj){
+    public void update(WeekCount obj){
         em.getTransaction().begin();
         em.merge(obj);
         em.getTransaction().commit();
     }
 
-    public List<Groups> getAll(){
-        TypedQuery<Groups> namedQuery = em.createNamedQuery("Groups.getAll", Groups.class);
+    public List<WeekCount> getAll(){
+        TypedQuery<WeekCount> namedQuery = em.createNamedQuery("WeekCount.getAll", WeekCount.class);
         return namedQuery.getResultList();
     }
     
-    public List<Groups> getById(int id){
-        TypedQuery namedQuery = em.createNamedQuery("Groups.getById", Groups.class).setParameter("id", id);
-        List<Groups> result=namedQuery.getResultList();   
+    public List<WeekCount> getById(int id){
+        TypedQuery namedQuery = em.createNamedQuery("WeekCount.getById", WeekCount.class).setParameter("id", id);
+        List<WeekCount> result=namedQuery.getResultList();   
         return result;
     }
     
     public JSONObject getFields() {
         JSONObject obj = new JSONObject();
-        for (Field field : Groups.class.getDeclaredFields()) {
-            if (field.getName()!="flow" && field.getName()!="subgroup"){
-                obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
-            }
+        for (Field field : WeekCount.class.getDeclaredFields()) {
+            obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
         }
         return obj;
     }

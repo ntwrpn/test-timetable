@@ -11,15 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import com.java.domain.Users;
-
 import com.java.repository.UsersService;
-
-
-import java.util.HashMap;
-import javax.annotation.security.RolesAllowed;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 @Controller

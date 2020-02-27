@@ -3,11 +3,9 @@
 package com.java.repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import com.java.domain.Lectern;
-import java.io.StringWriter;
 import java.lang.reflect.Field;
 import org.springframework.stereotype.Service;
 import org.json.simple.JSONObject;

@@ -3,13 +3,9 @@
 package com.java.repository;
 
 import com.java.domain.LearningSeverityList;
-import com.java.repository.EntityWorker;
 import java.util.ArrayList;
-import java.util.Iterator; 
 import java.util.List;
-import java.util.stream.IntStream;
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Service;
 

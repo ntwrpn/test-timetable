@@ -8,14 +8,12 @@ package com.java.repository;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
 
 public class EntityWorker {
-    //public EntityManager em = Persistence.createEntityManagerFactory("COLIBRI").createEntityManager();
 
-     	private static final EntityManagerFactory emFactory;
+    private static final EntityManagerFactory emFactory;
 	static {
-            emFactory = Persistence.createEntityManagerFactory("COLIBRI");
+        emFactory = Persistence.createEntityManagerFactory("COLIBRI");
 	}
 	public static EntityManager GetEntityWorker(){
 		return emFactory.createEntityManager();

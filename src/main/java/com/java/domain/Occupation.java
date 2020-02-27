@@ -5,8 +5,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.Date;
-import java.util.List;
+
 
 @Entity
 @Table(name = "occupation")

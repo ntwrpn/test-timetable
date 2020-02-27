@@ -2,11 +2,7 @@
 package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,7 +27,7 @@ public class UserRoles {
 
     @ManyToMany(mappedBy="userRoles",fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JsonBackReference
-    private Set<Users> users;
+    private Set<Users> user;
 
     public int getUser_role_id() {
         return user_role_id;
@@ -50,11 +46,11 @@ public class UserRoles {
     }
 
     public Set<Users> getUsername() {
-        return users;
+        return user;
     }
 
-    public void setUsername(Set<Users> username) {
-        this.users = username;
+    public void setUsername(Set<Users> users) {
+        this.user = users;
     }
 
     

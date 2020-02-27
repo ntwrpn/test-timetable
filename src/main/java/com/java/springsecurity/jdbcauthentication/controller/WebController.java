@@ -1,37 +1,35 @@
 package com.java.springsecurity.jdbcauthentication.controller;
 
-import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
  
 @Controller
 public class WebController {
    
     @RequestMapping(value="/")
-    public String home(){
-        return "home";
+    public String index(){
+        return "index";
     }
     
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/home")
-    public String index(HttpServletRequest request){
+    public String home(HttpServletRequest request){
         if (request.isUserInRole("ROLE_ADMIN")) {
             return "admin";
         } else if (request.isUserInRole("ROLE_USER")) {
             return "user";
         } else {
-            return "index";
+            return "object";
         }
     }
 
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/objects")
     public String objects(){
-        return "index";
+        return "object";
     }
    
     @PreAuthorize("hasRole('ROLE_USER')")
