@@ -2,11 +2,23 @@
 package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
 
 import java.util.Set;
 
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "syllabus")
 
@@ -21,14 +33,15 @@ public class Syllabus {
     
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
     
-    public int getId() {
+    public UUID getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -52,9 +65,6 @@ public class Syllabus {
         this.plans_id = plans_id;
     }
 
-
-    public Syllabus() {
-    }
 
     
     public String getName() {

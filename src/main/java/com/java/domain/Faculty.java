@@ -2,9 +2,21 @@
 package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
 import java.util.Set;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "faculty")
 
@@ -19,28 +31,15 @@ public class Faculty {
     
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
-    
-    public int getId() {
-        return id;
-    }
-    
-    public void setId(int id) {
-        this.id = id;
-    }
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
+
 
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name="corps", referencedColumnName="id", nullable = true)
     private Corps corps=null;
 
-    public Corps getCorps() {
-        return corps;
-    }
-
-    public void setCorps(Corps corps) {
-        this.corps = corps;
-    }
 
     @Column(name = "fullname")
     private String fullname;
@@ -52,36 +51,6 @@ public class Faculty {
     @JsonBackReference
     @Column(nullable = true)
     private Set<Flow> flow;
-
-    public Set<Flow> getFlow() {
-        return flow;
-    }
-
-    public void setFlow(Set<Flow> flow) {
-        this.flow = flow;
-    }
-
-
-    public Faculty() {
-    }
-
-    
-
-    public String getFullname() {
-        return fullname;
-    }
-    
-    public void setFullname(String fullname) {
-        this.fullname=fullname;
-    }
-
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name=name;
-    }
 
 }
 

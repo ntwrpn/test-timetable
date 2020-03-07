@@ -1,8 +1,20 @@
 
 package com.java.domain;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "typeoflesson")
 
@@ -14,35 +26,16 @@ import javax.persistence.*;
 
 public class TypeOfLesson {
 
-    
     @Id
-    @Column(name = "idtype_of_class")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
-    
-    public int getId() {
-        return id;
-    }
-    
-    public void setId(int id) {
-        this.id = id;
-    }
+    @Column(name = "id")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     @Column(name = "type_of_lesson")
     private String type_of_lesson;
 
 
-    public TypeOfLesson() {
-    }
-
-    
-    public String getType_of_lesson() {
-        return type_of_lesson;
-    }
-    
-    public void setType_of_lesson(String type_of_lesson) {
-        this.type_of_lesson=type_of_lesson;
-    }
 
 }
 

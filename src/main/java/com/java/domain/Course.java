@@ -3,10 +3,22 @@ package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
 import java.util.List;
 
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "course")
 
@@ -19,8 +31,9 @@ public class Course {
     
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
     
     @Column(name = "total")
     private int total;
@@ -42,42 +55,6 @@ public class Course {
 	@JoinColumn(name="schedule", referencedColumnName="id", nullable = true)
     @JsonBackReference(value="courses-movement")
     private Schedule schedule;
-
-    public Schedule getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
-    }
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Week> getWeek() {
-        return weeks;
-    }
 
     public void setWeek(List<Week> weeks) {
         this.weeks.clear();

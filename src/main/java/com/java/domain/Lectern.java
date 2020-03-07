@@ -2,7 +2,19 @@
 package com.java.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "Lectern")
 
@@ -17,8 +29,9 @@ public class Lectern {
     
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name="faculty", referencedColumnName="id", nullable = true)
@@ -31,14 +44,14 @@ public class Lectern {
     private String name;
 
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name="lectern_type_id", referencedColumnName="idlectern_type", nullable = true)
+    @JoinColumn(name="lectern_type_id", referencedColumnName="id", nullable = true)
     private LecternType lectern_type_id;
     
-    public int getId() {
+    public UUID getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -50,8 +63,6 @@ public class Lectern {
         this.lectern_type_id = lectern_type_id;
     }
 
-    public Lectern() {
-    }
 
     public Faculty getFaculty() {
         return faculty;

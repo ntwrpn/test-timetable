@@ -2,21 +2,31 @@
 package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "weekcount")
 
-@NamedQueries({
-@NamedQuery(name = "WeekCount.getAll", query = "SELECT c from WeekCount c"),
-@NamedQuery(name = "WeekCount.getById", query = "SELECT c from WeekCount c where c.id=:id")
-}) 
+
 public class WeekCount {
     
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
     
     
     @Column(name = "count")
@@ -35,21 +45,5 @@ public class WeekCount {
     public void setStudyPlan(StudyPlan studyPlan) {
         this.studyPlan = studyPlan;
     }
-    
-    
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int colspan) {
-        this.count = colspan;
-    }
 }

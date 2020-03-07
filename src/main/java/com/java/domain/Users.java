@@ -3,36 +3,37 @@ package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
 import java.util.Set;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "Users")
-
 @NamedQueries({
 @NamedQuery(name = "Users.getById", query = "SELECT c from Users c where c.id=:id"),
 @NamedQuery(name = "Users.getAll", query = "SELECT c from Users c"),
 @NamedQuery(name = "Users.getByName", query = "SELECT c from Users c where c.username=:username"),
 @NamedQuery(name = "Users.getByEnabled", query = "SELECT c from Users c where c.enabled=:enabled")
-
 }) 
-
-
 public class Users {
 
     
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
     
-    public int getId() {
-        return id;
-    }
-    
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @Column(name = "username")
     private String username;
@@ -89,8 +90,7 @@ public class Users {
         this.enabled = enabled;
     }
 
-    public Users() {
-    }
+
     public Set<UserRoles> getUserRoles() {
         return userRoles;
     }

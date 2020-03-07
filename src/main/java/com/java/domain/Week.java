@@ -2,8 +2,20 @@
 package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "week")
 @NamedQueries({
@@ -15,13 +27,14 @@ public class Week {
     
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
     
     @Column(name = "colspan")
     private int colspan;
     
-   @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="occupation", referencedColumnName="id")
 	private Occupation occupation;
 
@@ -34,48 +47,6 @@ public class Week {
     @JoinColumn(name="course", referencedColumnName="id", nullable = true)
     @JsonBackReference(value="course-weeks-movement")
     private Course course;
-
-    public StudyPlan getStudyPlan() {
-        return studyPlan;
-    }
-
-    public void setStudyPlan(StudyPlan studyPlan) {
-        this.studyPlan = studyPlan;
-    }
-
-
-    
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getColspan() {
-        return colspan;
-    }
-
-    public void setColspan(int colspan) {
-        this.colspan = colspan;
-    }
-
-    public Occupation getOccupation() {
-        return occupation;
-    }
-
-    public void setOccupation(Occupation occupation) {
-        this.occupation = occupation;
-    }
 
 }
 

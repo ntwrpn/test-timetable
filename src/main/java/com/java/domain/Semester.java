@@ -2,9 +2,21 @@
 package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
 
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "Semester")
 
@@ -19,8 +31,9 @@ public class Semester {
     
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
     
     @Column(name = "number")
     private int number;
@@ -36,45 +49,6 @@ public class Semester {
     @JsonBackReference
     private Subject subject;
 
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
-    public int getHoursPerWeek() {
-        return hoursPerWeek;
-    }
-
-    public void setHoursPerWeek(int hoursPerWeek) {
-        this.hoursPerWeek = hoursPerWeek;
-    }
-
-    public int getCreditUnits() {
-        return creditUnits;
-    }
-
-    public void setCreditUnits(int creditUnits) {
-        this.creditUnits = creditUnits;
-    }
     
 
 }

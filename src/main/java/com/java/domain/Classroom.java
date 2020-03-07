@@ -1,8 +1,20 @@
 
 package com.java.domain;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "Classroom")
 
@@ -16,17 +28,11 @@ public class Classroom {
 
     
     @Id
-    @Column(name = "idclassroom")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
+    @Column(name = "id")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
     
-    public int getId() {
-        return id;
-    }
-    
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name="classroom_type_id", referencedColumnName="id", nullable = true)
@@ -46,67 +52,9 @@ public class Classroom {
     @JoinColumn(name="lectern_id", referencedColumnName="id", nullable = true)
     private Lectern lectern_id;
 
-    public Corps getCorps_id() {
-        return corps_id;
-    }
-
-    public void setCorps_id(Corps corps_id) {
-        this.corps_id = corps_id;
-    }
-
-    public Lectern getLectern_id() {
-        return lectern_id;
-    }
-
-    public void setLectern_id(Lectern lectern_id) {
-        this.lectern_id = lectern_id;
-    }
-
     @Column(name = "name")
     private String name;
 
-
-    public Classroom() {
-    }
-
-    public ClassroomType getClassroom_type_id() {
-        return classroom_type_id;
-    }
-
-    public void setClassroom_type_id(ClassroomType classroom_type_id) {
-        this.classroom_type_id = classroom_type_id;
-    }
-
-    
-
-
-    public String getClassroomc_desc() {
-        return classroomc_desc;
-    }
-    
-    public void setClassroomc_desc(String classroomc_desc) {
-        this.classroomc_desc=classroomc_desc;
-    }
-
-
-
-    public int getCount_of_place() {
-        return count_of_place;
-    }
-    
-    public void setCount_of_place(int count_of_place) {
-        this.count_of_place=count_of_place;
-    }
-
-
-
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name=name;
-    }
 
 }
 

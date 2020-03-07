@@ -3,11 +3,23 @@ package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "semeseternumber")
 
@@ -19,8 +31,9 @@ public class SemesterNumber {
     
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
     
     @Column(name = "number")
     private int number;
@@ -29,25 +42,7 @@ public class SemesterNumber {
     @JoinColumn(name="pereodic_severity_subject_id", nullable = true)
     @JsonBackReference(value="semester-numbers-movement")
     private PereodicSeveritySubject pereodicSeveritySubject;
-    
-    public SemesterNumber() {
-    }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
     
     
 }

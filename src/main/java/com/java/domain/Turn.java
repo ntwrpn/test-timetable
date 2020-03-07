@@ -1,9 +1,21 @@
 
 package com.java.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
 
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "Turn")
 
@@ -17,33 +29,15 @@ public class Turn {
 
     
     @Id
-    @Column(name = "idturn")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
+    @Column(name = "id")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
     
-    public int getId() {
-        return id;
-    }
-    
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @Column(name = "turncol")
     private String turncol;
 
-
-    public Turn() {
-    }
-
-    
-    public String getTurncol() {
-        return turncol;
-    }
-    
-    public void setTurncol(String turncol) {
-        this.turncol=turncol;
-    }
 
 }
 

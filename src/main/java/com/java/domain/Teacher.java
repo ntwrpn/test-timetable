@@ -1,8 +1,20 @@
 
 package com.java.domain;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "Teacher")
 
@@ -14,19 +26,11 @@ import javax.persistence.*;
 
 public class Teacher {
 
-    
     @Id
-    @Column(name = "idteacher")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
-    
-    public int getId() {
-        return id;
-    }
-    
-    public void setId(int id) {
-        this.id = id;
-    }
+    @Column(name = "id")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
     @Column(name = "lectern_id")
     private int lectern_id;
@@ -39,43 +43,5 @@ public class Teacher {
 
     @Column(name = "surname")
     private String surname;
-
-
-    public Teacher() {
-    }
-
-    
-    public int getLectern_id() {
-        return lectern_id;
-    }
-    
-    public void setLectern_id(int lectern_id) {
-        this.lectern_id=lectern_id;
-    }
-
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name=name;
-    }
-
-    public String getPatronymic() {
-        return patronymic;
-    }
-    
-    public void setPatronymic(String patronymic) {
-        this.patronymic=patronymic;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-    
-    public void setSurname(String surname) {
-        this.surname=surname;
-    }
-
 }
 

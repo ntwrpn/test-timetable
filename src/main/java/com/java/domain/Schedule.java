@@ -2,9 +2,21 @@
 package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
+import java.util.List;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "schedule")
 
@@ -19,8 +31,9 @@ public class Schedule {
     
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
     
     @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonManagedReference(value="courses-movement")
@@ -29,33 +42,6 @@ public class Schedule {
     @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value="countOccupation-movement")
     private List<OccupationCounter> countOccupation;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public List<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
-    }
-
-    public List<OccupationCounter> getCountOccupation() {
-        return countOccupation;
-    }
-
-    public void setCountOccupation(List<OccupationCounter> countOccupation) {
-        this.countOccupation = countOccupation;
-    }
-
-    
-
 
 }
 

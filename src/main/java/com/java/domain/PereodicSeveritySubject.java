@@ -4,24 +4,36 @@ package com.java.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "pereodicseveritysubject")
 @NamedQueries({
 @NamedQuery(name = "PereodicSeveritySubject.getAll", query = "SELECT c from PereodicSeveritySubject c"),
 @NamedQuery(name = "PereodicSeveritySubject.getById", query = "SELECT c from PereodicSeveritySubject c where c.id=:id")
 }) 
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PereodicSeveritySubject {
     
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
     
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="pereodic_severity_id")
@@ -39,40 +51,5 @@ public class PereodicSeveritySubject {
     private Subject subject;
     
 
-    public PereodicSeveritySubject() {
-    }
-
-    
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public PereodicSeverity getPereodicSeverity() {
-        return pereodicSeverity;
-    }
-
-    public void setPereodicSeverity(PereodicSeverity pereodicSeverity) {
-        this.pereodicSeverity = pereodicSeverity;
-    }
-
-    public Set<SemesterNumber> getSemesterNumbers() {
-        return semesterNumbers;
-    }
-
-    public void setSemesterNumbers(Set<SemesterNumber> semesterNumbers) {
-        this.semesterNumbers = semesterNumbers;
-    }
-
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
 }
 

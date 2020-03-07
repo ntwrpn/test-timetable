@@ -2,10 +2,22 @@
 package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
 
 import java.util.Set;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "flow")
 @NamedQueries({
@@ -17,16 +29,10 @@ public class Flow {
     
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
     
-    public int getId() {
-        return id;
-    }
-    
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @Column(name = "name")
     private String name;
@@ -44,35 +50,6 @@ public class Flow {
     @JoinColumn(name="faculty", referencedColumnName="id", nullable = true)
     //@JsonManagedReference
     private Faculty faculty=null;
-
-    public Set<Groups> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(Set<Groups> groups) {
-        this.groups = groups;
-    }
-
-
-    public Flow() {
-    }
-
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name=name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
 
 
