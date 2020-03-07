@@ -31,7 +31,7 @@ public class CorpsServiceImpl implements CorpsService {
     
     @Override
     public void delete(UUID id) {
-        CorpsRepository.delete(id);
+        CorpsRepository.deleteById(id);
     }
 
     @Autowired

@@ -21,14 +21,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Setter
 @Table(name = "occupation")
 
-@NamedQueries({
-@NamedQuery(name = "Occupation.getAll", query = "SELECT c from Occupation c"),
-@NamedQuery(name = "Occupation.getById", query = "SELECT c from Occupation c where c.id=:id")
-}) 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Occupation {
-
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
@@ -40,6 +34,5 @@ public class Occupation {
 
     @Column(name = "value")
     private String value;
-
 }
 

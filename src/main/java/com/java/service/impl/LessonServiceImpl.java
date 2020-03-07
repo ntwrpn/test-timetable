@@ -10,6 +10,7 @@ import com.java.domain.Lesson;
 import com.java.repository.LessonRepository;
 
 import java.lang.reflect.Field;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,16 @@ public class LessonServiceImpl implements LessonService {
         return LessonRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        LessonRepository.delete(id);
+        LessonRepository.deleteById(id);
     }
 
     @Autowired
     private LessonRepository LessonRepository;
 
     @Override
-    public List<Lesson> getAll(){
+    public List<Lesson> getAll() {
         return LessonRepository.findAll();
     }
 

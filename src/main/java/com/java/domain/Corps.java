@@ -19,13 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Setter
 @Entity
 @Table(name = "Corps")
-@NamedQueries({
-@NamedQuery(name = "Corps.getAll", query = "SELECT c from Corps c"),
-@NamedQuery(name = "Corps.getById", query = "SELECT c from Corps c where c.id=:id")
-}) 
 public class Corps {
-
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")

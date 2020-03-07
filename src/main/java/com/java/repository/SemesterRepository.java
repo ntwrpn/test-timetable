@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface SemesterRepository extends JpaRepository<Semester,UUID> {
 
-    Optional<Semester> findById(UUID Ids);
+    Optional<Semester> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

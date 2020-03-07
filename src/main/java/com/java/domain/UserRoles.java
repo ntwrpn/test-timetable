@@ -19,13 +19,6 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "user_roles")
-
-@NamedQueries({
-@NamedQuery(name = "UserRoles.getAll", query = "SELECT c from UserRoles c"),
-@NamedQuery(name = "UserRoles.getById", query = "SELECT c from UserRoles c where c.user_role_id=:user_role_id")
-}) 
-
-
 public class UserRoles {
 
     
@@ -42,6 +35,5 @@ public class UserRoles {
     @JsonBackReference
     private Set<Users> user;
 
-    
 }
 

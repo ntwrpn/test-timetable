@@ -17,13 +17,6 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "Teacher")
-
-@NamedQueries({
-@NamedQuery(name = "Teacher.getAll", query = "SELECT c from Teacher c"),
-@NamedQuery(name = "Teacher.getById", query = "SELECT c from Teacher c where c.id=:id")
-}) 
-
-
 public class Teacher {
 
     @Id

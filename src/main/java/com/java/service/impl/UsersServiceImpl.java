@@ -10,6 +10,7 @@ import com.java.domain.Users;
 import com.java.repository.UsersRepository;
 
 import java.lang.reflect.Field;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,15 +32,13 @@ public class UsersServiceImpl implements UsersService {
         return usersRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        usersRepository.delete(id);
+        usersRepository.deleteById(id);
     }
 
-
     @Override
-    public List<Users> getAll(){
+    public List<Users> getAll() {
         return usersRepository.findAll();
     }
 
@@ -58,10 +57,9 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public Optional<Users> getByName(String login){
-        return usersRepository.findByName(login);
+    public Optional<Users> getByName(String login) {
+        return usersRepository.findByUsername(login);
     }
-
 
     @Override
     public void blockUser(UUID id) {

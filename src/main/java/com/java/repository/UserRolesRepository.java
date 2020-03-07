@@ -13,9 +13,9 @@ import java.util.UUID;
 @Repository
 public interface UserRolesRepository extends JpaRepository<UserRoles,UUID> {
 
-    Optional<UserRoles> findById(UUID Ids);
+    Optional<UserRoles> findById(UUID uuid);
 
-    void delete(UUID uuid);
-    
-    Optional<UserRoles> findByName(String login);
+    void deleteById(UUID uuid);
+
+    Optional<UserRoles> findByRole(String roleName);
 }

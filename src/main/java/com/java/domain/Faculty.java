@@ -19,13 +19,6 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "faculty")
-
-@NamedQueries({
-@NamedQuery(name = "Faculty.getAll", query = "SELECT c from Faculty c"),
-@NamedQuery(name = "Faculty.getById", query = "SELECT c from Faculty c where c.id=:id")
-}) 
-
-
 public class Faculty {
 
     
@@ -35,11 +28,9 @@ public class Faculty {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name="corps", referencedColumnName="id", nullable = true)
     private Corps corps=null;
-
 
     @Column(name = "fullname")
     private String fullname;

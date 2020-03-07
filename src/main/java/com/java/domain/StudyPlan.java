@@ -10,8 +10,6 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Builder
@@ -21,14 +19,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "studyplan")
-
-@NamedQueries({
-@NamedQuery(name = "StudyPlan.getAll", query = "SELECT c from StudyPlan c"),
-@NamedQuery(name = "StudyPlan.getById", query = "SELECT c from StudyPlan c where c.id=:id")
-}) 
-
 public class StudyPlan {
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")

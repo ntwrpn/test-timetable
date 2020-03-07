@@ -13,13 +13,11 @@ import java.util.UUID;
 @Repository
 public interface UsersRepository extends JpaRepository<Users,UUID> {
 
-    Optional<Users> findById(UUID Ids);
+    Optional<Users> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 
-    Optional<Users> findByName(String login);
-
-    
+    Optional<Users> findByUsername(String login);
 
     @Modifying
     @Transactional

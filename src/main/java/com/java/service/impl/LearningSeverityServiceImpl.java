@@ -31,7 +31,7 @@ public class LearningSeverityServiceImpl implements LearningSeverityService {
     
     @Override
     public void delete(UUID id) {
-        LearningSeverityRepository.delete(id);
+        LearningSeverityRepository.deleteById(id);
     }
 
     @Autowired

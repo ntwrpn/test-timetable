@@ -1,7 +1,4 @@
 package com.java.service.impl;
-
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,6 +7,7 @@ import com.java.domain.Speciality;
 import com.java.repository.SpecialityRepository;
 
 import java.lang.reflect.Field;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,17 +26,17 @@ public class SpecialityServiceImpl implements SpecialityService {
         return SpecialityRepository.save(obj);
     }
 
-    
+
     @Override
     public void delete(UUID id) {
-        SpecialityRepository.delete(id);
+        SpecialityRepository.deleteById(id);
     }
 
     @Autowired
     private SpecialityRepository SpecialityRepository;
 
     @Override
-    public List<Speciality> getAll(){
+    public List<Speciality> getAll() {
         return SpecialityRepository.findAll();
     }
 

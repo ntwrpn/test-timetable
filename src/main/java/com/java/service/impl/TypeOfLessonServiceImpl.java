@@ -28,10 +28,9 @@ public class TypeOfLessonServiceImpl implements TypeOfLessonService {
         return TypeOfLessonRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        TypeOfLessonRepository.delete(id);
+        TypeOfLessonRepository.deleteById(id);
     }
 
     @Autowired

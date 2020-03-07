@@ -20,10 +20,6 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "flow")
-@NamedQueries({
-@NamedQuery(name = "Flow.getAll", query = "SELECT c from Flow c"),
-@NamedQuery(name = "Flow.getById", query = "SELECT c from Flow c where c.id=:id")
-}) 
 public class Flow {
 
     
@@ -32,7 +28,6 @@ public class Flow {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    
 
     @Column(name = "name")
     private String name;

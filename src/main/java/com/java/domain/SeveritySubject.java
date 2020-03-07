@@ -22,10 +22,6 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "severitysubject")
-@NamedQueries({
-@NamedQuery(name = "SeveritySubject.getAll", query = "SELECT c from SeveritySubject c"),
-@NamedQuery(name = "SeveritySubject.getById", query = "SELECT c from SeveritySubject c where c.id=:id")
-}) 
 public class SeveritySubject {
 
     @Id

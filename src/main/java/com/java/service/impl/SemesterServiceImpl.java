@@ -10,6 +10,7 @@ import com.java.domain.Semester;
 import com.java.repository.SemesterRepository;
 
 import java.lang.reflect.Field;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,16 @@ public class SemesterServiceImpl implements SemesterService {
         return SemesterRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        SemesterRepository.delete(id);
+        SemesterRepository.deleteById(id);
     }
 
     @Autowired
     private SemesterRepository SemesterRepository;
 
     @Override
-    public List<Semester> getAll(){
+    public List<Semester> getAll() {
         return SemesterRepository.findAll();
     }
 

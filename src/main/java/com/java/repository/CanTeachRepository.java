@@ -11,9 +11,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface CanTeachRepository extends JpaRepository<CanTeach,UUID> {
+public interface CanTeachRepository extends JpaRepository<CanTeach, UUID> {
 
-    Optional<CanTeach> findById(UUID Ids);
+    Optional<CanTeach> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

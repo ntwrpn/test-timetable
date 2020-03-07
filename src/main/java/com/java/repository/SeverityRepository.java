@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface SeverityRepository extends JpaRepository<Severity,UUID> {
 
-    Optional<Severity> findById(UUID Ids);
+    Optional<Severity> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

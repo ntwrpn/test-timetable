@@ -38,7 +38,10 @@ public class RegistrationController {
     @Autowired
     PasswordEncoder passwordEncoder;    
 
+    @Autowired
     private UsersService orderService;
+
+    @Autowired
     private UserRolesService rolesService;
 
     @RequestMapping(value="/registration/", method = RequestMethod.GET)

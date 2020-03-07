@@ -10,6 +10,7 @@ import com.java.domain.Subject;
 import com.java.repository.SubjectRepository;
 
 import java.lang.reflect.Field;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,16 @@ public class SubjectServiceImpl implements SubjectService {
         return SubjectRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        SubjectRepository.delete(id);
+        SubjectRepository.deleteById(id);
     }
 
     @Autowired
     private SubjectRepository SubjectRepository;
 
     @Override
-    public List<Subject> getAll(){
+    public List<Subject> getAll() {
         return SubjectRepository.findAll();
     }
 

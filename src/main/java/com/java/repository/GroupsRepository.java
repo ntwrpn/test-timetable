@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface GroupsRepository extends JpaRepository<Groups,UUID> {
 
-    Optional<Groups> findById(UUID Ids);
+    Optional<Groups> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

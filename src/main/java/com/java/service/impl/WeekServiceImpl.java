@@ -10,6 +10,7 @@ import com.java.domain.Week;
 import com.java.repository.WeekRepository;
 
 import java.lang.reflect.Field;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,16 @@ public class WeekServiceImpl implements WeekService {
         return WeekRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        WeekRepository.delete(id);
+        WeekRepository.deleteById(id);
     }
 
     @Autowired
     private WeekRepository WeekRepository;
 
     @Override
-    public List<Week> getAll(){
+    public List<Week> getAll() {
         return WeekRepository.findAll();
     }
 

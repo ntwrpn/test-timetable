@@ -19,16 +19,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "schedule")
-
-@NamedQueries({
-@NamedQuery(name = "Schedule.getAll", query = "SELECT c from Schedule c"),
-@NamedQuery(name = "Schedule.getById", query = "SELECT c from Schedule c where c.id=:id")
-}) 
-
-
 public class Schedule {
-
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
@@ -42,6 +33,5 @@ public class Schedule {
     @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value="countOccupation-movement")
     private List<OccupationCounter> countOccupation;
-
 }
 

@@ -27,11 +27,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     public Schedule update(Schedule obj) {
         return ScheduleRepository.save(obj);
     }
-
     
     @Override
     public void delete(UUID id) {
-        ScheduleRepository.delete(id);
+        ScheduleRepository.deleteById(id);
     }
 
     @Autowired

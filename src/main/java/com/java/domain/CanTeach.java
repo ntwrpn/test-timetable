@@ -23,14 +23,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "canteach")
-
-@NamedQueries({
-@NamedQuery(name = "CanTeach.getAll", query = "SELECT c from CanTeach c"),
-@NamedQuery(name = "CanTeach.getById", query = "SELECT c from CanTeach c where c.id=:id")
-}) 
 public class CanTeach {
-
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
@@ -42,7 +35,5 @@ public class CanTeach {
 
     @Column(name = "teacher_id")
     private int teacher_id;
-
-
 }
 

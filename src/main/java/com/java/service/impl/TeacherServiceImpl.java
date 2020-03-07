@@ -28,10 +28,9 @@ public class TeacherServiceImpl implements TeacherService {
         return TeacherRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        TeacherRepository.delete(id);
+        TeacherRepository.deleteById(id);
     }
 
     @Autowired

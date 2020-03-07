@@ -28,10 +28,9 @@ public class SeverityServiceImpl implements SeverityService {
         return SeverityRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        SeverityRepository.delete(id);
+        SeverityRepository.deleteById(id);
     }
 
     @Autowired

@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface OccupationCounterCourseRepository extends JpaRepository<OccupationCounterCourse,UUID> {
 
-    Optional<OccupationCounterCourse> findById(UUID Ids);
+    Optional<OccupationCounterCourse> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

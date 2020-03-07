@@ -28,10 +28,9 @@ public class OccupationServiceImpl implements OccupationService {
         return OccupationRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        OccupationRepository.delete(id);
+        OccupationRepository.deleteById(id);
     }
 
     @Autowired

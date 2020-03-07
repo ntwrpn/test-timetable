@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface OccupationRepository extends JpaRepository<Occupation,UUID> {
 
-    Optional<Occupation> findById(UUID Ids);
+    Optional<Occupation> findById(UUID ui);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

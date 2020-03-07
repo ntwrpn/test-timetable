@@ -19,21 +19,12 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "Users")
-@NamedQueries({
-@NamedQuery(name = "Users.getById", query = "SELECT c from Users c where c.id=:id"),
-@NamedQuery(name = "Users.getAll", query = "SELECT c from Users c"),
-@NamedQuery(name = "Users.getByName", query = "SELECT c from Users c where c.username=:username"),
-@NamedQuery(name = "Users.getByEnabled", query = "SELECT c from Users c where c.enabled=:enabled")
-}) 
 public class Users {
-
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    
 
     @Column(name = "username")
     private String username;
@@ -57,48 +48,6 @@ public class Users {
     //@JsonManagedReference
     @JsonIgnoreProperties("username")
     private Set<UserRoles> userRoles;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-
-    public Set<UserRoles> getUserRoles() {
-        return userRoles;
-    }
-
-    public void setUserRoles(Set<UserRoles> role) {
-        this.userRoles = role;
-    }
-    
 
 }
 

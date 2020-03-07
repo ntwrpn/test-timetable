@@ -31,7 +31,7 @@ public class ClassroomServiceImpl implements ClassroomService {
     
     @Override
     public void delete(UUID id) {
-        ClassroomRepository.delete(id);
+        ClassroomRepository.deleteById(id);
     }
 
     @Autowired

@@ -17,12 +17,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "lecterntype")
-@NamedQueries({
-@NamedQuery(name = "LecternType.getAll", query = "SELECT c from LecternType c"),
-@NamedQuery(name = "LecternType.getById", query = "SELECT c from LecternType c where c.id=:id")
-}) 
 public class LecternType {
-
 
     @Id
     @Column(name = "id")
@@ -43,24 +38,5 @@ public class LecternType {
     
     @Column(name = "name")
     private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    
-    public String getDescr() {
-        return descr;
-    }
-    
-    public void setDescr(String descr) {
-        this.descr=descr;
-    }
-
 }
 

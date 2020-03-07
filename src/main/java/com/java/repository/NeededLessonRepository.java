@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface NeededLessonRepository extends JpaRepository<NeededLesson,UUID> {
 
-    Optional<NeededLesson> findById(UUID Ids);
+    Optional<NeededLesson> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

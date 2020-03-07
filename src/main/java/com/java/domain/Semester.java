@@ -19,16 +19,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "Semester")
-
-@NamedQueries({
-@NamedQuery(name = "Semester.getAll", query = "SELECT c from Semester c"),
-@NamedQuery(name = "Semester.getById", query = "SELECT c from Semester c where c.id=:id")
-}) 
-
-
 public class Semester {
-
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
@@ -48,8 +39,5 @@ public class Semester {
     @JoinColumn(name="subject", referencedColumnName="id", nullable = true)
     @JsonBackReference
     private Subject subject;
-
-    
-
 }
 

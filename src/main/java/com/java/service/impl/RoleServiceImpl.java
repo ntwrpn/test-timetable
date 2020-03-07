@@ -10,6 +10,7 @@ import com.java.domain.Role;
 import com.java.repository.RoleRepository;
 
 import java.lang.reflect.Field;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,16 @@ public class RoleServiceImpl implements RoleService {
         return RoleRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        RoleRepository.delete(id);
+        RoleRepository.deleteById(id);
     }
 
     @Autowired
     private RoleRepository RoleRepository;
 
     @Override
-    public List<Role> getAll(){
+    public List<Role> getAll() {
         return RoleRepository.findAll();
     }
 

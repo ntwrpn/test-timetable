@@ -17,16 +17,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "Lesson")
-
-@NamedQueries({
-@NamedQuery(name = "Lesson.getAll", query = "SELECT c from Lesson c"),
-@NamedQuery(name = "Lesson.getById", query = "SELECT c from Lesson c where c.id=:id")
-}) 
-
-
 public class Lesson {
-
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
@@ -58,55 +49,5 @@ public class Lesson {
 
     @Column(name = "turn_id")
     private int turn_id;
-
-
-    public int getClassroom_id() {
-        return classroom_id;
-    }
-    
-    public void setClassroom_id(int classroom_id) {
-        this.classroom_id=classroom_id;
-    }
-
-    public int getDay_id() {
-        return day_id;
-    }
-    
-    public void setDay_id(int day_id) {
-        this.day_id=day_id;
-    }
-
-    public int getNeeded_class_id() {
-        return needed_class_id;
-    }
-    
-    public void setNeeded_class_id(int needed_class_id) {
-        this.needed_class_id=needed_class_id;
-    }
-
-    public int getSubject_id() {
-        return subject_id;
-    }
-    
-    public void setSubject_id(int subject_id) {
-        this.subject_id=subject_id;
-    }
-
-    public int getTeacher_id() {
-        return teacher_id;
-    }
-    
-    public void setTeacher_id(int teacher_id) {
-        this.teacher_id=teacher_id;
-    }
-
-    public int getTurn_id() {
-        return turn_id;
-    }
-    
-    public void setTurn_id(int turn_id) {
-        this.turn_id=turn_id;
-    }
-
 }
 

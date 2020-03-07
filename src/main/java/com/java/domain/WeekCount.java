@@ -18,8 +18,6 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "weekcount")
-
-
 public class WeekCount {
     
     @Id
@@ -27,23 +25,13 @@ public class WeekCount {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    
-    
+
     @Column(name = "count")
     private int count;
-    
     
     @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name="studyplan", referencedColumnName="id")
     @JsonBackReference(value="studyPlan-week-movement")
     private StudyPlan studyPlan;
-
-    public StudyPlan getStudyPlan() {
-        return studyPlan;
-    }
-
-    public void setStudyPlan(StudyPlan studyPlan) {
-        this.studyPlan = studyPlan;
-    }
 
 }

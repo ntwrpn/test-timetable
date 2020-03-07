@@ -31,7 +31,7 @@ public class LecternServiceImpl implements LecternService {
     
     @Override
     public void delete(UUID id) {
-        LecternRepository.delete(id);
+        LecternRepository.deleteById(id);
     }
 
     @Autowired

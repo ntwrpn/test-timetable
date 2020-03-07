@@ -31,7 +31,7 @@ public class GroupsServiceImpl implements GroupsService {
     
     @Override
     public void delete(UUID id) {
-        GroupsRepository.delete(id);
+        GroupsRepository.deleteById(id);
     }
 
     @Autowired

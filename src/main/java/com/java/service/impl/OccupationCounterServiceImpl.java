@@ -10,6 +10,7 @@ import com.java.domain.OccupationCounter;
 import com.java.repository.OccupationCounterRepository;
 
 import java.lang.reflect.Field;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,16 @@ public class OccupationCounterServiceImpl implements OccupationCounterService {
         return OccupationCounterRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        OccupationCounterRepository.delete(id);
+        OccupationCounterRepository.deleteById(id);
     }
 
     @Autowired
     private OccupationCounterRepository OccupationCounterRepository;
 
     @Override
-    public List<OccupationCounter> getAll(){
+    public List<OccupationCounter> getAll() {
         return OccupationCounterRepository.findAll();
     }
 

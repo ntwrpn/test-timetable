@@ -23,10 +23,6 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "pereodicseverity")
-@NamedQueries({
-@NamedQuery(name = "PereodicSeverity.getAll", query = "SELECT c from PereodicSeverity c"),
-@NamedQuery(name = "PereodicSeverity.getById", query = "SELECT c from PereodicSeverity c where c.id=:id")
-}) 
 public class PereodicSeverity {
     
     @Id

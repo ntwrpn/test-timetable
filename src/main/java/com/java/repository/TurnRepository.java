@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface TurnRepository extends JpaRepository<Turn,UUID> {
 
-    Optional<Turn> findById(UUID Ids);
+    Optional<Turn> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

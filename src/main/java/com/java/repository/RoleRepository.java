@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface RoleRepository extends JpaRepository<Role,UUID> {
 
-    Optional<Role> findById(UUID Ids);
+    Optional<Role> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

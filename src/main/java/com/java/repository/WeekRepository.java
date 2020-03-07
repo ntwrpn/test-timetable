@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface WeekRepository extends JpaRepository<Week,UUID> {
 
-    Optional<Week> findById(UUID Ids);
+    Optional<Week> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

@@ -10,6 +10,7 @@ import com.java.domain.Subgroup;
 import com.java.repository.SubgroupRepository;
 
 import java.lang.reflect.Field;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,16 @@ public class SubgroupServiceImpl implements SubgroupService {
         return SubgroupRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        SubgroupRepository.delete(id);
+        SubgroupRepository.deleteById(id);
     }
 
     @Autowired
     private SubgroupRepository SubgroupRepository;
 
     @Override
-    public List<Subgroup> getAll(){
+    public List<Subgroup> getAll() {
         return SubgroupRepository.findAll();
     }
 

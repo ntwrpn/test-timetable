@@ -10,7 +10,6 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
-
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Builder
 @AllArgsConstructor
@@ -19,17 +18,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "learningseveritylist")
-
-@NamedQueries({
-@NamedQuery(name = "LearningSeverityList.getAll", query = "SELECT c from LearningSeverityList c"),
-@NamedQuery(name = "LearningSeverityList.getById", query = "SELECT c from LearningSeverityList c where c.id=:id"),
-@NamedQuery(name = "LearningSeverityList.getLastId", query = "SELECT c from LearningSeverityList c order by id desc")
-}) 
-
-
 public class LearningSeverityList {
-
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
@@ -41,17 +30,12 @@ public class LearningSeverityList {
     @JsonBackReference
     private Syllabus syllabus;
 
-
-
     @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
     @JoinColumn(name="name_id", referencedColumnName="id", nullable = true)
     private LearningSeverity name_id;
 
-
-
     @Column(name = "hours")
     private int hours;
-
 
 
 }

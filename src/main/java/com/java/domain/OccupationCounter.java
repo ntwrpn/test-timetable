@@ -19,16 +19,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "occupationcounter")
-
-@NamedQueries({
-@NamedQuery(name = "OccupationCounter.getAll", query = "SELECT c from OccupationCounter c"),
-@NamedQuery(name = "OccupationCounter.getById", query = "SELECT c from OccupationCounter c where c.id=:id")
-}) 
-
-
 public class OccupationCounter {
-
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
@@ -47,20 +38,6 @@ public class OccupationCounter {
     @JoinColumn(name="occupation", referencedColumnName="id")
     @JsonBackReference(value="occupation-movement")
     private Occupation occupation;
-    
-    /*@ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
-    @JoinColumn(name="course", referencedColumnName="id", nullable = true)
-    @JsonBackReference
-    private Course course;
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-*/
 
 }
 

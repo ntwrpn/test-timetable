@@ -31,7 +31,7 @@ public class FlowServiceImpl implements FlowService {
     
     @Override
     public void delete(UUID id) {
-        FlowRepository.delete(id);
+        FlowRepository.deleteById(id);
     }
 
     @Autowired

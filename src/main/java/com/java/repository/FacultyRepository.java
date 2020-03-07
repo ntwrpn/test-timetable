@@ -11,9 +11,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface FacultyRepository extends JpaRepository<Faculty,UUID> {
+public interface FacultyRepository extends JpaRepository<Faculty, UUID> {
 
-    Optional<Faculty> findById(UUID Ids);
+    Optional<Faculty> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

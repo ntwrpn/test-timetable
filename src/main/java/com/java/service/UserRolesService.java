@@ -19,7 +19,7 @@ public interface UserRolesService {
 
     Optional<UserRoles> getById(UUID userId);
     
-    Optional<UserRoles> getByName(String login);
+    Optional<UserRoles> getByName(String roleName);
     
     public JSONObject getFields();
 }

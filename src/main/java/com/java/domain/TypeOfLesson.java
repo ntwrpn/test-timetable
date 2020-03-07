@@ -18,12 +18,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "typeoflesson")
 
-@NamedQueries({
-@NamedQuery(name = "TypeOfLesson.getAll", query = "SELECT c from TypeOfLesson c"),
-@NamedQuery(name = "TypeOfLesson.getById", query = "SELECT c from TypeOfLesson c where c.id=:id")
-}) 
-
-
 public class TypeOfLesson {
 
     @Id

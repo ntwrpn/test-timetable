@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface SpecialityRepository extends JpaRepository<Speciality,UUID> {
 
-    Optional<Speciality> findById(UUID Ids);
+    Optional<Speciality> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

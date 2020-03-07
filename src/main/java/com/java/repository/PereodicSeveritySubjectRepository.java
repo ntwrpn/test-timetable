@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface PereodicSeveritySubjectRepository extends JpaRepository<PereodicSeveritySubject,UUID> {
 
-    Optional<PereodicSeveritySubject> findById(UUID Ids);
+    Optional<PereodicSeveritySubject> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

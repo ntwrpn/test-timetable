@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface CorpsRepository extends JpaRepository<Corps,UUID> {
 
-    Optional<Corps> findById(UUID Ids);
+    Optional<Corps> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById (UUID uuid);
 }

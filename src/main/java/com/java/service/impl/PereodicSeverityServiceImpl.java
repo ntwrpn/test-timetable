@@ -28,10 +28,9 @@ public class PereodicSeverityServiceImpl implements PereodicSeverityService {
         return PereodicSeverityRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        PereodicSeverityRepository.delete(id);
+        PereodicSeverityRepository.deleteById(id);
     }
 
     @Autowired

@@ -17,42 +17,15 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "learningseverity")
-
-@NamedQueries({
-@NamedQuery(name = "LearningSeverity.getAll", query = "SELECT c from LearningSeverity c"),
-@NamedQuery(name = "LearningSeverity.getById", query = "SELECT c from LearningSeverity c where c.id=:id")
-}) 
-
-
 public class LearningSeverity {
-
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    
-    public UUID getId() {
-        return id;
-    }
-    
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     @Column(name = "name")
     private String name;
-
-
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name=name;
-    }
 
 }
 

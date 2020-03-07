@@ -20,13 +20,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "groups")
-@NamedQueries({
-@NamedQuery(name = "Groups.getAll", query = "SELECT c from Groups c"),
-@NamedQuery(name = "Groups.getById", query = "SELECT c from Groups c where c.id=:id")
-}) 
 public class Groups {
-
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")

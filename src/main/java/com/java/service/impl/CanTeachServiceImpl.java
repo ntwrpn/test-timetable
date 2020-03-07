@@ -31,7 +31,7 @@ public class CanTeachServiceImpl implements CanTeachService {
     
     @Override
     public void delete(UUID id) {
-        CanTeachRepository.delete(id);
+        CanTeachRepository.deleteById(id);
     }
 
     @Autowired

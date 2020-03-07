@@ -11,6 +11,7 @@ import com.java.domain.Users;
 import com.java.repository.UserRolesRepository;
 
 import java.lang.reflect.Field;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ import com.java.service.UserRolesService;
 
 @Service
 public class UserRolesServiceImpl implements UserRolesService {
+
+    @Autowired
+    private UserRolesRepository UserRolesRepository;
 
     @Override
     public UserRoles save(UserRoles obj) {
@@ -29,17 +33,13 @@ public class UserRolesServiceImpl implements UserRolesService {
         return UserRolesRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        UserRolesRepository.delete(id);
+        UserRolesRepository.deleteById(id);
     }
 
-    @Autowired
-    private UserRolesRepository UserRolesRepository;
-
     @Override
-    public List<UserRoles> getAll(){
+    public List<UserRoles> getAll() {
         return UserRolesRepository.findAll();
     }
 
@@ -49,8 +49,8 @@ public class UserRolesServiceImpl implements UserRolesService {
     }
     
     @Override
-    public Optional<UserRoles> getByName(String login){
-        return UserRolesRepository.findByName(login);
+    public Optional<UserRoles> getByName(String roleName) {
+        return UserRolesRepository.findByRole(roleName);
     }
 
     @Override

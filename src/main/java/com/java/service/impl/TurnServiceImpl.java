@@ -28,10 +28,9 @@ public class TurnServiceImpl implements TurnService {
         return TurnRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        TurnRepository.delete(id);
+        TurnRepository.deleteById(id);
     }
 
     @Autowired

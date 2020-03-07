@@ -10,6 +10,7 @@ import com.java.domain.PereodicSeveritySubject;
 import com.java.repository.PereodicSeveritySubjectRepository;
 
 import java.lang.reflect.Field;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,16 @@ public class PereodicSeveritySubjectServiceImpl implements PereodicSeveritySubje
         return PereodicSeveritySubjectRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        PereodicSeveritySubjectRepository.delete(id);
+        PereodicSeveritySubjectRepository.deleteById(id);
     }
 
     @Autowired
     private PereodicSeveritySubjectRepository PereodicSeveritySubjectRepository;
 
     @Override
-    public List<PereodicSeveritySubject> getAll(){
+    public List<PereodicSeveritySubject> getAll() {
         return PereodicSeveritySubjectRepository.findAll();
     }
 

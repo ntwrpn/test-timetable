@@ -10,6 +10,7 @@ import com.java.domain.StudyPlan;
 import com.java.repository.StudyPlanRepository;
 
 import java.lang.reflect.Field;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,16 @@ public class StudyPlanServiceImpl implements StudyPlanService {
         return StudyPlanRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        StudyPlanRepository.delete(id);
+        StudyPlanRepository.deleteById(id);
     }
 
     @Autowired
     private StudyPlanRepository StudyPlanRepository;
 
     @Override
-    public List<StudyPlan> getAll(){
+    public List<StudyPlan> getAll() {
         return StudyPlanRepository.findAll();
     }
 

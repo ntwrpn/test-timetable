@@ -22,11 +22,6 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "semeseternumber")
-
-@NamedQueries({
-@NamedQuery(name = "SemesterNumber.getAll", query = "SELECT c from SemesterNumber c"),
-@NamedQuery(name = "SemesterNumber.getById", query = "SELECT c from SemesterNumber c where c.id=:id")
-}) 
 public class SemesterNumber {
     
     @Id

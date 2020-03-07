@@ -18,12 +18,6 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "occupationcountercourse")
-
-@NamedQueries({
-@NamedQuery(name = "OccupationCounterCourse.getAll", query = "SELECT c from OccupationCounterCourse c"),
-@NamedQuery(name = "OccupationCounterCourse.getById", query = "SELECT c from OccupationCounterCourse c where c.id=:id")
-}) 
-
 public class OccupationCounterCourse {
 
     
@@ -51,13 +45,6 @@ public class OccupationCounterCourse {
     @JsonBackReference(value="course-movement")
     private Course course;
 
-    /*public Schedule getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
-    }*/
 
 }
 

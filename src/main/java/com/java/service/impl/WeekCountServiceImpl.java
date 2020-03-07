@@ -28,10 +28,9 @@ public class WeekCountServiceImpl implements WeekCountService {
         return WeekCountRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        WeekCountRepository.delete(id);
+        WeekCountRepository.deleteById(id);
     }
 
     @Autowired

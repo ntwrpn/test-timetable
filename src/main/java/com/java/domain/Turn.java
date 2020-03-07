@@ -18,26 +18,15 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "Turn")
-
-@NamedQueries({
-@NamedQuery(name = "Turn.getAll", query = "SELECT c from Turn c"),
-@NamedQuery(name = "Turn.getById", query = "SELECT c from Turn c where c.id=:id")
-}) 
-
-
 public class Turn {
-
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    
 
     @Column(name = "turncol")
     private String turncol;
-
 
 }
 

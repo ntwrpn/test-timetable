@@ -17,16 +17,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "Classroom")
-
-@NamedQueries({
-@NamedQuery(name = "Classroom.getAll", query = "SELECT c from Classroom c"),
-@NamedQuery(name = "Classroom.getById", query = "SELECT c from Classroom c where c.id=:id")
-}) 
-
-
 public class Classroom {
-
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
@@ -54,7 +45,6 @@ public class Classroom {
 
     @Column(name = "name")
     private String name;
-
 
 }
 

@@ -18,16 +18,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "Role")
-
-@NamedQueries({
-@NamedQuery(name = "Role.getAll", query = "SELECT c from Role c"),
-@NamedQuery(name = "Role.getById", query = "SELECT c from Role c where c.id=:id")
-}) 
-
-
 public class Role {
-
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
@@ -39,7 +30,5 @@ public class Role {
 
     @Column(name = "type")
     private String type;
-
-
 }
 

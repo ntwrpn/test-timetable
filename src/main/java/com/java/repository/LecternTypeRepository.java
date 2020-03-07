@@ -11,9 +11,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface LecternTypeRepository extends JpaRepository<LecternType,UUID> {
+public interface LecternTypeRepository extends JpaRepository<LecternType, UUID> {
 
     Optional<LecternType> findById(UUID Ids);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

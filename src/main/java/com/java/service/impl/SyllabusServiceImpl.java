@@ -10,6 +10,7 @@ import com.java.domain.Syllabus;
 import com.java.repository.SyllabusRepository;
 
 import java.lang.reflect.Field;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,17 +29,16 @@ public class SyllabusServiceImpl implements SyllabusService {
         return SyllabusRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        SyllabusRepository.delete(id);
+        SyllabusRepository.deleteById(id);
     }
 
     @Autowired
     private SyllabusRepository SyllabusRepository;
 
     @Override
-    public List<Syllabus> getAll(){
+    public List<Syllabus> getAll() {
         return SyllabusRepository.findAll();
     }
 

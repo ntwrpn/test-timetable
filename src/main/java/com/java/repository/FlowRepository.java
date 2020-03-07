@@ -11,9 +11,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface FlowRepository extends JpaRepository<Flow,UUID> {
+public interface FlowRepository extends JpaRepository<Flow, UUID> {
 
-    Optional<Flow> findById(UUID Ids);
+    Optional<Flow> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

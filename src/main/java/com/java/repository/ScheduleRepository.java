@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule,UUID> {
 
-    Optional<Schedule> findById(UUID Ids);
+    Optional<Schedule> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

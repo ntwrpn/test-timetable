@@ -13,7 +13,7 @@ import java.util.UUID;
 @Repository
 public interface SyllabusRepository extends JpaRepository<Syllabus,UUID> {
 
-    Optional<Syllabus> findById(UUID Ids);
+    Optional<Syllabus> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

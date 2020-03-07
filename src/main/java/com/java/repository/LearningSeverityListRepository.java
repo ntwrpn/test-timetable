@@ -11,9 +11,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface LearningSeverityListRepository extends JpaRepository<LearningSeverityList,UUID> {
+public interface LearningSeverityListRepository extends JpaRepository<LearningSeverityList, UUID> {
 
-    Optional<LearningSeverityList> findById(UUID Ids);
+    Optional<LearningSeverityList> findById(UUID uuid);
 
-    void delete(UUID uuid);
+    void deleteById(UUID uuid);
 }

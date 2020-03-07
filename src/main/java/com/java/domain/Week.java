@@ -18,10 +18,6 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "week")
-@NamedQueries({
-@NamedQuery(name = "Week.getAll", query = "SELECT c from Week c"),
-@NamedQuery(name = "Week.getById", query = "SELECT c from Week c where c.id=:id")
-}) 
 public class Week {
 
     

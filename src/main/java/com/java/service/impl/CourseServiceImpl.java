@@ -31,7 +31,7 @@ public class CourseServiceImpl implements CourseService {
     
     @Override
     public void delete(UUID id) {
-        CourseRepository.delete(id);
+        CourseRepository.deleteById(id);
     }
 
     @Autowired
