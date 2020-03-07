@@ -1,7 +1,5 @@
 package com.java.service.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,32 +17,32 @@ import com.java.service.SyllabusService;
 @Service
 public class SyllabusServiceImpl implements SyllabusService {
 
+    @Autowired
+    private SyllabusRepository syllabusRepository;
+
     @Override
     public Syllabus save(Syllabus obj) {
-        return SyllabusRepository.save(obj);
+        return syllabusRepository.save(obj);
     }
 
     @Override
     public Syllabus update(Syllabus obj) {
-        return SyllabusRepository.save(obj);
+        return syllabusRepository.save(obj);
     }
 
     @Override
     public void delete(UUID id) {
-        SyllabusRepository.deleteById(id);
+        syllabusRepository.deleteById(id);
     }
-
-    @Autowired
-    private SyllabusRepository SyllabusRepository;
 
     @Override
     public List<Syllabus> getAll() {
-        return SyllabusRepository.findAll();
+        return syllabusRepository.findAll();
     }
 
     @Override
     public Optional<Syllabus> getById(UUID id) {
-        return SyllabusRepository.findById(id);
+        return syllabusRepository.findById(id);
     }
 
     @Override

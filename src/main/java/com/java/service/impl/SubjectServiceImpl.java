@@ -1,7 +1,5 @@
 package com.java.service.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,32 +17,32 @@ import com.java.service.SubjectService;
 @Service
 public class SubjectServiceImpl implements SubjectService {
 
+    @Autowired
+    private SubjectRepository subjectRepository;
+
     @Override
     public Subject save(Subject obj) {
-        return SubjectRepository.save(obj);
+        return subjectRepository.save(obj);
     }
 
     @Override
     public Subject update(Subject obj) {
-        return SubjectRepository.save(obj);
+        return subjectRepository.save(obj);
     }
 
     @Override
     public void delete(UUID id) {
-        SubjectRepository.deleteById(id);
+        subjectRepository.deleteById(id);
     }
-
-    @Autowired
-    private SubjectRepository SubjectRepository;
 
     @Override
     public List<Subject> getAll() {
-        return SubjectRepository.findAll();
+        return subjectRepository.findAll();
     }
 
     @Override
     public Optional<Subject> getById(UUID id) {
-        return SubjectRepository.findById(id);
+        return subjectRepository.findById(id);
     }
 
     @Override

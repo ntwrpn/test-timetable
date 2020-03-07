@@ -1,7 +1,5 @@
 package com.java.service.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,32 +17,32 @@ import com.java.service.SemesterService;
 @Service
 public class SemesterServiceImpl implements SemesterService {
 
+    @Autowired
+    private SemesterRepository semesterRepository;
+
     @Override
     public Semester save(Semester obj) {
-        return SemesterRepository.save(obj);
+        return semesterRepository.save(obj);
     }
 
     @Override
     public Semester update(Semester obj) {
-        return SemesterRepository.save(obj);
+        return semesterRepository.save(obj);
     }
 
     @Override
     public void delete(UUID id) {
-        SemesterRepository.deleteById(id);
+        semesterRepository.deleteById(id);
     }
-
-    @Autowired
-    private SemesterRepository SemesterRepository;
 
     @Override
     public List<Semester> getAll() {
-        return SemesterRepository.findAll();
+        return semesterRepository.findAll();
     }
 
     @Override
     public Optional<Semester> getById(UUID id) {
-        return SemesterRepository.findById(id);
+        return semesterRepository.findById(id);
     }
 
     @Override

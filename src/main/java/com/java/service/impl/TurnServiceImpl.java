@@ -1,7 +1,5 @@
 package com.java.service.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,6 +8,7 @@ import com.java.domain.Turn;
 import com.java.repository.TurnRepository;
 
 import java.lang.reflect.Field;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,32 +17,32 @@ import com.java.service.TurnService;
 @Service
 public class TurnServiceImpl implements TurnService {
 
+    @Autowired
+    private TurnRepository turnRepository;
+
     @Override
     public Turn save(Turn obj) {
-        return TurnRepository.save(obj);
+        return turnRepository.save(obj);
     }
 
     @Override
     public Turn update(Turn obj) {
-        return TurnRepository.save(obj);
+        return turnRepository.save(obj);
     }
 
     @Override
     public void delete(UUID id) {
-        TurnRepository.deleteById(id);
+        turnRepository.deleteById(id);
     }
 
-    @Autowired
-    private TurnRepository TurnRepository;
-
     @Override
-    public List<Turn> getAll(){
-        return TurnRepository.findAll();
+    public List<Turn> getAll() {
+        return turnRepository.findAll();
     }
 
     @Override
     public Optional<Turn> getById(UUID id) {
-        return TurnRepository.findById(id);
+        return turnRepository.findById(id);
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.java.service.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,6 +8,7 @@ import com.java.domain.LecternType;
 import com.java.repository.LecternTypeRepository;
 
 import java.lang.reflect.Field;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,33 +17,32 @@ import com.java.service.LecternTypeService;
 @Service
 public class LecternTypeServiceImpl implements LecternTypeService {
 
+    @Autowired
+    private LecternTypeRepository lecternTypeRepository;
+
     @Override
     public LecternType save(LecternType obj) {
-        return LecternTypeRepository.save(obj);
+        return lecternTypeRepository.save(obj);
     }
 
     @Override
     public LecternType update(LecternType obj) {
-        return LecternTypeRepository.save(obj);
+        return lecternTypeRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        LecternTypeRepository.deleteById(id);
+        lecternTypeRepository.deleteById(id);
     }
 
-    @Autowired
-    private LecternTypeRepository LecternTypeRepository;
-
     @Override
-    public List<LecternType> getAll(){
-        return LecternTypeRepository.findAll();
+    public List<LecternType> getAll() {
+        return lecternTypeRepository.findAll();
     }
 
     @Override
     public Optional<LecternType> getById(UUID id) {
-        return LecternTypeRepository.findById(id);
+        return lecternTypeRepository.findById(id);
     }
 
     @Override

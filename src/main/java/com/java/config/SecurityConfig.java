@@ -27,18 +27,17 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//	@Autowired
-//	DataSource dataSource;
+	@Autowired
+	DataSource dataSource;
 
-    @Autowired
-    private RestAuthenticationEntryPoint authenticationEntryPoint;
+//    @Autowired
+//    private RestAuthenticationEntryPoint authenticationEntryPoint;
 
     @Autowired
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-//
-//		auth.jdbcAuthentication().dataSource(dataSource)
-//				.usersByUsernameQuery("select username,password, enabled from users where username=?").passwordEncoder(new BCryptPasswordEncoder())
-//				.authoritiesByUsernameQuery("SELECT T3.username, T2.role FROM users_roles as T1 INNER JOIN users as T3 ON T3.username=? INNER JOIN user_roles as T2 ON T1.user_role_id=T2.user_role_id WHERE T1.users=T3.id;");
+		auth.jdbcAuthentication().dataSource(dataSource)
+				.usersByUsernameQuery("select username,password, enabled from users where username=?").passwordEncoder(new BCryptPasswordEncoder())
+				.authoritiesByUsernameQuery("SELECT T3.username, T2.role FROM users_roles as T1 INNER JOIN users as T3 ON T3.username=? INNER JOIN user_roles as T2 ON T1.user_role_id=T2.user_role_id WHERE T1.users=T3.id;");
     }
 
     @Override

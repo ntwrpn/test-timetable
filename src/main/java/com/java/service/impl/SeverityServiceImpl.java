@@ -1,7 +1,5 @@
 package com.java.service.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,6 +8,7 @@ import com.java.domain.Severity;
 import com.java.repository.SeverityRepository;
 
 import java.lang.reflect.Field;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,32 +17,32 @@ import com.java.service.SeverityService;
 @Service
 public class SeverityServiceImpl implements SeverityService {
 
+    @Autowired
+    private SeverityRepository severityRepository;
+
     @Override
     public Severity save(Severity obj) {
-        return SeverityRepository.save(obj);
+        return severityRepository.save(obj);
     }
 
     @Override
     public Severity update(Severity obj) {
-        return SeverityRepository.save(obj);
+        return severityRepository.save(obj);
     }
 
     @Override
     public void delete(UUID id) {
-        SeverityRepository.deleteById(id);
+        severityRepository.deleteById(id);
     }
 
-    @Autowired
-    private SeverityRepository SeverityRepository;
-
     @Override
-    public List<Severity> getAll(){
-        return SeverityRepository.findAll();
+    public List<Severity> getAll() {
+        return severityRepository.findAll();
     }
 
     @Override
     public Optional<Severity> getById(UUID id) {
-        return SeverityRepository.findById(id);
+        return severityRepository.findById(id);
     }
 
     @Override

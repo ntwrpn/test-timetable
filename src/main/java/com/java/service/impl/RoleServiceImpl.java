@@ -1,7 +1,5 @@
 package com.java.service.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,32 +17,32 @@ import com.java.service.RoleService;
 @Service
 public class RoleServiceImpl implements RoleService {
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public Role save(Role obj) {
-        return RoleRepository.save(obj);
+        return roleRepository.save(obj);
     }
 
     @Override
     public Role update(Role obj) {
-        return RoleRepository.save(obj);
+        return roleRepository.save(obj);
     }
 
     @Override
     public void delete(UUID id) {
-        RoleRepository.deleteById(id);
+        roleRepository.deleteById(id);
     }
-
-    @Autowired
-    private RoleRepository RoleRepository;
 
     @Override
     public List<Role> getAll() {
-        return RoleRepository.findAll();
+        return roleRepository.findAll();
     }
 
     @Override
     public Optional<Role> getById(UUID id) {
-        return RoleRepository.findById(id);
+        return roleRepository.findById(id);
     }
 
     @Override

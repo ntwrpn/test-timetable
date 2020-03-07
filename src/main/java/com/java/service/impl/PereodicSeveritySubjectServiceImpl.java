@@ -1,7 +1,5 @@
 package com.java.service.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,32 +17,32 @@ import com.java.service.PereodicSeveritySubjectService;
 @Service
 public class PereodicSeveritySubjectServiceImpl implements PereodicSeveritySubjectService {
 
+    @Autowired
+    private PereodicSeveritySubjectRepository pereodicSeveritySubjectRepository;
+
     @Override
     public PereodicSeveritySubject save(PereodicSeveritySubject obj) {
-        return PereodicSeveritySubjectRepository.save(obj);
+        return pereodicSeveritySubjectRepository.save(obj);
     }
 
     @Override
     public PereodicSeveritySubject update(PereodicSeveritySubject obj) {
-        return PereodicSeveritySubjectRepository.save(obj);
+        return pereodicSeveritySubjectRepository.save(obj);
     }
 
     @Override
     public void delete(UUID id) {
-        PereodicSeveritySubjectRepository.deleteById(id);
+        pereodicSeveritySubjectRepository.deleteById(id);
     }
-
-    @Autowired
-    private PereodicSeveritySubjectRepository PereodicSeveritySubjectRepository;
 
     @Override
     public List<PereodicSeveritySubject> getAll() {
-        return PereodicSeveritySubjectRepository.findAll();
+        return pereodicSeveritySubjectRepository.findAll();
     }
 
     @Override
     public Optional<PereodicSeveritySubject> getById(UUID id) {
-        return PereodicSeveritySubjectRepository.findById(id);
+        return pereodicSeveritySubjectRepository.findById(id);
     }
 
     @Override

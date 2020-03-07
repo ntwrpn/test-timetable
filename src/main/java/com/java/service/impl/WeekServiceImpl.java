@@ -1,7 +1,5 @@
 package com.java.service.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,32 +17,32 @@ import com.java.service.WeekService;
 @Service
 public class WeekServiceImpl implements WeekService {
 
+    @Autowired
+    private WeekRepository weekRepository;
+
     @Override
     public Week save(Week obj) {
-        return WeekRepository.save(obj);
+        return weekRepository.save(obj);
     }
 
     @Override
     public Week update(Week obj) {
-        return WeekRepository.save(obj);
+        return weekRepository.save(obj);
     }
 
     @Override
     public void delete(UUID id) {
-        WeekRepository.deleteById(id);
+        weekRepository.deleteById(id);
     }
-
-    @Autowired
-    private WeekRepository WeekRepository;
 
     @Override
     public List<Week> getAll() {
-        return WeekRepository.findAll();
+        return weekRepository.findAll();
     }
 
     @Override
     public Optional<Week> getById(UUID id) {
-        return WeekRepository.findById(id);
+        return weekRepository.findById(id);
     }
 
     @Override

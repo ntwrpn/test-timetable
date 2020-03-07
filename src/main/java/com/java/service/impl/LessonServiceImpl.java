@@ -1,7 +1,5 @@
 package com.java.service.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,32 +17,32 @@ import com.java.service.LessonService;
 @Service
 public class LessonServiceImpl implements LessonService {
 
+    @Autowired
+    private LessonRepository lessonRepository;
+
     @Override
     public Lesson save(Lesson obj) {
-        return LessonRepository.save(obj);
+        return lessonRepository.save(obj);
     }
 
     @Override
     public Lesson update(Lesson obj) {
-        return LessonRepository.save(obj);
+        return lessonRepository.save(obj);
     }
 
     @Override
     public void delete(UUID id) {
-        LessonRepository.deleteById(id);
+        lessonRepository.deleteById(id);
     }
-
-    @Autowired
-    private LessonRepository LessonRepository;
 
     @Override
     public List<Lesson> getAll() {
-        return LessonRepository.findAll();
+        return lessonRepository.findAll();
     }
 
     @Override
     public Optional<Lesson> getById(UUID id) {
-        return LessonRepository.findById(id);
+        return lessonRepository.findById(id);
     }
 
     @Override

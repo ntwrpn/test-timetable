@@ -1,7 +1,5 @@
 package com.java.service.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,32 +17,32 @@ import com.java.service.SubgroupService;
 @Service
 public class SubgroupServiceImpl implements SubgroupService {
 
+    @Autowired
+    private SubgroupRepository subgroupRepository;
+
     @Override
     public Subgroup save(Subgroup obj) {
-        return SubgroupRepository.save(obj);
+        return subgroupRepository.save(obj);
     }
 
     @Override
     public Subgroup update(Subgroup obj) {
-        return SubgroupRepository.save(obj);
+        return subgroupRepository.save(obj);
     }
 
     @Override
     public void delete(UUID id) {
-        SubgroupRepository.deleteById(id);
+        subgroupRepository.deleteById(id);
     }
-
-    @Autowired
-    private SubgroupRepository SubgroupRepository;
 
     @Override
     public List<Subgroup> getAll() {
-        return SubgroupRepository.findAll();
+        return subgroupRepository.findAll();
     }
 
     @Override
     public Optional<Subgroup> getById(UUID id) {
-        return SubgroupRepository.findById(id);
+        return subgroupRepository.findById(id);
     }
 
     @Override

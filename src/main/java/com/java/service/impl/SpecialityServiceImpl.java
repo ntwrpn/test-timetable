@@ -1,4 +1,5 @@
 package com.java.service.impl;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,33 +17,32 @@ import com.java.service.SpecialityService;
 @Service
 public class SpecialityServiceImpl implements SpecialityService {
 
+    @Autowired
+    private SpecialityRepository specialityRepository;
+
     @Override
     public Speciality save(Speciality obj) {
-        return SpecialityRepository.save(obj);
+        return specialityRepository.save(obj);
     }
 
     @Override
     public Speciality update(Speciality obj) {
-        return SpecialityRepository.save(obj);
+        return specialityRepository.save(obj);
     }
-
 
     @Override
     public void delete(UUID id) {
-        SpecialityRepository.deleteById(id);
+        specialityRepository.deleteById(id);
     }
-
-    @Autowired
-    private SpecialityRepository SpecialityRepository;
 
     @Override
     public List<Speciality> getAll() {
-        return SpecialityRepository.findAll();
+        return specialityRepository.findAll();
     }
 
     @Override
     public Optional<Speciality> getById(UUID id) {
-        return SpecialityRepository.findById(id);
+        return specialityRepository.findById(id);
     }
 
     @Override

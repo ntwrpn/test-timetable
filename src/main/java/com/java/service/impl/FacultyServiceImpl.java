@@ -1,7 +1,5 @@
 package com.java.service.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,6 +8,7 @@ import com.java.domain.Faculty;
 import com.java.repository.FacultyRepository;
 
 import java.lang.reflect.Field;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,33 +17,32 @@ import com.java.service.FacultyService;
 @Service
 public class FacultyServiceImpl implements FacultyService {
 
+    @Autowired
+    private FacultyRepository facultyRepository;
+
     @Override
     public Faculty save(Faculty obj) {
-        return FacultyRepository.save(obj);
+        return facultyRepository.save(obj);
     }
 
     @Override
     public Faculty update(Faculty obj) {
-        return FacultyRepository.save(obj);
+        return facultyRepository.save(obj);
     }
 
-    
     @Override
     public void delete(UUID id) {
-        FacultyRepository.deleteById(id);
+        facultyRepository.deleteById(id);
     }
 
-    @Autowired
-    private FacultyRepository FacultyRepository;
-
     @Override
-    public List<Faculty> getAll(){
-        return FacultyRepository.findAll();
+    public List<Faculty> getAll() {
+        return facultyRepository.findAll();
     }
 
     @Override
     public Optional<Faculty> getById(UUID id) {
-        return FacultyRepository.findById(id);
+        return facultyRepository.findById(id);
     }
 
     @Override

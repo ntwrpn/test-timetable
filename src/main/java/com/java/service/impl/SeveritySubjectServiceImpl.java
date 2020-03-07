@@ -1,7 +1,5 @@
 package com.java.service.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,32 +17,32 @@ import com.java.service.SeveritySubjectService;
 @Service
 public class SeveritySubjectServiceImpl implements SeveritySubjectService {
 
+    @Autowired
+    private SeveritySubjectRepository severitySubjectRepository;
+
     @Override
     public SeveritySubject save(SeveritySubject obj) {
-        return SeveritySubjectRepository.save(obj);
+        return severitySubjectRepository.save(obj);
     }
 
     @Override
     public SeveritySubject update(SeveritySubject obj) {
-        return SeveritySubjectRepository.save(obj);
+        return severitySubjectRepository.save(obj);
     }
 
     @Override
     public void delete(UUID id) {
-        SeveritySubjectRepository.deleteById(id);
+        severitySubjectRepository.deleteById(id);
     }
-
-    @Autowired
-    private SeveritySubjectRepository SeveritySubjectRepository;
 
     @Override
     public List<SeveritySubject> getAll() {
-        return SeveritySubjectRepository.findAll();
+        return severitySubjectRepository.findAll();
     }
 
     @Override
     public Optional<SeveritySubject> getById(UUID id) {
-        return SeveritySubjectRepository.findById(id);
+        return severitySubjectRepository.findById(id);
     }
 
     @Override

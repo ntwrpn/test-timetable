@@ -1,7 +1,5 @@
 package com.java.service.impl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,32 +17,32 @@ import com.java.service.OccupationCounterCourseService;
 @Service
 public class OccupationCounterCourseServiceImpl implements OccupationCounterCourseService {
 
+    @Autowired
+    private OccupationCounterCourseRepository occupationCounterCourseRepository;
+
     @Override
     public OccupationCounterCourse save(OccupationCounterCourse obj) {
-        return OccupationCounterCourseRepository.save(obj);
+        return occupationCounterCourseRepository.save(obj);
     }
 
     @Override
     public OccupationCounterCourse update(OccupationCounterCourse obj) {
-        return OccupationCounterCourseRepository.save(obj);
+        return occupationCounterCourseRepository.save(obj);
     }
 
     @Override
     public void delete(UUID id) {
-        OccupationCounterCourseRepository.deleteById(id);
+        occupationCounterCourseRepository.deleteById(id);
     }
-
-    @Autowired
-    private OccupationCounterCourseRepository OccupationCounterCourseRepository;
 
     @Override
     public List<OccupationCounterCourse> getAll() {
-        return OccupationCounterCourseRepository.findAll();
+        return occupationCounterCourseRepository.findAll();
     }
 
     @Override
     public Optional<OccupationCounterCourse> getById(UUID id) {
-        return OccupationCounterCourseRepository.findById(id);
+        return occupationCounterCourseRepository.findById(id);
     }
 
     @Override
