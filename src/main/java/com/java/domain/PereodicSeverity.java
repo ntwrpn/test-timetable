@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "severity")
+@Table(name = "pereodicseverity")
 @NamedQueries({
-@NamedQuery(name = "Severity.getAll", query = "SELECT c from Severity c"),
-@NamedQuery(name = "Severity.getById", query = "SELECT c from Severity c where c.id=:id")
+@NamedQuery(name = "PereodicSeverity.getAll", query = "SELECT c from PereodicSeverity c"),
+@NamedQuery(name = "PereodicSeverity.getById", query = "SELECT c from PereodicSeverity c where c.id=:id")
 }) 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Severity {
+public class PereodicSeverity {
     
     @Id
     @Column(name = "id")
@@ -26,23 +26,22 @@ public class Severity {
     @Column(name = "name")
     private String name;
     
-    @OneToMany(mappedBy="severity", cascade = CascadeType.ALL)
-//    @JsonManagedReference(value = "severity-movement")
-    @JsonIgnoreProperties(value = "severity", allowSetters = true)
+    @OneToMany(mappedBy="pereodicSeverity", cascade = CascadeType.ALL)
+//    @JsonManagedReference(value = "pereodic-severity-movement")
+    @JsonIgnoreProperties(value = "pereodicSeverity", allowSetters = true)
     @Column(nullable = true)
-    private Set<SeveritySubject> severitySubjects;
+    private Set<PereodicSeveritySubject> pereodicSeveritySubjects;
 
-    public Severity() {
+    public PereodicSeverity() {
     }
 
-    public Set<SeveritySubject> getSeveritySubjects() {
-        return severitySubjects;
+    public Set<PereodicSeveritySubject> getPereodicSeveritySubjects() {
+        return pereodicSeveritySubjects;
     }
 
-    public void setSeveritySubjects(Set<SeveritySubject> severitySubjects) {
-        this.severitySubjects = severitySubjects;
+    public void setPereodicSeveritySubjects(Set<PereodicSeveritySubject> pereodicSeveritySubjects) {
+        this.pereodicSeveritySubjects = pereodicSeveritySubjects;
     }
-
 
     public int getId() {
         return id;

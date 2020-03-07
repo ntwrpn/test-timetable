@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "studyplan")
@@ -14,10 +15,7 @@ import java.util.List;
 @NamedQuery(name = "StudyPlan.getById", query = "SELECT c from StudyPlan c where c.id=:id")
 }) 
 
-
-
 public class StudyPlan {
-
     
     @Id
     @Column(name = "id")
@@ -35,15 +33,14 @@ public class StudyPlan {
     @Column(name = "coefficient")
     private int coefficient;
 
-    @Column(name = "countOfSem")
+    @Column(name = "count_of_sem")
     private int countOfSem;  
 
     @OneToMany(mappedBy="studyPlan", cascade = CascadeType.MERGE, orphanRemoval = true)
     @JsonManagedReference(value="studyPlan-week-movement")
+    @Column(nullable = true)
     private List<WeekCount> weeks;
     
-    @Column(name = "isChanged")
-    private boolean isChanged=false;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name="speciality", referencedColumnName="id", nullable = true)
@@ -53,17 +50,17 @@ public class StudyPlan {
     @Column(name = "status")
     private StudyPlanStatus status;  
     
-    @Column(name = "statusApplyDate")
+    @Column(name = "status_apply_date")
     private Date statusApplyDate;  
     
-    @Column(name = "registerNumber")
+    @Column(name = "register_number")
     private int registerNumber; 
     
-    @Column(name = "registerNumberApplyDate")
+    @Column(name = "register_number_apply_date")
     private Date registerNumberApplyDate;  
 
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "educationForm")
+    @Column(name = "education_form")
     private EducationForm educationForm;  
 
     public int getId() {
@@ -82,12 +79,12 @@ public class StudyPlan {
         this.name = name;
     }
 
-    public List<Subject> getSubject() {
+    public List<Subject> getSubjects() {
         return subjects;
     }
 
     public void setSubject(List<Subject> subjects) {
-        this.subjects = subjects;
+        this.subjects= subjects;
     }
 
     public int getCoefficient() {
@@ -112,14 +109,6 @@ public class StudyPlan {
 
     public void setWeeks(List<WeekCount> weeks) {
         this.weeks = weeks;
-    }
-
-    public boolean isIsChanged() {
-        return isChanged;
-    }
-
-    public void setIsChanged(boolean isChanged) {
-        this.isChanged = isChanged;
     }
 
     public Speciality getSpeciality() {

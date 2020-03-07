@@ -4,6 +4,7 @@ package com.java.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -17,8 +18,6 @@ import java.util.Set;
 
 
 public class Subject {
-
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,20 +32,17 @@ public class Subject {
     @Column(name = "department")
     private String department;
     
-    @Column(name = "numberOfDiscipline")
+    @Column(name = "number_of_discipline")
     private String numberOfDiscipline;
     
-    @Column(name = "sumOfHours")
+    @Column(name = "sum_of_hours")
     private int sumOfHours;
     
-    @Column(name = "freeHours")
+    @Column(name = "free_hours")
     private int freeHours;
     
     @Column(name = "position")
     private int position;
-    
-    @Column(name = "isChanged")
-    private boolean isChanged=false;
     
     @Column(name = "description")
     private String description;
@@ -57,11 +53,17 @@ public class Subject {
     private List<Semester> semesters;
     
     @OneToMany(mappedBy="subject", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference(value="severity-subject-movement")
     @Column(nullable = true)
     private Set<SeveritySubject> severities;
     
+    @OneToMany(mappedBy="subject", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value="pereodic-severity-subject-movement")
+    @Column(nullable = true)
+    private Set<PereodicSeveritySubject> pereodicSeverities;
+    
     @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @JoinColumn(name = "study_plan_id", nullable = true)
     @JsonBackReference
     private StudyPlan studyPlan;
     
@@ -117,14 +119,6 @@ public class Subject {
         this.position = position;
     }
 
-    public boolean isIsChanged() {
-        return isChanged;
-    }
-
-    public void setIsChanged(boolean isChanged) {
-        this.isChanged = isChanged;
-    }
-
     public List<Semester> getSemesters() {
         return semesters;
     }
@@ -174,6 +168,13 @@ public class Subject {
         this.name=name;
     }
 
+    public Set<PereodicSeveritySubject> getPereodicSeverities() {
+        return pereodicSeverities;
+    }
+
+    public void setPereodicSeverities(Set<PereodicSeveritySubject> pereodicSeverities) {
+        this.pereodicSeverities = pereodicSeverities;
+    }
 
 }
 
