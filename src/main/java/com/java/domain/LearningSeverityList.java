@@ -26,6 +26,7 @@ public class LearningSeverityList {
     private UUID id;
 
     @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @JoinColumn(name="syllabus", referencedColumnName="id", nullable = true)
     //@JsonIgnoreProperties("plans_id")
     @JsonBackReference
     private Syllabus syllabus;
