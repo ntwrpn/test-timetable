@@ -11,6 +11,8 @@ const getFieldTypeByOptions = (type) => {
         return "text";
       case "date":
         return "date";
+      case "boolean":
+        return "boolean";
       default:
         return type;
     }
@@ -51,7 +53,7 @@ const getJSONfromForm = (formname) => {
         }
         else if (getFieldTypeByOptions(optionType[formData[data]['name']])=="int"){
              json[formData[data]['name']] = parseInt(formData[data]['value']);
-        } else if (optionType[formData[data]['name']]=="set"){
+        } else if (["set", "list"].includes(optionType[formData[data]['name']])){
             let current_data = getDataFromServer([formData[data]['name']]+"/"+formData[data]['value']);
             if (typeof(json[formData[data]['name']]) == "undefined"){
                 json[formData[data]['name']] = [];
@@ -160,7 +162,7 @@ const createPostFormModal = (changeData) => {
         modalContent.appendChild(loadField);
 
         modalForm.appendChild(modalContent);
-      } else if (["set"].includes(local_var_type)){
+      } else if (["set", "list"].includes(local_var_type)){
         let loadCaption = document.createElement("p");
         loadCaption.innerText = key;
         loadCaption.id = "add-modal-caption";
@@ -172,7 +174,7 @@ const createPostFormModal = (changeData) => {
         loadField.multiple = true;
         loadField.required = true;
         let big_data;
-        if ("set"==local_var_type) {
+        if (["set", "list"].includes(local_var_type)) {
             big_data = getDataFromServer(key);
         } else{
             big_data = getDataFromServer(local_var_type);
@@ -181,10 +183,10 @@ const createPostFormModal = (changeData) => {
           let option = document.createElement("option");
           option.id = key;
           option.name = key;
-          option.value = big_data[key_value]["user_role_id"];
+          option.value = big_data[key_value]["id"];
           option.innerText = big_data[key_value]["role"];
           if (changeData!=undefined && changeData[key]!=null){
-            if (changeData[key].find(obj => obj.user_role_id == big_data[key_value]["user_role_id"])){
+            if (changeData[key].find(obj => obj.user_role_id == big_data[key_value]["id"])){
                 option.selected=true;
             }
            }

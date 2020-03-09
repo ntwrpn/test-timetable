@@ -70,5 +70,14 @@ public class UsersServiceImpl implements UsersService {
     public void unBlockUser(UUID id) {
         usersRepository.unBlockUser(id);
     }
+    
+    @Override
+    public List<Users> getByEnabled(boolean state){
+        if (state){
+            return usersRepository.findByEnabledTrue();
+        }
+        return usersRepository.findByEnabledFalse();
+    }
+  
 }
 

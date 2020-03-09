@@ -49,7 +49,9 @@ public class GroupsServiceImpl implements GroupsService {
     public JSONObject getFields() {
         JSONObject obj = new JSONObject();
         for (Field field : Groups.class.getDeclaredFields()) {
-            obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
+            if (field.getName()!="flow" && field.getName()!="subgroup"){
+                obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
+            }
         }
         return obj;
     }

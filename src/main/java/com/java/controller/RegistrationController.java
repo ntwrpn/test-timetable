@@ -17,6 +17,7 @@ import java.util.Set;
 
 
 import com.java.service.UsersService;
+import java.util.HashSet;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,21 +41,16 @@ public class RegistrationController {
 
     @RequestMapping(value="/registration/", method = RequestMethod.POST, headers="Accept=application/json")
     public ResponseEntity<Void> add(@RequestBody Users obj){
-     Users find_same = usersService.getByName(obj.getUsername()).get();
-     if (find_same==null){
-        UserRoles role = userRolesService.getByName("ROLE_ADMIN").get();
+     if (usersService.getByName(obj.getUsername()).isEmpty()){
+        UserRoles role = userRolesService.getByName("ROLE_USER").get();
         obj.setEnabled(false);
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         obj.setPassword(passwordEncoder.encode(obj.getPassword()));
-        Set<UserRoles> set_roles = null;
+        Set<UserRoles> set_roles = new HashSet<UserRoles>();
         set_roles.add(role);
         obj.setUserRoles(set_roles);
         usersService.save(obj);
-        Users user = usersService.getByName(obj.getUsername()).get();
-        
-        //roles.setRole("NONE_ROLE");
-        //roles.setUsername(user);
-        //rolesService.add(roles);
+
         return new ResponseEntity<Void>(HttpStatus.CREATED);
         }
     else {

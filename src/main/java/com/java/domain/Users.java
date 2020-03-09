@@ -39,7 +39,7 @@ public class Users {
     @Column(name = "enabled")
     private boolean enabled = false;   
     
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     //@JoinColumn(name="username", referencedColumnName="username")
     @JoinTable(name = "users_roles", joinColumns = { @JoinColumn(name = "users", nullable = false, updatable = false)},
      inverseJoinColumns = { @JoinColumn(name = "user_role_id", nullable = false, updatable = false)})

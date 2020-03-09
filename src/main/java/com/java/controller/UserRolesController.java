@@ -24,34 +24,34 @@ public class UserRolesController {
     @Autowired
     private UserRolesService userRolesService;
 
-    @RequestMapping(value="/userroles/", method=RequestMethod.GET)
+    @RequestMapping(value="/userRoles/", method=RequestMethod.GET)
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<UserRoles>> getUserRolesPage(Model model) {
         List<UserRoles> orders = userRolesService.getAll();
         return new ResponseEntity<List<UserRoles>>(orders, HttpStatus.OK);
     }
     
-    @RequestMapping(value="/userroles/", method=RequestMethod.OPTIONS)
+    @RequestMapping(value="/userRoles/", method=RequestMethod.OPTIONS)
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity getUserRolesKeys(Model model) {
         return new ResponseEntity(userRolesService.getFields(), HttpStatus.OK);
     }
     
-    @RequestMapping(value="/userroles/{id}", method=RequestMethod.GET)
+    @RequestMapping(value="/userRoles/{id}", method=RequestMethod.GET)
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<UserRoles> getUserRolesPage(Model model, @PathVariable("id") UUID id) {
         Optional<UserRoles> order = userRolesService.getById(id);
         return new ResponseEntity<UserRoles>(order.get(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/userroles/", method = RequestMethod.POST, headers="Accept=application/json")
+    @RequestMapping(value="/userRoles/", method = RequestMethod.POST, headers="Accept=application/json")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> add(@RequestBody UserRoles obj){
      userRolesService.save(obj);
      return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
  
-    @RequestMapping(value="/userroles/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
+    @RequestMapping(value="/userRoles/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> update(@PathVariable("id") UUID id, @RequestBody UserRoles obj){
      obj.setId(id);
@@ -59,7 +59,7 @@ public class UserRolesController {
      return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/userroles/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
+    @RequestMapping(value = "/userRoles/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> DeleteUserRoles(Model model, @PathVariable UUID id) {
         userRolesService.delete(id);

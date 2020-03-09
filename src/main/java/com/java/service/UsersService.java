@@ -21,6 +21,8 @@ public interface UsersService {
 
     
     Optional<Users> getByName(String login);
+    List<Users> getByEnabled(boolean state);
+
 
     void blockUser(UUID id);
     void unBlockUser(UUID id);

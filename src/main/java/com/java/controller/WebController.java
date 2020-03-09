@@ -14,19 +14,18 @@ public class WebController {
         return "index";
     }
     
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/home")
     public String home(HttpServletRequest request){
-        if (request.isUserInRole("ROLE_ADMIN")) {
+        if (request.isUserInRole("ADMIN")) {
             return "admin";
-        } else if (request.isUserInRole("ROLE_USER")) {
+        } else if (request.isUserInRole("USER")) {
             return "user";
         } else {
             return "object";
         }
     }
 
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @RequestMapping(value="/objects")
     public String objects(){
         return "object";

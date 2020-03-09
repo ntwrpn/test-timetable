@@ -19,7 +19,7 @@ public class UserPrincipal implements UserDetails {
     @JsonIgnore
     private String password;
     private boolean nonBlock;
-
+    
     private Collection<? extends GrantedAuthority> authorities;
 
     public UserPrincipal(UUID id, String username,String password,
@@ -66,7 +66,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
