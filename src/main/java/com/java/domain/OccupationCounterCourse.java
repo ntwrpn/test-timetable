@@ -34,12 +34,11 @@ public class OccupationCounterCourse {
     @JoinColumn(name="schedule", referencedColumnName="id", nullable = true)
     @JsonBackReference
     private Schedule schedule;*/
-    
-    @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.MERGE)
+
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="occupation", referencedColumnName="id")
-    @JsonBackReference(value="occupation-movement")
-	private Occupation occupation;
-    
+    private Occupation occupation;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
     @JoinColumn(name="course", referencedColumnName="id")
     @JsonBackReference(value="course-movement")
