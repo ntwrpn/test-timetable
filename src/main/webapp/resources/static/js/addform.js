@@ -21,7 +21,8 @@ const getFieldTypeByOptions = (type) => {
 
 const addFromEvent = () => {
     let json = getJSONfromForm("add-modal-content");
-    let name = "users";
+
+    let name = localStorage.getItem("current_open_table");
     console.log(json);
     
     $.ajax({
@@ -43,7 +44,7 @@ const addFromEvent = () => {
 
 const getJSONfromForm = (formname) => {
     let formData = $("#"+formname).serializeArray();
-    let name = "users";
+    let name =  localStorage.getItem("current_open_table");
     let optionType = getListDataFromServer(name);
     console.log(formData);
     let json = {};
@@ -61,7 +62,9 @@ const getJSONfromForm = (formname) => {
             console.log(formData[data]);
 
             json[formData[data]['name']].push(current_data);
-        } 
+        } else if (["boolean"].includes(optionType[formData[data]['name']])){
+            json[formData[data]['name']].push(formData[data]['value']);
+        }
         else {
             let current_data = getDataFromServer(optionType[formData[data]['name']]+"/"+formData[data]['value']);
             json[formData[data]['name']] = current_data;
@@ -119,7 +122,7 @@ const clearPostFromModal = () => {
 
 const createPostFormModal = (changeData) => {
     console.log(changeData);
-    let name = "users";
+    let name =  localStorage.getItem("current_open_table");
     let data = getListDataFromServer(name);
 
     let modalForm = document.getElementById("add-modal");
@@ -209,13 +212,13 @@ const createPostFormModal = (changeData) => {
             loadField.className = "select";
             loadField.required = true;
             
-            let big_data = ["true", "false"];
+            let big_data = [true, false];
             for (let key_value in big_data){
               let option = document.createElement("option");
               option.id = key;
               option.name = key_value;
               option.value = key_value;
-              option.innerText = key_value;
+              option.innerText = key_value.toString();
               if (changeData!=undefined && changeData[key]!=null){
                 if (changeData[key]==true){
                     option.selected=true;

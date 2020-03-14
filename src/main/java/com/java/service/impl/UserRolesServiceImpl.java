@@ -54,7 +54,9 @@ public class UserRolesServiceImpl implements UserRolesService {
     public JSONObject getFields() {
         JSONObject obj = new JSONObject();
         for (Field field : UserRoles.class.getDeclaredFields()) {
-            obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
+            if (field.getName()!="access" && field.getName()!="user"){
+                obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
+            }
         }
         return obj;
     }

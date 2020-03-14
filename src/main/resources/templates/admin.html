@@ -31,7 +31,7 @@
   <nav class="nav-extended green accent-4">
 
       <div class="nav-wrapper">
-          <a href="#" class="brand-logo">БНТУ</a>
+          <a href="/" class="brand-logo">БНТУ</a>
           <ul class="right hide-on-med-and-down">
             <li><a href="/home"><i class="material-icons">home</i></a></li>
             <li><a href="#"><i class="material-icons">refresh</i></a></li>
@@ -50,7 +50,13 @@
             <li class="tab col s3"><a onclick="openTableEvent('users', '?enabled=False');">
 							<i class="material-icons left">info</i>
               Заявки</a></li>
-          </ul>
+            <li class="tab col s3"><a onclick="openTableEvent('userRoles','');">
+							<i class="material-icons left">info</i>
+              Роли</a></li>
+            <li class="tab col s3"><a onclick="openTableEvent('access', '');">
+							<i class="material-icons left">info</i>
+              Доступы</a></li>
+</ul>
     </div>
     </nav>
 
@@ -65,10 +71,10 @@
 					<div class="collapsible-body"><span>
 						<a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="/home">
 							<i class="material-icons left">home</i>
-                                                        Мой кабинет</a><hr></hr>
+                                                        Мой кабинет</a><br></br>
 						<a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="#exams-schedule">
 							<i class="material-icons left">event</i>
-							Расписание экзаменов</a><br/><hr></hr>
+							Расписание экзаменов</a><br/>
 
 					</span></div>
 				</li>
@@ -82,14 +88,14 @@
 							<i class="material-icons left">subject</i>
 							Объекты</a>
 
-						<hr></hr>
-						<a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="#users-list">
+						<br></br>
+						<a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="/home">
 							<i class="material-icons left">people</i>
-							Список пользователей</a>
-							<hr></hr>
-							<a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="#users-list2">
-								<i class="material-icons left">info</i>
-								Заявки</a>
+							Пользователи и заявки</a>
+							<br></br>
+							<a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="/managerole">
+							<i class="material-icons left">info</i>
+							Роли</a>
 					</span>
 				</div>
 				</li>
@@ -100,11 +106,11 @@
 
 						<a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="#exams-schedule">
 							<i class="material-icons left">account_circle</i>
-							Мой аккаунт</a><hr></hr>
+							Мой аккаунт</a><br></br>
 
 						<a class="waves-effect waves-light btn yellow accent-4" style="width: 100%;" href="#exams-schedule">
 							<i class="material-icons left">settings</i>
-							Настройки</a><hr></hr>
+							Настройки</a><br></br>
 
 						<a class="waves-effect waves-light btn red accent-4 extendfull" href="/logout" style="width: 100%;">
 							<i class="material-icons left">exit_to_app</i>

@@ -18,54 +18,54 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import com.java.domain.Role;
-import com.java.service.RoleService;
+import com.java.domain.Access;
+import com.java.service.AccessService;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 @Controller
-public class RoleController {
+public class AccessController {
     @Autowired
-    private RoleService roleService;
+    private AccessService accessService;
 
-    @RequestMapping(value="/role/", method=RequestMethod.GET)
+    @RequestMapping(value="/access/", method=RequestMethod.GET)
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Role>> getRolePage(HttpServletRequest request, Model model) {
-        List<Role> role = roleService.getAll();
-        return new ResponseEntity<List<Role>>(role, HttpStatus.OK);
+    public ResponseEntity<List<Access>> getAccessPage(HttpServletRequest request, Model model) {
+        List<Access> access = accessService.getAll();
+        return new ResponseEntity<List<Access>>(access, HttpStatus.OK);
     }
     
-    @RequestMapping(value="/role/", method=RequestMethod.OPTIONS)
+    @RequestMapping(value="/access/", method=RequestMethod.OPTIONS)
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity getRoleKeys(HttpServletRequest request, Model model) {
-        return new ResponseEntity(roleService.getFields(), HttpStatus.OK);
+    public ResponseEntity getAccessKeys(HttpServletRequest request, Model model) {
+        return new ResponseEntity(accessService.getFields(), HttpStatus.OK);
     }
     
-    @RequestMapping(value="/role/{id}", method=RequestMethod.GET)
+    @RequestMapping(value="/access/{id}", method=RequestMethod.GET)
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Role> getRolePage(HttpServletRequest request, Model model, @PathVariable("id") UUID id) {
-        Optional<Role> role = roleService.getById(id);
-        return new ResponseEntity<Role>(role.get(), HttpStatus.OK);
+    public ResponseEntity<Access> getAccessPage(HttpServletRequest request, Model model, @PathVariable("id") UUID id) {
+        Optional<Access> access = accessService.getById(id);
+        return new ResponseEntity<Access>(access.get(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/role/", method = RequestMethod.POST, headers="Accept=application/json")
+    @RequestMapping(value="/access/", method = RequestMethod.POST, headers="Accept=application/json")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> add(HttpServletRequest request, @RequestBody Role obj){
-        roleService.save(obj);
+    public ResponseEntity<Void> add(HttpServletRequest request, @RequestBody Access obj){
+        accessService.save(obj);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
  
-    @RequestMapping(value="/role/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
+    @RequestMapping(value="/access/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> update(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Role obj){
+    public ResponseEntity<Void> update(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Access obj){
         obj.setId(id);
-        roleService.update(obj);
+        accessService.update(obj);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/role/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
+    @RequestMapping(value = "/access/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> DeleteRole(HttpServletRequest request, Model model, @PathVariable UUID id) {
-        roleService.delete(id);
+    public ResponseEntity<Void> DeleteAccess(HttpServletRequest request, Model model, @PathVariable UUID id) {
+        accessService.delete(id);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
 

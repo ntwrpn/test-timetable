@@ -25,7 +25,7 @@ public class WebController {
         }
     }
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value="/objects")
     public String objects(){
         return "object";

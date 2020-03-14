@@ -3,6 +3,7 @@ package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -18,8 +19,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "user_roles")
-public class UserRoles {
+@Table(name = "access")
+public class Access {
 
     
     @Id
@@ -27,17 +28,19 @@ public class UserRoles {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    
-    @Column(name = "role")
-    private String role;
 
-    @ManyToMany(mappedBy="userRoles",fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JsonBackReference(value="user-roles")
-    private Set<Users> user;
+    @Column(name = "path")
+    private String path;
     
-    @ManyToMany(mappedBy="userRoles", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JsonBackReference(value="access-roles")
-    private List<Access> access;
+    @Column(name = "type")
+    private String type;
+    
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "roles_access", joinColumns = { @JoinColumn(name = "access_id", nullable = false, updatable = false)},
+     inverseJoinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false)})
+    @Column(name = "roles")
+    private List<UserRoles> userRoles;
+
 
 }
 

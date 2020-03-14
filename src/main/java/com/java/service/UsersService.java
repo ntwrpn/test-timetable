@@ -27,5 +27,9 @@ public interface UsersService {
     void blockUser(UUID id);
     void unBlockUser(UUID id);
 
-    public JSONObject getFields();
+    JSONObject getFields();
+    
+    /*void createPasswordResetTokenForUser(Users user, String token);
+    
+    String validatePasswordResetToken(UUID id, String token);*/
 }

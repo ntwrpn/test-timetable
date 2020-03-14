@@ -15,6 +15,7 @@ const saveJSONDataToLocalStorage = (key, data) => {
 const deleteValueFromTable = (event) => {
     let id = event.currentTarget.value;
     console.log(event.currentTarget);
+    let name = localStorage.getItem("current_open_table");
 
     console.log(id);
     $.ajax({
@@ -23,9 +24,9 @@ const deleteValueFromTable = (event) => {
             'Content-Type': 'application/json' 
         },
         'type': 'DELETE',
-        'url': "/users/"+id,
+        'url': "/"+name+"/"+id,
         'success': function(response) {
-            openTableEvent("users", "?enabled=True");
+            openTableEvent(name, "");
         }
 
     });
@@ -36,7 +37,6 @@ const deleteValueFromTable = (event) => {
 const acceptValueFromTable = (event) => {
   let id = event.currentTarget.value;
   console.log(event.currentTarget);
-
   console.log(id);
   $.ajax({
       headers: { 
@@ -58,7 +58,7 @@ const openTableEvent = (value,add) => {
     //var List = require("collections/list");
 
     clearPostFromModal();
-    createPostFormModal();
+    createPostFormModal(value);
 
     localStorage.setItem("current_open_table", value);
     $.get("/"+value+"/"+add, function(data, status){ 
