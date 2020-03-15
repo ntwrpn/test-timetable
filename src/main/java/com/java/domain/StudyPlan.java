@@ -33,6 +33,10 @@ public class StudyPlan {
     @JsonManagedReference
     @Column(nullable = true)
     private List<Subject> subjects;
+
+    @OneToMany(mappedBy="studyPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value="schedule-movement")
+    private List<Schedule> schedules;
        
     @Column(name = "coefficient")
     private int coefficient;
@@ -40,7 +44,7 @@ public class StudyPlan {
     @Column(name = "count_of_sem")
     private int countOfSem;  
 
-    @OneToMany(mappedBy="studyPlan", cascade = CascadeType.MERGE, orphanRemoval = true)
+    @OneToMany(mappedBy="studyPlan", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value="studyPlan-week-movement")
     @Column(nullable = true)
     private List<WeekCount> weeks;

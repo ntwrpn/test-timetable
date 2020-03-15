@@ -29,7 +29,7 @@ public class WeekCount {
     @Column(name = "count")
     private int count;
     
-    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
     @JoinColumn(name="studyplan", referencedColumnName="id")
     @JsonBackReference(value="studyPlan-week-movement")
     private StudyPlan studyPlan;
