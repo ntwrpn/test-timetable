@@ -14,8 +14,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "Lectern")
-public class Lectern {
+@Table(name = "deanery")
+public class Deanery {
 
     @Id
     @Column(name = "id")
@@ -24,18 +24,14 @@ public class Lectern {
     private UUID id;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name="deanery", referencedColumnName="id", nullable = true)
-    private Deanery deanery;
+    @JoinColumn(name="faculty", referencedColumnName="id", nullable = true)
+    private Faculty faculty;
 
     @Column(name = "fullname")
     private String fullname;
 
     @Column(name = "name")
     private String name;
-
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name="lectern_type_id", referencedColumnName="id", nullable = true)
-    private LecternType lectern_type_id;
 
 }
 
