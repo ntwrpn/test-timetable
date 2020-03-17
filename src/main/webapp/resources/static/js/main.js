@@ -1224,6 +1224,7 @@ $(document).ready(() => {
         {name:"Группы", key:"groups"},
         {name:"Поток", key:"flow"},
         {name:"Кафедры", key:"lectern"},
+        {name:"Деканаты", key:"deanery"},
         {name:"Типы кафедр", key:"lecterntype"},
         {name:"Занятия", key:"lesson"},
         //{name:"Пла ханятийн", key:"neededlesson"},
@@ -1236,7 +1237,8 @@ $(document).ready(() => {
         {name:"Типы аудиторий", key:"classroomtype"},
         {name:"Корпуса", key:"corps"},
         {name:"Факультеты", key:"faculty"},
-        {name:"Смены", key:"turn"}
+        {name:"Смены", key:"turn"},
+
         //{name:"Типы занятий", key:"typeoflesson"}
     ]
 

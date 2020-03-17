@@ -59,17 +59,16 @@ const getJSONfromForm = (formname) => {
             if (typeof(json[formData[data]['name']]) == "undefined"){
                 json[formData[data]['name']] = [];
             }
-            console.log(formData[data]);
-
             json[formData[data]['name']].push(current_data);
-        } else if (["boolean"].includes(optionType[formData[data]['name']])){
-            json[formData[data]['name']].push(formData[data]['value']);
+        } else if (["boolean", "uuid", "id"].includes(optionType[formData[data]['name']])){
+            if (formData[data]['value']!="undefined"){
+                json[formData[data]['name']]=formData[data]['value'];
+            }
         }
         else {
             let current_data = getDataFromServer(optionType[formData[data]['name']]+"/"+formData[data]['value']);
             json[formData[data]['name']] = current_data;
         }
-
 
     }
     console.log(json);
@@ -144,6 +143,12 @@ const createPostFormModal = (changeData) => {
 
     for (let key in data){
         if (key=="id"){
+             let loadField = document.createElement("input");
+            loadField.id = key;
+            loadField.name = key;
+            loadField.type = "hidden";
+            loadField.value = changeData[key];
+            modalContent.appendChild(loadField);
             continue;
         }
         let local_var_type = getFieldTypeByOptions(data[key]);
@@ -267,7 +272,7 @@ const createPostFormModal = (changeData) => {
     let addButton = document.createElement("a");
     addButton.className = "modal-close waves-effect waves-green btn green accent-4";
     addButton.id = "add-load-button";
-    addButton.href = "#!";
+    //addButton.href = "#!";
     addButton.innerText = "Добавить";
     addButton.addEventListener("click", addFromEvent);
     modalFooter.appendChild(addButton);
@@ -275,7 +280,7 @@ const createPostFormModal = (changeData) => {
     let exitButton = document.createElement("a");
     exitButton.className = "modal-close waves-effect waves-green btn red accent-4";
     exitButton.id = "exit-load-button";
-    exitButton.href = "#!";
+    //exitButton.href = "#!";
     exitButton.innerText = "Выйти";
 
     modalFooter.appendChild(exitButton);
