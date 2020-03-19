@@ -22,17 +22,22 @@ const getFieldTypeByOptions = (type) => {
 const addFromEvent = () => {
     let json = getJSONfromForm("add-modal-content");
 
-    let name = localStorage.getItem("current_open_table");
+    let name = "/"+localStorage.getItem("current_open_table")+"/";
     console.log(json);
+    let type = 'POST';
+    if (json['id']!=undefined && json['id']!=null){
+        type = 'PUT';
+        name = name+json['id'];
+    }
     
     $.ajax({
         headers: { 
             'Accept': 'application/json',
             'Content-Type': 'application/json' 
         },
-        'type': 'POST',
+        'type': type,
         'async': false,
-        'url': "/"+name+"/",
+        'url': name,
         'data': JSON.stringify(json),
         'dataType': 'json',
         'success': function(response) {
@@ -150,6 +155,8 @@ const createPostFormModal = (changeData) => {
             loadField.value = changeData[key];
             modalContent.appendChild(loadField);
             continue;
+        } else if (key=="password" && changeData.id!=undefined){
+            continue;
         }
         let local_var_type = getFieldTypeByOptions(data[key]);
         if(["text", "int"].includes(local_var_type)){
@@ -189,12 +196,14 @@ const createPostFormModal = (changeData) => {
         }
         for (let key_value in big_data){
           let option = document.createElement("option");
+          console.log(big_data[key_value]);
+          console.log(changeData[key]);
           option.id = key;
           option.name = key;
           option.value = big_data[key_value]["id"];
           option.innerText = big_data[key_value]["role"];
           if (changeData!=undefined && changeData[key]!=null){
-            if (changeData[key].find(obj => obj.user_role_id == big_data[key_value]["id"])){
+            if (changeData[key].find(obj => obj.id == big_data[key_value]["id"])){
                 option.selected=true;
             }
            }
@@ -221,9 +230,9 @@ const createPostFormModal = (changeData) => {
             for (let key_value in big_data){
               let option = document.createElement("option");
               option.id = key;
-              option.name = key_value;
-              option.value = key_value;
-              option.innerText = key_value.toString();
+              option.name = key;
+              option.value = big_data[key_value].toString();
+              option.innerText = big_data[key_value].toString();
               if (changeData!=undefined && changeData[key]!=null){
                 if (changeData[key]==true){
                     option.selected=true;
@@ -245,7 +254,7 @@ const createPostFormModal = (changeData) => {
         loadField.setAttribute("name", key);
         loadField.className = "select";
         loadField.required = true;
-        
+        console.log(key);
         let big_data = getDataFromServer(local_var_type);
         for (let key_value in big_data){
           let option = document.createElement("option");
@@ -253,8 +262,10 @@ const createPostFormModal = (changeData) => {
           option.name = key;
           option.value = big_data[key_value]["id"];
           option.innerText = big_data[key_value]["name"];
+          console.log(changeData);
+
           if (changeData!=undefined && changeData[key]!=null){
-            if (changeData[key].includes(key_value)){
+            if (changeData[key] == big_data[key_value]["name"]){
                 option.selected=true;
             }
            }

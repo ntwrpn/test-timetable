@@ -33,13 +33,28 @@ public class UsersController {
 
     @RequestMapping(value="/users/", method=RequestMethod.GET)
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Users>> getUsersPage(HttpServletRequest request, @RequestParam(required = false) Boolean enabled, Model model) {
+    public ResponseEntity<List<Users>> getUsersPage(HttpServletRequest request, @RequestParam(required = false) Boolean enabled,
+            @RequestParam(required = false) String lectern_name,
+            @RequestParam(required = false) String deanery_name,
+            @RequestParam(required = false) UUID lectern,
+            @RequestParam(required = false) UUID deanery,
+            Model model) {
         List<Users> users;
         if (enabled!=null){
             users = usersService.getByEnabled(enabled);
-        } else{
+        } else if (deanery_name!=null){
+            users = usersService.getByDeaneryName(deanery_name);
+        } else if (lectern_name!=null){
+            users = usersService.getByLecternName(lectern_name);
+        } else if (deanery!=null){
+            users = usersService.getByDeanery(deanery);
+        } else if (lectern!=null){
+            users = usersService.getByLectern(lectern);
+        }
+        else{
             users = usersService.getAll();
         }
+        
         return new ResponseEntity<List<Users>>(users, HttpStatus.OK);
     }
     
@@ -63,12 +78,22 @@ public class UsersController {
         usersService.save(obj);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
+    
+    @RequestMapping(value="/users/accept/{id}", method=RequestMethod.POST)
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Users> accept(HttpServletRequest request, Model model, @PathVariable("id") UUID id) {
+        Users user = usersService.getById(id).get();
+        user.setEnabled(true);
+        usersService.update(user);
+        return new ResponseEntity<Users>(user, HttpStatus.OK);
+    }
  
     @RequestMapping(value="/users/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> update(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Users obj){
-        obj.setPassword(passwordEncoder.encode(obj.getPassword()));
         obj.setId(id);
+        Users user = usersService.getById(id).get();
+        obj.setPassword(user.getPassword());
         usersService.update(obj);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }

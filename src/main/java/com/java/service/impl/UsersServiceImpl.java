@@ -84,6 +84,28 @@ public class UsersServiceImpl implements UsersService {
         }
         return usersRepository.findByEnabledFalse();
     }
+    
+    @Override
+    public List<Users> getByLecternName(String lectern){
+        return usersRepository.getByLectern(lectern);
+    }
+    
+    @Override
+    public List<Users> getByDeaneryName(String deanery){
+        return usersRepository.getByDeanery(deanery);
+    }
+    
+    @Override
+    public List<Users> getByLectern(UUID id){
+        return usersRepository.findByLectern(id);
+    }
+    
+    @Override
+    public List<Users> getByDeanery(UUID id){
+        return usersRepository.findByDeanery(id);
+    }
+    
+    
     /*
     @Override
     public void createPasswordResetTokenForUser(Users user, String token) {

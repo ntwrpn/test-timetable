@@ -23,6 +23,27 @@ public interface UsersRepository extends JpaRepository<Users,UUID> {
     List<Users> findByEnabledTrue();
     
     List<Users> findByEnabledFalse();
+    
+    @Modifying
+    @Transactional
+    @Query( value = "select * from users where deanery=?1", nativeQuery = true)
+    List<Users> findByDeanery(UUID id);
+
+    @Modifying
+    @Transactional
+    @Query( value = "select * from users where lectern=?1", nativeQuery = true)
+    List<Users> findByLectern(UUID id);
+
+    @Modifying
+    @Transactional
+    @Query( value = "select * from users as t1 join deanery as t2 on t2.name=?1 where t1.deanery=t2.id;", nativeQuery = true)
+    List<Users> getByDeanery(String deanery);
+
+    @Modifying
+    @Transactional
+    @Query( value = "select * from users as t1 join lectern as t2 on t2.name=?1 where t1.lectern=t2.id;", nativeQuery = true)
+    List<Users> getByLectern(String lectern);
+
 
     @Modifying
     @Transactional

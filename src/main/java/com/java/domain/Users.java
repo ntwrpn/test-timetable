@@ -48,6 +48,32 @@ public class Users {
     //@JsonManagedReference
     @JsonIgnoreProperties("username")
     private Set<UserRoles> userRoles;
+    
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE )
+    @JoinColumn(name="deanery", referencedColumnName="id", nullable = true)
+    private Deanery deanery;
+    
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE )
+    @JoinColumn(name="lectern", referencedColumnName="id", nullable = true)
+    private Lectern lectern;
+    
+    public String getLectern(){
+        if (lectern!=null){
+            return lectern.getName();
+        }
+        else{
+            return null;
+        }
+    }
+    
+    public String getDeanery(){
+        if (deanery!=null){
+            return deanery.getName();
+        }
+        else{
+            return null;
+        }
+    }
 
 }
 
