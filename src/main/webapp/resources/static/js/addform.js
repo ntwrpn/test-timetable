@@ -265,7 +265,7 @@ const createPostFormModal = (changeData) => {
           console.log(changeData);
 
           if (changeData!=undefined && changeData[key]!=null){
-            if (changeData[key] == big_data[key_value]["name"]){
+            if (changeData[key] == big_data[key_value]["id"]){
                 option.selected=true;
             }
            }

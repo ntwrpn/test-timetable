@@ -57,18 +57,18 @@ public class Users {
     @JoinColumn(name="lectern", referencedColumnName="id", nullable = true)
     private Lectern lectern;
     
-    public String getLectern(){
+    public UUID getLectern(){
         if (lectern!=null){
-            return lectern.getName();
+            return lectern.getId();
         }
         else{
             return null;
         }
     }
     
-    public String getDeanery(){
+    public UUID getDeanery(){
         if (deanery!=null){
-            return deanery.getName();
+            return deanery.getId();
         }
         else{
             return null;

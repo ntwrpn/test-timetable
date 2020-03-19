@@ -130,15 +130,14 @@ const createTbody = (data, accept) => {
                 td.append(" ");
                 input.append(td);
             }
-          } else  if (item[key]==null){
+          } else if (item[key]==null){
             td.append(" ");
             input.append(td);
-          }
-          else {
+          } else {
           td.append(item[key]);
           input.append(td);
-            }
-        } else{
+          }
+      } else{
           id = item[key];
           input.id = id;
         }
