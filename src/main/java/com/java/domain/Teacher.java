@@ -1,6 +1,7 @@
 
 package com.java.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "Teacher")
+@Table(name = "teacher")
 public class Teacher {
 
     @Id
@@ -25,8 +26,10 @@ public class Teacher {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column(name = "lectern_id")
-    private int lectern_id;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="lectern_id")
+    @JsonIgnore
+    private Lectern lectern;
 
     @Column(name = "name")
     private String name;
@@ -36,5 +39,14 @@ public class Teacher {
 
     @Column(name = "surname")
     private String surname;
+
+    @Column(name = "position")
+    private String position;
+
+    @Column(name = "rank")
+    private String rank;
+
+    @Column(name = "academic_degree")
+    private String academic_degree;
 }
 

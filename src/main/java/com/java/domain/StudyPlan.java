@@ -25,51 +25,50 @@ public class StudyPlan {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    
+
     @Column(name = "name")
     private String name;
-    
-    @OneToMany(mappedBy="studyPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(mappedBy = "studyPlan", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     @Column(nullable = true)
     private List<Subject> subjects;
 
-    @OneToMany(mappedBy="studyPlan", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference(value="schedule-movement")
+    @OneToMany(mappedBy = "studyPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "schedule-movement")
     private List<Schedule> schedules;
-       
+
     @Column(name = "coefficient")
     private int coefficient;
 
     @Column(name = "count_of_sem")
-    private int countOfSem;  
+    private int countOfSem;
 
     @OneToMany(mappedBy="studyPlan", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value="studyPlan-week-movement")
     @Column(nullable = true)
     private List<WeekCount> weeks;
-    
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name="speciality", referencedColumnName="id", nullable = true)
-    private Speciality speciality;  
-    
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "speciality_id", nullable = true)
+    @JsonIgnoreProperties(value = {"descr", "lectern", "studyPlan"})
+    private Speciality speciality;
+
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
-    private StudyPlanStatus status;  
-    
+    private StudyPlanStatus status;
+
     @Column(name = "status_apply_date")
-    private Date statusApplyDate;  
-    
+    private Date statusApplyDate;
+
     @Column(name = "register_number")
-    private int registerNumber; 
-    
+    private int registerNumber;
+
     @Column(name = "register_number_apply_date")
-    private Date registerNumberApplyDate;  
+    private Date registerNumberApplyDate;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "education_form")
-    private EducationForm educationForm;  
-    
+    private EducationForm educationForm;
 }
 

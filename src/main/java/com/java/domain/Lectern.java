@@ -1,10 +1,12 @@
 package com.java.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -14,7 +16,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "Lectern")
+@Table(name = "lectern")
 public class Lectern {
 
     @Id
@@ -22,20 +24,28 @@ public class Lectern {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name="deanery", referencedColumnName="id", nullable = true)
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "deanery", referencedColumnName = "id", nullable = true)
+    @JsonIgnore
     private Deanery deanery;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "lectern_type_id", referencedColumnName = "id", nullable = true)
+    private LecternType lectern_type_id;
+
+    @OneToMany(mappedBy = "lectern", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Teacher> teachers;
+
+    @OneToMany(mappedBy = "lectern", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Speciality> specialities;
 
     @Column(name = "fullname")
     private String fullname;
 
     @Column(name = "name")
     private String name;
-
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name="lectern_type_id", referencedColumnName="id", nullable = true)
-    private LecternType lectern_type_id;
-
 }
 

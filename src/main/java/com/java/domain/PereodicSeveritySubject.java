@@ -42,10 +42,9 @@ public class PereodicSeveritySubject {
     private Set<SemesterNumber> semesterNumbers;
     
     @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
-    @JoinColumn(name="subject", referencedColumnName="id", nullable = true)
+    @JoinColumn(name="subject_id", nullable = true)
     @JsonBackReference(value = "pereodic-severity-subject-movement")
     private Subject subject;
-    
 
 }
 

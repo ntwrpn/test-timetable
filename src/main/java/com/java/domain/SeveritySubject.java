@@ -33,14 +33,13 @@ public class SeveritySubject {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="severity_id", nullable = true)
     @JsonIgnoreProperties(value = "severitySubjects", allowSetters = true)
-//    @JsonBackReference(value = "severity-movement")
     private Severity severity;
 
     @Column(name = "hours")
     private int hours;
     
     @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
-    @JoinColumn(name="subject", referencedColumnName="id", nullable = true)
+    @JoinColumn(name="subject_id", nullable = true)
     @JsonBackReference(value = "severity-subject-movement")
     private Subject subject;
 

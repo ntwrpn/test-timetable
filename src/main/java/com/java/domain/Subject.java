@@ -52,6 +52,9 @@ public class Subject {
     
     @Column(name = "description")
     private String description;
+
+    @Column(name = "is_template")
+    private boolean isTemplate;
     
     @OneToMany(mappedBy="subject", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
