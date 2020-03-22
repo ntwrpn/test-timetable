@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -16,4 +17,7 @@ public interface StudyPlanRepository extends JpaRepository<StudyPlan,UUID> {
     Optional<StudyPlan> findById(UUID uuid);
 
     void deleteById(UUID uuid);
+	
+	@Query(value = "select st.* from studyplan st, speciality sp where st.speciality_id=sp.id and sp.lectern=?1",nativeQuery = true)
+	List<StudyPlan> findStudyplansByLecternId(UUID id);
 }

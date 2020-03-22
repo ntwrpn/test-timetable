@@ -53,5 +53,10 @@ public class StudyPlanServiceImpl implements StudyPlanService {
         }
         return obj;
     }
+	
+	@Override
+	public List<StudyPlan> findStudyplansByLecternId(UUID id){
+		return studyPlanRepository.findStudyplansByLecternId(id);
+	}
 }
 

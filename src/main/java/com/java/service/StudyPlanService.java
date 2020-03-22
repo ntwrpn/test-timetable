@@ -20,4 +20,6 @@ public interface StudyPlanService {
     Optional<StudyPlan> getById(UUID userId);
     
     public JSONObject getFields();
+	
+	List<StudyPlan> findStudyplansByLecternId(UUID id);
 }
