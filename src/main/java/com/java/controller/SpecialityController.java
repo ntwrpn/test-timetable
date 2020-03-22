@@ -4,69 +4,61 @@ package com.java.controller;
 import java.util.List;
 import java.util.UUID;
 import java.util.Optional;
-import java.util.HashMap;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import com.java.domain.Speciality;
 import com.java.service.SpecialityService;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-@Controller
+@RestController
+@RequestMapping("/api/speciality")
 public class SpecialityController {
+
     @Autowired
     private SpecialityService specialityService;
 
-    @RequestMapping(value="/speciality/", method=RequestMethod.GET)
+    @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Speciality>> getSpecialityPage(HttpServletRequest request, Model model) {
-        List<Speciality> speciality = specialityService.getAll();
-        return new ResponseEntity<List<Speciality>>(speciality, HttpStatus.OK);
+    public ResponseEntity<List<Speciality>> getSpecialities(HttpServletRequest request) {
+        return new ResponseEntity<>(specialityService.getAll(), HttpStatus.OK);
     }
     
-    @RequestMapping(value="/speciality/", method=RequestMethod.OPTIONS)
+    @RequestMapping(value="/", method=RequestMethod.OPTIONS)
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity getSpecialityKeys(HttpServletRequest request, Model model) {
         return new ResponseEntity(specialityService.getFields(), HttpStatus.OK);
     }
     
-    @RequestMapping(value="/speciality/{id}", method=RequestMethod.GET)
+    @GetMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Speciality> getSpecialityPage(HttpServletRequest request, Model model, @PathVariable("id") UUID id) {
-        Optional<Speciality> speciality = specialityService.getById(id);
-        return new ResponseEntity<Speciality>(speciality.get(), HttpStatus.OK);
+    public ResponseEntity<Speciality> getSpeciality(HttpServletRequest request, @PathVariable("id") UUID id) {
+        return new ResponseEntity<>(specialityService.getById(id).get(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/speciality/", method = RequestMethod.POST, headers="Accept=application/json")
+    @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> add(HttpServletRequest request, @RequestBody Speciality obj){
-        specialityService.save(obj);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    public ResponseEntity<Speciality> addSpecialty(HttpServletRequest request, @RequestBody Speciality speciality){
+        return new ResponseEntity<>(specialityService.save(speciality), HttpStatus.CREATED);
     }
  
-    @RequestMapping(value="/speciality/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
+    @PutMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> update(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Speciality obj){
-        obj.setId(id);
-        specialityService.update(obj);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+    public ResponseEntity<Speciality> updateSpeciality(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Speciality speciality){
+        speciality.setId(id);
+        return new ResponseEntity<>(specialityService.update(speciality), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/speciality/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
+    @DeleteMapping(value = "/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> DeleteSpeciality(HttpServletRequest request, Model model, @PathVariable UUID id) {
+    public ResponseEntity<Void> deleteSpeciality(HttpServletRequest request, @PathVariable UUID id) {
         specialityService.delete(id);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
