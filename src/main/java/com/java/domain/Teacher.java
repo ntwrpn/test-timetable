@@ -48,5 +48,9 @@ public class Teacher {
 
     @Column(name = "academic_degree")
     private String academicDegree;
+    
+    @OneToOne(mappedBy = "teacher")
+    @JsonIgnore
+    private Users users;
 }
 

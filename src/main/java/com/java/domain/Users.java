@@ -57,6 +57,11 @@ public class Users {
     @JoinColumn(name="lectern", referencedColumnName="id", nullable = true)
     private Lectern lectern;
     
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "teacher", referencedColumnName = "id")
+    private Teacher teacher;
+    
+    
     public UUID getLectern(){
         if (lectern!=null){
             return lectern.getId();

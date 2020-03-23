@@ -49,7 +49,9 @@ public class FacultyServiceImpl implements FacultyService {
     public JSONObject getFields() {
         JSONObject obj = new JSONObject();
         for (Field field : Faculty.class.getDeclaredFields()) {
-            obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
+            if (field.getName()!="flow" ){
+                obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
+            }
         }
         return obj;
     }

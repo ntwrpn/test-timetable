@@ -126,9 +126,15 @@ const createTbody = (data, accept) => {
         if (key != 'id'){
           if (typeof(item[key])=="object" && item[key]!=null){
               for (let role in item[key]){
-                td.append(item[key][role]["role"]);
-                td.append(" ");
-                input.append(td);
+                 if (item[key][role]["role"]!=undefined){
+                    td.append(item[key][role]["role"]);
+                    td.append(" ");
+                    input.append(td);
+                 } else{
+                      td.append(item[key]["name"]);
+                      input.append(td);
+                      break;
+                 }
             }
           } else if (item[key]==null){
             td.append(" ");
