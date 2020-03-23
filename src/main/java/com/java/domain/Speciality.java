@@ -1,6 +1,7 @@
 
 package com.java.domain;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
@@ -27,11 +28,11 @@ public class Speciality {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column(name = "descr")
-    private String descr;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name="lectern", referencedColumnName="id", nullable = true)
+    @Column(name = "description")
+    private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "lectern_id", nullable = true)
     @JsonIgnore
     private Lectern lectern;
 

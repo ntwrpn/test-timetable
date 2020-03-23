@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,28 +29,34 @@ public class SpecialityController {
     public ResponseEntity<List<Speciality>> getSpecialities(HttpServletRequest request) {
         return new ResponseEntity<>(specialityService.getAll(), HttpStatus.OK);
     }
-    
-    @RequestMapping(value="/", method=RequestMethod.OPTIONS)
+
+    @RequestMapping(value = "/", method = RequestMethod.OPTIONS)
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity getSpecialityKeys(HttpServletRequest request, Model model) {
         return new ResponseEntity(specialityService.getFields(), HttpStatus.OK);
     }
-    
+
     @GetMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Speciality> getSpeciality(HttpServletRequest request, @PathVariable("id") UUID id) {
         return new ResponseEntity<>(specialityService.getById(id).get(), HttpStatus.OK);
     }
 
+//    @PostMapping("/")
+//    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+//    public ResponseEntity<Speciality> addSpecialty(HttpServletRequest request, @RequestBody Speciality speciality) {
+//        return new ResponseEntity<>(specialityService.save(speciality), HttpStatus.CREATED);
+//    }
+
     @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Speciality> addSpecialty(HttpServletRequest request, @RequestBody Speciality speciality){
-        return new ResponseEntity<>(specialityService.save(speciality), HttpStatus.CREATED);
+    public ResponseEntity<Speciality> addSpecialtyToLectern(HttpServletRequest request, @RequestParam(name = "lecternId") UUID letcternId, @RequestBody Speciality speciality) {
+        return new ResponseEntity<>(specialityService.save(speciality, letcternId), HttpStatus.CREATED);
     }
- 
+
     @PutMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Speciality> updateSpeciality(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Speciality speciality){
+    public ResponseEntity<Speciality> updateSpeciality(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Speciality speciality) {
         speciality.setId(id);
         return new ResponseEntity<>(specialityService.update(speciality), HttpStatus.OK);
     }

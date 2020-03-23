@@ -47,6 +47,6 @@ public class Teacher {
     private String rank;
 
     @Column(name = "academic_degree")
-    private String academic_degree;
+    private String academicDegree;
 }
 

@@ -11,6 +11,8 @@ public interface SpecialityService {
 
     Speciality save(Speciality Speciality);
 
+    Speciality save(Speciality Speciality, UUID lecternId);
+
     Speciality update(Speciality Speciality);
 
     void delete(UUID id);

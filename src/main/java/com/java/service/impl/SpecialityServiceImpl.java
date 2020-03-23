@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.java.domain.Speciality;
+import com.java.repository.LecternRepository;
 import com.java.repository.SpecialityRepository;
 
 import java.lang.reflect.Field;
@@ -20,14 +21,30 @@ public class SpecialityServiceImpl implements SpecialityService {
     @Autowired
     private SpecialityRepository specialityRepository;
 
+    @Autowired
+    private LecternRepository lecternRepository;
+
     @Override
     public Speciality save(Speciality obj) {
         return specialityRepository.save(obj);
     }
 
     @Override
-    public Speciality update(Speciality obj) {
+    public Speciality save(Speciality obj, UUID lecternId) {
+        obj.setLectern(lecternRepository.findById(lecternId).get());
         return specialityRepository.save(obj);
+    }
+
+    @Override
+    public Speciality update(Speciality obj) {
+        Optional<Speciality> speciality = specialityRepository.findById(obj.getId());
+        if(speciality.isPresent()){
+            speciality.get().setId(obj.getId());
+            speciality.get().setDescription(obj.getDescription());
+            speciality.get().setName(obj.getName());
+            return specialityRepository.save(speciality.get());
+        }
+        return null;
     }
 
     @Override
