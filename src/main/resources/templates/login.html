@@ -40,7 +40,7 @@
 		<div th:if="${param.logout}">
 			<h1 style="color: blue">Выход.</h1>
 		</div>
-		<form th:action="@{/login}" method="post">
+		<form id="login-form" th:action="@{/api/auth/signin}" method="post">
                     <div class="row">
 			<div class="input-field col s12">
 				<label for="username">Логин(email): </label>
@@ -53,9 +53,9 @@
 				<input type="password" class="validate" id="password" placeholder="Введите пароль" name="password"/>
 			</div>
                             </div>
-      <button class="modal-close btn waves-effect waves-light green accent-4" type="submit" name="action">Войти
+      <a class="modal-close btn waves-effect waves-light green accent-4" onclick="LoginClick()" name="action">Войти
         <i class="material-icons right">send</i>
-      </button>
+      </a>
 		</form>
 	</div>
 		<div>
