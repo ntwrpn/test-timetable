@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests().antMatchers("/api/auth/**", "/", "/registration/", "/resources/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/auth/**", "/registration/", "/resources/**").permitAll().anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll();
         http.cors().and().csrf().disable();
         http.exceptionHandling().accessDeniedPage("/403");
         
