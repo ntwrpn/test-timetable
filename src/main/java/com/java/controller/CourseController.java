@@ -3,72 +3,63 @@ package com.java.controller;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.Optional;
-import java.util.HashMap;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import com.java.domain.Course;
 import com.java.service.CourseService;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-@Controller
+@RestController
+@RequestMapping("/api/course")
 public class CourseController {
+
     @Autowired
     private CourseService courseService;
 
-    @RequestMapping(value="/course/", method=RequestMethod.GET)
+    @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Course>> getCoursePage(HttpServletRequest request, Model model) {
-        List<Course> course = courseService.getAll();
-        return new ResponseEntity<List<Course>>(course, HttpStatus.OK);
+    public ResponseEntity<List<Course>> getCourses(HttpServletRequest request) {
+        return new ResponseEntity<>(courseService.getAll(), HttpStatus.OK);
     }
-    
-    @RequestMapping(value="/course/", method=RequestMethod.OPTIONS)
+
+    @RequestMapping(value = "/", method = RequestMethod.OPTIONS)
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity getCourseKeys(HttpServletRequest request, Model model) {
         return new ResponseEntity(courseService.getFields(), HttpStatus.OK);
     }
-    
-    @RequestMapping(value="/course/{id}", method=RequestMethod.GET)
+
+    @GetMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Course> getCoursePage(HttpServletRequest request, Model model, @PathVariable("id") UUID id) {
-        Optional<Course> course = courseService.getById(id);
-        return new ResponseEntity<Course>(course.get(), HttpStatus.OK);
+    public ResponseEntity<Course> getCourse(HttpServletRequest request, @PathVariable("id") UUID id) {
+        return new ResponseEntity<>(courseService.getById(id).get(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/course/", method = RequestMethod.POST, headers="Accept=application/json")
+    @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> add(HttpServletRequest request, @RequestBody Course obj){
-        courseService.save(obj);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
-    }
- 
-    @RequestMapping(value="/course/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
-    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> update(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Course obj){
-        obj.setId(id);
-        courseService.update(obj);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+    public ResponseEntity<Course> addCourse(HttpServletRequest request, @RequestBody Course Course) {
+        return new ResponseEntity<>(courseService.save(Course), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/course/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
+    @PutMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> DeleteCourse(HttpServletRequest request, Model model, @PathVariable UUID id) {
+    public ResponseEntity<Course> updateCourse(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Course Course) {
+        Course.setId(id);
+        return new ResponseEntity<>(courseService.update(Course), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> deleteCourse(HttpServletRequest request, @PathVariable UUID id) {
         courseService.delete(id);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
-
 

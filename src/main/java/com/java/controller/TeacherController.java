@@ -43,15 +43,15 @@ public class TeacherController {
 
     @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Teacher> addTeacher(HttpServletRequest request, @RequestBody Teacher teacher) {
-        return new ResponseEntity<>(teacherService.save(teacher), HttpStatus.CREATED);
+    public ResponseEntity<Teacher> addTeacher(HttpServletRequest request, @RequestBody Teacher Teacher) {
+        return new ResponseEntity<>(teacherService.save(Teacher), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Teacher> updateTeacher(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Teacher teacher) {
-        teacher.setId(id);
-        return new ResponseEntity<>(teacherService.update(teacher), HttpStatus.OK);
+    public ResponseEntity<Teacher> updateTeacher(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Teacher Teacher) {
+        Teacher.setId(id);
+        return new ResponseEntity<>(teacherService.update(Teacher), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -62,5 +62,4 @@ public class TeacherController {
     }
 
 }
-
 

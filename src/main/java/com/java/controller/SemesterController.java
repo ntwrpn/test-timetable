@@ -3,72 +3,63 @@ package com.java.controller;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.Optional;
-import java.util.HashMap;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import com.java.domain.Semester;
 import com.java.service.SemesterService;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-@Controller
+@RestController
+@RequestMapping("/api/semester")
 public class SemesterController {
+
     @Autowired
     private SemesterService semesterService;
 
-    @RequestMapping(value="/semester/", method=RequestMethod.GET)
+    @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Semester>> getSemesterPage(HttpServletRequest request, Model model) {
-        List<Semester> semester = semesterService.getAll();
-        return new ResponseEntity<List<Semester>>(semester, HttpStatus.OK);
+    public ResponseEntity<List<Semester>> getSemesters(HttpServletRequest request) {
+        return new ResponseEntity<>(semesterService.getAll(), HttpStatus.OK);
     }
-    
-    @RequestMapping(value="/semester/", method=RequestMethod.OPTIONS)
+
+    @RequestMapping(value = "/", method = RequestMethod.OPTIONS)
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity getSemesterKeys(HttpServletRequest request, Model model) {
         return new ResponseEntity(semesterService.getFields(), HttpStatus.OK);
     }
-    
-    @RequestMapping(value="/semester/{id}", method=RequestMethod.GET)
+
+    @GetMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Semester> getSemesterPage(HttpServletRequest request, Model model, @PathVariable("id") UUID id) {
-        Optional<Semester> semester = semesterService.getById(id);
-        return new ResponseEntity<Semester>(semester.get(), HttpStatus.OK);
+    public ResponseEntity<Semester> getSemester(HttpServletRequest request, @PathVariable("id") UUID id) {
+        return new ResponseEntity<>(semesterService.getById(id).get(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/semester/", method = RequestMethod.POST, headers="Accept=application/json")
+    @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> add(HttpServletRequest request, @RequestBody Semester obj){
-        semesterService.save(obj);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
-    }
- 
-    @RequestMapping(value="/semester/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
-    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> update(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Semester obj){
-        obj.setId(id);
-        semesterService.update(obj);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+    public ResponseEntity<Semester> addSemester(HttpServletRequest request, @RequestBody Semester Semester) {
+        return new ResponseEntity<>(semesterService.save(Semester), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/semester/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
+    @PutMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> DeleteSemester(HttpServletRequest request, Model model, @PathVariable UUID id) {
+    public ResponseEntity<Semester> updateSemester(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Semester Semester) {
+        Semester.setId(id);
+        return new ResponseEntity<>(semesterService.update(Semester), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> deleteSemester(HttpServletRequest request, @PathVariable UUID id) {
         semesterService.delete(id);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
-
 

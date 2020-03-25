@@ -64,7 +64,7 @@ public class UsersServiceImpl implements UsersService {
         ObjectMapper mapper = new ObjectMapper();
         SchemaFactoryWrapper visitor = new SchemaFactoryWrapper();
         try{
-            mapper.acceptJsonFormatVisitor(TypeOfLesson.class, visitor);
+            mapper.acceptJsonFormatVisitor(Users.class, visitor);
             JsonSchema schema = visitor.finalSchema();
             return schema;
         } catch (IOException exx){

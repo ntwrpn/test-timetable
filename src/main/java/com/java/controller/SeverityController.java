@@ -3,72 +3,63 @@ package com.java.controller;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.Optional;
-import java.util.HashMap;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import com.java.domain.Severity;
 import com.java.service.SeverityService;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-@Controller
+@RestController
+@RequestMapping("/api/severity")
 public class SeverityController {
+
     @Autowired
     private SeverityService severityService;
 
-    @RequestMapping(value="/severity/", method=RequestMethod.GET)
+    @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Severity>> getSeverityPage(HttpServletRequest request, Model model) {
-        List<Severity> severity = severityService.getAll();
-        return new ResponseEntity<List<Severity>>(severity, HttpStatus.OK);
+    public ResponseEntity<List<Severity>> getSeveritys(HttpServletRequest request) {
+        return new ResponseEntity<>(severityService.getAll(), HttpStatus.OK);
     }
-    
-    @RequestMapping(value="/severity/", method=RequestMethod.OPTIONS)
+
+    @RequestMapping(value = "/", method = RequestMethod.OPTIONS)
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity getSeverityKeys(HttpServletRequest request, Model model) {
         return new ResponseEntity(severityService.getFields(), HttpStatus.OK);
     }
-    
-    @RequestMapping(value="/severity/{id}", method=RequestMethod.GET)
+
+    @GetMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Severity> getSeverityPage(HttpServletRequest request, Model model, @PathVariable("id") UUID id) {
-        Optional<Severity> severity = severityService.getById(id);
-        return new ResponseEntity<Severity>(severity.get(), HttpStatus.OK);
+    public ResponseEntity<Severity> getSeverity(HttpServletRequest request, @PathVariable("id") UUID id) {
+        return new ResponseEntity<>(severityService.getById(id).get(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/severity/", method = RequestMethod.POST, headers="Accept=application/json")
+    @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> add(HttpServletRequest request, @RequestBody Severity obj){
-        severityService.save(obj);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
-    }
- 
-    @RequestMapping(value="/severity/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
-    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> update(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Severity obj){
-        obj.setId(id);
-        severityService.update(obj);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+    public ResponseEntity<Severity> addSeverity(HttpServletRequest request, @RequestBody Severity Severity) {
+        return new ResponseEntity<>(severityService.save(Severity), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/severity/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
+    @PutMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> DeleteSeverity(HttpServletRequest request, Model model, @PathVariable UUID id) {
+    public ResponseEntity<Severity> updateSeverity(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Severity Severity) {
+        Severity.setId(id);
+        return new ResponseEntity<>(severityService.update(Severity), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> deleteSeverity(HttpServletRequest request, @PathVariable UUID id) {
         severityService.delete(id);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
-
 

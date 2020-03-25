@@ -61,7 +61,7 @@ public class UserRolesServiceImpl implements UserRolesService {
         ObjectMapper mapper = new ObjectMapper();
         SchemaFactoryWrapper visitor = new SchemaFactoryWrapper();
         try{
-            mapper.acceptJsonFormatVisitor(TypeOfLesson.class, visitor);
+            mapper.acceptJsonFormatVisitor(UserRoles.class, visitor);
             JsonSchema schema = visitor.finalSchema();
             return schema;
         } catch (IOException exx){

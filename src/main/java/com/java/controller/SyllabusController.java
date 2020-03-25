@@ -3,72 +3,63 @@ package com.java.controller;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.Optional;
-import java.util.HashMap;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import com.java.domain.Syllabus;
 import com.java.service.SyllabusService;
 import org.springframework.security.access.prepost.PreAuthorize;
 
-@Controller
+@RestController
+@RequestMapping("/api/syllabus")
 public class SyllabusController {
+
     @Autowired
     private SyllabusService syllabusService;
 
-    @RequestMapping(value="/syllabus/", method=RequestMethod.GET)
+    @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Syllabus>> getSyllabusPage(HttpServletRequest request, Model model) {
-        List<Syllabus> syllabus = syllabusService.getAll();
-        return new ResponseEntity<List<Syllabus>>(syllabus, HttpStatus.OK);
+    public ResponseEntity<List<Syllabus>> getSyllabuss(HttpServletRequest request) {
+        return new ResponseEntity<>(syllabusService.getAll(), HttpStatus.OK);
     }
-    
-    @RequestMapping(value="/syllabus/", method=RequestMethod.OPTIONS)
+
+    @RequestMapping(value = "/", method = RequestMethod.OPTIONS)
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity getSyllabusKeys(HttpServletRequest request, Model model) {
         return new ResponseEntity(syllabusService.getFields(), HttpStatus.OK);
     }
-    
-    @RequestMapping(value="/syllabus/{id}", method=RequestMethod.GET)
+
+    @GetMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Syllabus> getSyllabusPage(HttpServletRequest request, Model model, @PathVariable("id") UUID id) {
-        Optional<Syllabus> syllabus = syllabusService.getById(id);
-        return new ResponseEntity<Syllabus>(syllabus.get(), HttpStatus.OK);
+    public ResponseEntity<Syllabus> getSyllabus(HttpServletRequest request, @PathVariable("id") UUID id) {
+        return new ResponseEntity<>(syllabusService.getById(id).get(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/syllabus/", method = RequestMethod.POST, headers="Accept=application/json")
+    @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> add(HttpServletRequest request, @RequestBody Syllabus obj){
-        syllabusService.save(obj);
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
-    }
- 
-    @RequestMapping(value="/syllabus/{id}", method = RequestMethod.PUT, headers="Accept=application/json")
-    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> update(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Syllabus obj){
-        obj.setId(id);
-        syllabusService.update(obj);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+    public ResponseEntity<Syllabus> addSyllabus(HttpServletRequest request, @RequestBody Syllabus Syllabus) {
+        return new ResponseEntity<>(syllabusService.save(Syllabus), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/syllabus/{id}", method=RequestMethod.DELETE, headers="Accept=application/json")
+    @PutMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> DeleteSyllabus(HttpServletRequest request, Model model, @PathVariable UUID id) {
+    public ResponseEntity<Syllabus> updateSyllabus(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Syllabus Syllabus) {
+        Syllabus.setId(id);
+        return new ResponseEntity<>(syllabusService.update(Syllabus), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> deleteSyllabus(HttpServletRequest request, @PathVariable UUID id) {
         syllabusService.delete(id);
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
-
 
