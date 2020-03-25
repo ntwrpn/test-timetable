@@ -16,7 +16,7 @@ const deleteValueFromTable = (event) => {
     let id = event.currentTarget.value;
     console.log(event.currentTarget);
     let name = localStorage.getItem("current_open_table");
-
+    let url = getMappingUrl(name);
     console.log(id);
     $.ajax({
         headers: { 
@@ -24,7 +24,7 @@ const deleteValueFromTable = (event) => {
             'Content-Type': 'application/json' 
         },
         'type': 'DELETE',
-        'url': "/"+name+"/"+id,
+        'url': url+id,
         'success': function(response) {
             openTableEvent(name, "");
         }
@@ -46,7 +46,7 @@ const acceptValueFromTable = (event) => {
       'type': 'POST',
       'url': "/users/accept/"+id,
       'success': function(response) {
-          openTableEvent("users", "?enabled=False");
+          openTableEvent("urn:jsonschema:com:java:domain:Users", "?enabled=False");
       }
 
   });
@@ -54,14 +54,18 @@ const acceptValueFromTable = (event) => {
 
 }
 
+
 const openTableEvent = (value,add) => {
     //var List = require("collections/list");
+    localStorage.setItem("current_open_table", value);
 
     clearPostFromModal();
     createPostFormModal(value);
 
-    localStorage.setItem("current_open_table", value);
-    $.get("/"+value+"/"+add, function(data, status){ 
+    
+    let url = getMappingUrl(value);
+    
+    $.get(url+add, function(data, status){ 
       saveJSONDataToLocalStorage(value, data);
       var container = document.getElementById("table-form");
       container.className='display';
@@ -195,21 +199,22 @@ const createTbody = (data, accept) => {
 
 
 const openToChangeForm = (event)=> {
+  clearPostFromModal();
   let id = event.currentTarget.value;
   let value = localStorage.getItem("current_open_table");
-  $.get("/"+value+"/"+id+"/", function(data, status){ 
-    clearPostFromModal();
+  let url = getMappingUrl(value);
+  $.get(url+id, function(data, status){ 
     createPostFormModal(data);
-    openAddCreateModal();
+        $("#add-modal").modal("open");
   });
-}
+  }
 
 $(document).ready(function(){
   $('.collapsible').collapsible();
   $("ul.tabs").tabs();
   $(".sidenav").sidenav();
   $('.modal').modal();
-  openTableEvent("users", "?enabled=True");
+  openTableEvent("urn:jsonschema:com:java:domain:Users", "?enabled=True");
 });
 
 

@@ -9,8 +9,12 @@ const getFieldTypeByOptions = (type) => {
         return "number";
       case "string":
         return "text";
+      case "object":
+        return "object";
       case "date":
         return "date";
+      case "array":
+        return "list";
       case "boolean":
         return "boolean";
       default:
@@ -22,7 +26,7 @@ const getFieldTypeByOptions = (type) => {
 const addFromEvent = () => {
     let json = getJSONfromForm("add-modal-content");
 
-    let name = "/"+localStorage.getItem("current_open_table")+"/";
+    let name =getMappingUrl(localStorage.getItem("current_open_table"));
     console.log(json);
     let type = 'POST';
     if (json['id']!=undefined && json['id']!=null){
@@ -54,50 +58,42 @@ const getJSONfromForm = (formname) => {
     console.log(formData);
     let json = {};
     for (let data in formData){
-        if (getFieldTypeByOptions(optionType[formData[data]['name']])=="text"){
-        json[formData[data]['name']] = formData[data]['value'];
-        }
-        else if (getFieldTypeByOptions(optionType[formData[data]['name']])=="int"){
+        if (formData[data]['name']=="id"){ 
+            if (formData[data]['value']!="undefined"){
+               json[formData[data]['name']]=formData[data]['value'];
+            } else{
+                continue;
+            }
+        } else if (getFieldTypeByOptions(optionType[formData[data]['name']]["type"])=="text"){
+            json[formData[data]['name']] = formData[data]['value'];
+
+        } else if (getFieldTypeByOptions(optionType[formData[data]['name']]["type"])=="number"){
              json[formData[data]['name']] = parseInt(formData[data]['value']);
-        } else if (["set", "list"].includes(optionType[formData[data]['name']])){
-            let current_data = getDataFromServer([formData[data]['name']]+"/"+formData[data]['value']);
+        } else if (["set", "list"].includes(getFieldTypeByOptions(optionType[formData[data]['name']]["type"]))){
+            console.log(formData[data]['name']);
+            console.log(optionType[formData[data]['name']]["items"]["id"]);
+            console.log(getMappingUrl(optionType[formData[data]['name']]["items"]["id"]));
+            let current_data = getDataFromServer(optionType[formData[data]['name']]["items"]["id"],formData[data]['value']);
             if (typeof(json[formData[data]['name']]) == "undefined"){
                 json[formData[data]['name']] = [];
             }
             json[formData[data]['name']].push(current_data);
-        } else if (["boolean", "uuid", "id"].includes(optionType[formData[data]['name']])){
+        } else if (["boolean", "uuid", "id"].includes(optionType[formData[data]['name']]["type"])){
             if (formData[data]['value']!="undefined"){
                 json[formData[data]['name']]=formData[data]['value'];
             }
         }
         else {
-            let current_data = getDataFromServer(optionType[formData[data]['name']]+"/"+formData[data]['value']);
+            let current_data = getDataFromServer(optionType[formData[data]['name']]["id"],formData[data]['value']);
             json[formData[data]['name']] = current_data;
         }
 
     }
-    console.log(json);
     return json;
 }
 
-const getListDataFromServer = (name) => {
- let data;
- $.ajax({
-        headers: { 
-            'Accept': 'application/json',
-            'Content-Type': 'application/json' 
-        },
-        'async': false,
-        'type': 'OPTIONS',
-        'url': "/"+name+"/",
-        'success': function(response) {
-            data = response;
-        }
-    });
-return data;
-}
 
-const getDataFromServer = (name) => {
+const getMappingUrl = (name) => {
  let data;
  $.ajax({
         headers: { 
@@ -106,11 +102,50 @@ const getDataFromServer = (name) => {
         },
         'async': false,
         'type': 'GET',
-        'url': "/"+name+"/",
+        'url': "/resources/static/json/mapping.json",
         'success': function(response) {
-            data = response;
+            data = response[name];
         }
     });
+return data;
+}
+
+const getListDataFromServer = (name) => {
+ let url = getMappingUrl(name);
+ let data;
+ $.ajax({
+        headers: { 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' 
+        },
+        'async': false,
+        'type': 'OPTIONS',
+        'url': url,
+        'success': function(response) {
+            data = response["properties"];
+        }
+    });
+return data;
+}
+
+const getDataFromServer = (name, id) => {
+    let url = getMappingUrl(name);
+    if (id!=undefined){
+        url = url+id;
+    }
+    let data;
+     $.ajax({
+            headers: { 
+                'Accept': 'application/json',
+                'Content-Type': 'application/json' 
+            },
+            'async': false,
+            'type': 'GET',
+            'url': url,
+            'success': function(response) {
+                data = response;
+            }
+        });
 return data;
 }
 
@@ -158,7 +193,7 @@ const createPostFormModal = (changeData) => {
         } else if (key=="password" && changeData.id!=undefined){
             continue;
         }
-        let local_var_type = getFieldTypeByOptions(data[key]);
+        let local_var_type = getFieldTypeByOptions(data[key]["type"]);
         if(["text", "int"].includes(local_var_type)){
         let loadCaption = document.createElement("p");
         loadCaption.innerText = key;
@@ -188,16 +223,11 @@ const createPostFormModal = (changeData) => {
         loadField.className = "select";
         loadField.multiple = true;
         loadField.required = true;
-        let big_data;
-        if (["set", "list"].includes(local_var_type)) {
-            big_data = getDataFromServer(key);
-        } else{
-            big_data = getDataFromServer(local_var_type);
-        }
+        console.log(data[key]["items"]["id"]);
+        let big_data = getDataFromServer(data[key]["items"]["id"]);
         for (let key_value in big_data){
-          let option = document.createElement("option");
-          console.log(big_data[key_value]);
           console.log(changeData[key]);
+          let option = document.createElement("option");
           option.id = key;
           option.name = key;
           option.value = big_data[key_value]["id"];
@@ -254,16 +284,13 @@ const createPostFormModal = (changeData) => {
         loadField.setAttribute("name", key);
         loadField.className = "select";
         loadField.required = true;
-        console.log(key);
-        let big_data = getDataFromServer(local_var_type);
+        let big_data = getDataFromServer(data[key]["id"]);
         for (let key_value in big_data){
           let option = document.createElement("option");
           option.id = key;
           option.name = key;
           option.value = big_data[key_value]["id"];
           option.innerText = big_data[key_value]["name"];
-          console.log(changeData);
-
           if (changeData!=undefined && changeData[key]!=null){
             if (changeData[key] == big_data[key_value]["id"]){
                 option.selected=true;
