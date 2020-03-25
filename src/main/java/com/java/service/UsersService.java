@@ -1,5 +1,6 @@
 package com.java.service;
 
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -34,7 +35,7 @@ public interface UsersService {
     void blockUser(UUID id);
     void unBlockUser(UUID id);
 
-    JSONObject getFields();
+    public JsonSchema getFields();
     
     /*void createPasswordResetTokenForUser(Users user, String token);
     

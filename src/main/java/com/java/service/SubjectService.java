@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.java.domain.Subject;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface SubjectService {
 
@@ -19,5 +19,5 @@ public interface SubjectService {
 
     Optional<Subject> getById(UUID userId);
     
-    public JSONObject getFields();
+    public JsonSchema getFields();
 }

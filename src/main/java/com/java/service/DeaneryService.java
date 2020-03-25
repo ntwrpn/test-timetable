@@ -5,13 +5,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.java.domain.Deanery;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface DeaneryService {
 
-    Deanery save(Deanery deanery);
+    Deanery save(Deanery Deanery);
 
-    Deanery update(Deanery deanery);
+    Deanery update(Deanery Deanery);
 
     void delete(UUID id);
 
@@ -19,5 +19,5 @@ public interface DeaneryService {
 
     Optional<Deanery> getById(UUID userId);
     
-    public JSONObject getFields();
+    public JsonSchema getFields();
 }

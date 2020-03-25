@@ -1,5 +1,9 @@
 package com.java.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
+import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
+import com.java.domain.TypeOfLesson;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -13,6 +17,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.java.service.UserRolesService;
+import java.io.IOException;
 
 @Service
 public class UserRolesServiceImpl implements UserRolesService {
@@ -51,14 +56,17 @@ public class UserRolesServiceImpl implements UserRolesService {
     }
 
     @Override
-    public JSONObject getFields() {
+    public JsonSchema getFields() {
         JSONObject obj = new JSONObject();
-        for (Field field : UserRoles.class.getDeclaredFields()) {
-            if (field.getName()!="access" && field.getName()!="user"){
-                obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
-            }
-        }
-        return obj;
+        ObjectMapper mapper = new ObjectMapper();
+        SchemaFactoryWrapper visitor = new SchemaFactoryWrapper();
+        try{
+            mapper.acceptJsonFormatVisitor(TypeOfLesson.class, visitor);
+            JsonSchema schema = visitor.finalSchema();
+            return schema;
+        } catch (IOException exx){
+            return null;
+        } 
     }
 }
 

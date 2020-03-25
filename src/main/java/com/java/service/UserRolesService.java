@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.java.domain.UserRoles;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface UserRolesService {
 
@@ -21,5 +21,5 @@ public interface UserRolesService {
     
     Optional<UserRoles> getByName(String roleName);
     
-    public JSONObject getFields();
+    public JsonSchema getFields();
 }

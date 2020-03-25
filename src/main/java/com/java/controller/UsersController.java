@@ -64,6 +64,12 @@ public class UsersController {
         return new ResponseEntity(usersService.getFields(), HttpStatus.OK);
     }
     
+    @RequestMapping(value="/users/me/", method=RequestMethod.GET)
+    public ResponseEntity getCurrentUser(HttpServletRequest request, Model model) {
+        String login = request.getUserPrincipal().getName();
+        return new ResponseEntity(usersService.getByName(login), HttpStatus.OK);
+    }
+    
     @RequestMapping(value="/users/{id}", method=RequestMethod.GET)
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Users> getUsersPage(HttpServletRequest request, Model model, @PathVariable("id") UUID id) {

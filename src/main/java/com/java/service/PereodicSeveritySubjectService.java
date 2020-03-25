@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.java.domain.PereodicSeveritySubject;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface PereodicSeveritySubjectService {
 
@@ -19,5 +19,5 @@ public interface PereodicSeveritySubjectService {
 
     Optional<PereodicSeveritySubject> getById(UUID userId);
     
-    public JSONObject getFields();
+    public JsonSchema getFields();
 }

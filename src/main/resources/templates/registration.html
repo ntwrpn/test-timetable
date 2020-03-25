@@ -24,7 +24,7 @@
 <body>
         <nav class="nav-extended green accent-4">
         <div class="nav-wrapper">
-            <a href="#" class="brand-logo">БНТУ</a>
+            <a href="/" class="brand-logo">БНТУ</a>
         </div>
         </nav>
 
@@ -41,10 +41,18 @@
 				<label for="username">Логин(email):</label>
 				<input type="text" class="validate" id="username" placeholder="Введите логин" name="username"/>
 			</div>
-			<div class="input-field col s12">
-				<label for="fullname">ФИО:</label>
-				<input type="text" class="validate" id="fullname" placeholder="Введите ФИО" name="name"/>
-			</div>
+                              <div class="input-field col s4">
+                                <input placeholder="Placeholder" id="name" value="" type="text" name="name" class="validate">
+                                <label for="name">Имя:</label>
+                              </div>
+                              <div class="input-field col s4">
+                                <input id="surname" type="text" name="surname" class="validate">
+                                <label for="surname">Фамилия:</label>
+                              </div>
+                              <div class="input-field col s4">
+                                <input id="patronymic" type="text" name="patronymic" class="validate">
+                                <label for="patronymic">Отчество:</label>
+                              </div>
 
 			<div class="input-field col s12">
 				<label for="password1">Пароль</label>

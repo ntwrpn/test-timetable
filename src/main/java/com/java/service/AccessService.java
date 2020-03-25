@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.java.domain.Access;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface AccessService {
 
@@ -21,5 +21,5 @@ public interface AccessService {
     
     List<Access> getByUserRoles(String role);
     
-    public JSONObject getFields();
+    public JsonSchema getFields();
 }

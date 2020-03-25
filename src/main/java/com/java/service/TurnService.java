@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.java.domain.Turn;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface TurnService {
 
@@ -19,5 +19,5 @@ public interface TurnService {
 
     Optional<Turn> getById(UUID userId);
     
-    public JSONObject getFields();
+    public JsonSchema getFields();
 }

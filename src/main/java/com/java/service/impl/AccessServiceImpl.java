@@ -13,54 +13,62 @@ import java.lang.reflect.Field;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
+import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
+import java.io.IOException;
 import com.java.service.AccessService;
 
 @Service
 public class AccessServiceImpl implements AccessService {
 
+    @Autowired
+    private AccessRepository accessRepository;
+
     @Override
     public Access save(Access obj) {
-        return AccessRepository.save(obj);
+        return accessRepository.save(obj);
     }
 
     @Override
     public Access update(Access obj) {
-        return AccessRepository.save(obj);
+        return accessRepository.save(obj);
     }
 
     
     @Override
     public void delete(UUID id) {
-        AccessRepository.deleteById(id);
+        accessRepository.deleteById(id);
     }
 
-    @Autowired
-    private AccessRepository AccessRepository;
 
     @Override
-    public List<Access> getAll(){
-        return AccessRepository.findAll();
+    public List<Access> getAll() {
+        return accessRepository.findAll();
     }
 
     @Override
     public Optional<Access> getById(UUID id) {
-        return AccessRepository.findById(id);
+        return accessRepository.findById(id);
     }
-    
     
     @Override
     public List<Access> getByUserRoles(String role) {
-        return AccessRepository.getByUserRoles(role);
+        return accessRepository.getByUserRoles(role);
     }
-    
-    
+
     @Override
-    public JSONObject getFields() {
+    public JsonSchema getFields() {
         JSONObject obj = new JSONObject();
-        for (Field field : Access.class.getDeclaredFields()) {
-            obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
-        }
-        return obj;
+        ObjectMapper mapper = new ObjectMapper();
+        SchemaFactoryWrapper visitor = new SchemaFactoryWrapper();
+        try{
+            mapper.acceptJsonFormatVisitor(Access.class, visitor);
+            JsonSchema schema = visitor.finalSchema();
+            return schema;
+        } catch (IOException exx){
+            return null;
+        } 
     }
 }
 

@@ -27,12 +27,12 @@
             </ul>
         </div>
     </nav>
-    <div class="col s12">
-	<h1>У вас нет прав для просмотра этого раздела!</h1>
-	<a class="waves-effect waves-light btn green accent-4" th:href="@{/}">Назад</a>
-	<form th:action="@{/logout}" method="post">
-		<input class="waves-effect waves-light btn red accent-4" type="submit" value="Выйти" />
-	</form>
+        <div class="col m12 center">
+            <h1>У вас нет прав для просмотра этого раздела!</h1>
+            <a class="waves-effect waves-light btn green accent-4" th:href="@{/}">Назад</a>
+            <form th:action="@{/logout}" method="post">
+                    <input class="waves-effect waves-light btn red accent-4" type="submit" value="Выйти" />
+            </form>
         
         </div>
 </body>

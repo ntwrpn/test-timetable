@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.java.domain.Schedule;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface ScheduleService {
 
@@ -19,5 +19,5 @@ public interface ScheduleService {
 
     Optional<Schedule> getById(UUID userId);
     
-    public JSONObject getFields();
+    public JsonSchema getFields();
 }

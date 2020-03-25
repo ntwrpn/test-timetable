@@ -1,6 +1,10 @@
 package com.java.service.impl;
 
 //import com.java.domain.PasswordResetToken;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
+import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
+import com.java.domain.TypeOfLesson;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -17,6 +21,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.java.service.UsersService;
+import java.io.IOException;
 import java.util.Calendar;
 
 @Service
@@ -54,12 +59,17 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public JSONObject getFields() {
+    public JsonSchema getFields() {
         JSONObject obj = new JSONObject();
-        for (Field field : Users.class.getDeclaredFields()) {
-            obj.put(field.getName(), field.getType().getSimpleName().toLowerCase());
-        }
-        return obj;
+        ObjectMapper mapper = new ObjectMapper();
+        SchemaFactoryWrapper visitor = new SchemaFactoryWrapper();
+        try{
+            mapper.acceptJsonFormatVisitor(TypeOfLesson.class, visitor);
+            JsonSchema schema = visitor.finalSchema();
+            return schema;
+        } catch (IOException exx){
+            return null;
+        } 
     }
 
     @Override

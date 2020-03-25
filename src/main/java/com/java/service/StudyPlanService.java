@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.java.domain.StudyPlan;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface StudyPlanService {
 
@@ -19,7 +19,7 @@ public interface StudyPlanService {
 
     Optional<StudyPlan> getById(UUID userId);
     
-    public JSONObject getFields();
-	
-	List<StudyPlan> findStudyplansByLecternId(UUID id);
+    public JsonSchema getFields();
+    
+    List<StudyPlan> findStudyplansByLecternId(UUID id);
 }

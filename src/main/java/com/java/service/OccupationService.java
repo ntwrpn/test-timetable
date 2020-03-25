@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.java.domain.Occupation;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface OccupationService {
 
@@ -19,5 +19,5 @@ public interface OccupationService {
 
     Optional<Occupation> getById(UUID userId);
     
-    public JSONObject getFields();
+    public JsonSchema getFields();
 }

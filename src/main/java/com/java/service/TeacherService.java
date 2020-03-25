@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.java.domain.Teacher;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface TeacherService {
 
@@ -19,5 +19,5 @@ public interface TeacherService {
 
     Optional<Teacher> getById(UUID userId);
     
-    public JSONObject getFields();
+    public JsonSchema getFields();
 }

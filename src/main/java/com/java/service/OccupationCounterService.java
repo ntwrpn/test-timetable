@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.java.domain.OccupationCounter;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface OccupationCounterService {
 
@@ -19,5 +19,5 @@ public interface OccupationCounterService {
 
     Optional<OccupationCounter> getById(UUID userId);
     
-    public JSONObject getFields();
+    public JsonSchema getFields();
 }

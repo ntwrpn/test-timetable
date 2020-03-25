@@ -9,14 +9,16 @@ $(document).ready(() => {
 const RegistrationClick = () => {
     let json = getJSONfromForm("register-form");
     console.log(json);
-    if (json[3].value != json[2].value || json[3].value==""){
+    if (json[4].value != json[5].value || json[5].value==""){
         return null;
     }
     else{
         let regform = {
             username: json[0]['value'],
-            fullname: json[1]['value'],
-            password: json[2]['value']
+            name: json[1]['value'],
+            surname: json[2]['value'],
+            patronymic: json[3]['value'],
+            password: json[5]['value']
         }
         
         $.ajax({

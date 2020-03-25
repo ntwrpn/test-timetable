@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.java.domain.WeekCount;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface WeekCountService {
 
@@ -19,5 +19,5 @@ public interface WeekCountService {
 
     Optional<WeekCount> getById(UUID userId);
     
-    public JSONObject getFields();
+    public JsonSchema getFields();
 }

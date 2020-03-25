@@ -19,10 +19,16 @@ public class WebController {
         if (request.isUserInRole("ADMIN")) {
             return "admin";
         } else if (request.isUserInRole("USER")) {
-            return "user";
+            return "mypage";
         } else {
             return "object";
         }
+    }
+    
+    
+    @RequestMapping(value="/mypage")
+    public String mypage(){
+        return "mypage";
     }
 
     @PreAuthorize("hasRole('ADMIN')")

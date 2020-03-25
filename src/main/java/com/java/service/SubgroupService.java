@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.java.domain.Subgroup;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface SubgroupService {
 
@@ -19,5 +19,5 @@ public interface SubgroupService {
 
     Optional<Subgroup> getById(UUID userId);
     
-    public JSONObject getFields();
+    public JsonSchema getFields();
 }
