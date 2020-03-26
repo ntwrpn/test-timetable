@@ -61,24 +61,5 @@ public class Users {
     @JoinColumn(name = "teacher", referencedColumnName = "id")
     private Teacher teacher;
     
-    
-    public UUID getLectern(){
-        if (lectern!=null){
-            return lectern.getId();
-        }
-        else{
-            return null;
-        }
-    }
-    
-    public UUID getDeanery(){
-        if (deanery!=null){
-            return deanery.getId();
-        }
-        else{
-            return null;
-        }
-    }
-
 }
 

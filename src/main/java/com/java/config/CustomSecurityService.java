@@ -25,7 +25,7 @@ public class CustomSecurityService {
     @Autowired
     private AccessService accessService;
     
-    private static final Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomSecurityService.class);
 
     public boolean hasPermission(Authentication authentication, HttpServletRequest request){
         String fullURI = request.getRequestURI();

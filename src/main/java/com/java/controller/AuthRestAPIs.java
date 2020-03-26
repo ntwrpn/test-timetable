@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.java.payload.*;
 import com.java.config.*;
 import javax.validation.Valid;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -36,8 +37,10 @@ public class AuthRestAPIs {
         );
  
         SecurityContextHolder.getContext().setAuthentication(authentication);
- 
         String jwt = jwtProvider.generateJwtToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));    }
+        
+
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));    
+    }
 
 }
