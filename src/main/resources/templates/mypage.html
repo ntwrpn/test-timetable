@@ -1,144 +1,134 @@
 <!DOCTYPE html><html>
 
-<head>
-    <meta charset="utf-8"/>
-    <link type="text/css" rel="stylesheet" href="/resources/static/css/jquery-ui.min.css"/>
-    <link type="text/css" rel="stylesheet" href="/resources/static/css/materialize.min.css"/>
-    <link type="text/css" rel="stylesheet" href="/resources/static/css/material-icons.css"/>
-    <link type="text/css" rel="stylesheet" href="/resources/static/css/main.css"/>
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <head>
+        <meta charset="utf-8"/>
+        <link type="text/css" rel="stylesheet" href="/resources/static/css/jquery-ui.min.css"/>
+        <link type="text/css" rel="stylesheet" href="/resources/static/css/materialize.min.css"/>
+        <link type="text/css" rel="stylesheet" href="/resources/static/css/material-icons.css"/>
+        <link type="text/css" rel="stylesheet" href="/resources/static/css/main.css"/>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 
-    <script src="/resources/static/js/jquery-3.3.1.min.js"></script>
-    <script src="/resources/static/js/jquery-ui.min.js"></script>
+        <script src="/resources/static/js/jquery-3.3.1.min.js"></script>
+        <script src="/resources/static/js/jquery-ui.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css"/>
-	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css"/>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 
 
-    <script src="/resources/static/js/materialize.min.js"></script>
-    <script src="/resources/static/js/mypage.js"></script>
-    
-</head>
+        <script src="/resources/static/js/materialize.min.js"></script>
+        <script src="/resources/static/js/mypage.js"></script>
 
-<body id='body'>
+    </head>
 
-    <nav class="nav-extended green accent-4">
-        <div class="nav-wrapper">
-            <a href="/" class="brand-logo">БНТУ</a>
-            <ul class="right hide-on-med-and-down">
-                <li><a href="/home"><i class="material-icons">home</i></a></li>
-                <li><a href="#"><i class="material-icons">refresh</i></a></li>
-                <li><a href="#"><i class="material-icons">more_vert</i></a></li>
-            </ul>
+    <body id='body'>
+
+        <nav class="nav-extended green accent-4">
+            <div class="nav-wrapper">
+                <a href="/" class="brand-logo">БНТУ</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="/home"><i class="material-icons">home</i></a></li>
+                    <li><a href="#"><i class="material-icons">refresh</i></a></li>
+                    <li><a href="#"><i class="material-icons">more_vert</i></a></li>
+                </ul>
+            </div>
+
+        </nav>
+
+
+        <div class="row">
+            <div class="col m2 l2">
+                <ul class="collapsible">
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Кабинет</div>
+                        <div class="collapsible-body"><span>
+                                <a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="/home">
+                                    <i class="material-icons left">home</i>
+                                    Мой кабинет</a>
+                                <br></br>
+                                <a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="#exams-schedule">
+                                    <i class="material-icons left">event</i>
+                                    Расписание экзаменов</a>
+                            </span></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Объекты</div>
+                        <div class="collapsible-body"><span>
+
+
+                                <hr></hr>
+                                <a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="/objects">
+                                    <i class="material-icons left">subject</i>
+                                    Объекты</a>
+                            </span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Аккаунт</div>
+                        <div class="collapsible-body"><span>
+                                <a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="/mypage">
+                                    <i class="material-icons left">account_circle</i>
+                                    Мой аккаунт</a>
+                                <a class="waves-effect waves-light btn yellow accent-4" style="width: 100%;" href="#exams-schedule">
+                                    <i class="material-icons left">settings</i>
+                                    Настройки</a>
+                                <a class="waves-effect waves-light btn red accent-4" style="width: 100%;" href="/logout">
+                                    <i class="material-icons left">exit_to_app</i>
+                                    Выход</a>
+                            </span></div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col m3 l7">
+                <h4 class="tab-body-header">Моя страница</h4>
+                <div class="row">
+                    <form class="col s12" id="mypage-form">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input disabled id="email" value="" type="email" class="validate">
+                                <label for="email">Логин</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s4">
+                                <input placeholder="Placeholder" id="name" value="" type="text" class="validate">
+                                <label for="name">Имя</label>
+                            </div>
+                            <div class="input-field col s4">
+                                <input id="surname" type="text" value="" class="validate">
+                                <label for="surname">Фамилия</label>
+                            </div>
+                            <div class="input-field col s4">
+                                <input id="patronymic" type="text" value="" class="validate">
+                                <label for="patronymic">Отчество</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input disabled value="Должность" id="position" type="text" class="validate">
+                                <label for="position">Должность</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input disabled value="rank" id="rank" type="text" class="validate">
+                                <label for="rank">Ранг</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="academicDegree" type="text" value="" class="validate">
+                                <label for="academicDegree">Достижения</label>
+                            </div>
+                        </div>
+                        <a class="modal-close btn waves-effect waves-light green accent-4" onclick="Update()" name="action">Сохранить
+                            <i class="material-icons right">send</i>
+                        </a>
+                    </form>
+                </div>
+
+            </div>
         </div>
-      
-    </nav>
-
-    
- <div class="row">
-        <div class="col m3 l3">
-            <ul class="collapsible">
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Кабинет</div>
-                    <div class="collapsible-body"><span>
-			<a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="/home">
-		        <i class="material-icons left">home</i>
-		        Мой кабинет</a>
-                      <br></br>
-		      <a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="#exams-schedule">
-		        <i class="material-icons left">event</i>
-		        Расписание экзаменов</a>
-                            <hr></hr>
-
-				</span></div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Объекты</div>
-                    <div class="collapsible-body"><span>
-
-
-					<hr></hr>
-					<a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="/objects">
-		        <i class="material-icons left">subject</i>
-		        Объекты</a>
-
-
-				</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Аккаунт</div>
-                    <div class="collapsible-body"><span>
-
-
-					<a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="/mypage">
-		        <i class="material-icons left">account_circle</i>
-		        Мой аккаунт</a><hr></hr>
-
-					<a class="waves-effect waves-light btn yellow accent-4" style="width: 100%;" href="#exams-schedule">
-		        <i class="material-icons left">settings</i>
-		        Настройки</a><hr></hr>
-
-					<a class="waves-effect waves-light btn red accent-4" style="width: 100%;" href="/logout">
-		        <i class="material-icons left">exit_to_app</i>
-		        Выход</a>
-
-
-				</span></div>
-                </li>
-            </ul>
-        </div>
-    
-    <div class="col m3 l7">
-        <h4 class="tab-body-header">Моя страница</h4>
- <div class="row">
-    <form class="col s12" id="mypage-form">
-      <div class="row">
-        <div class="input-field col s12">
-          <input disabled id="email" value="" type="email" class="validate">
-          <label for="email">Логин</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s4">
-          <input placeholder="Placeholder" id="name" value="" type="text" class="validate">
-          <label for="name">Имя</label>
-        </div>
-        <div class="input-field col s4">
-          <input id="surname" type="text" value="" class="validate">
-          <label for="surname">Фамилия</label>
-        </div>
-        <div class="input-field col s4">
-          <input id="patronymic" type="text" value="" class="validate">
-          <label for="patronymic">Отчество</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input disabled value="Должность" id="position" type="text" class="validate">
-          <label for="position">Должность</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input disabled value="rank" id="rank" type="text" class="validate">
-          <label for="rank">Ранг</label>
-        </div>
-      </div>
-    <div class="row">
-        <div class="input-field col s12">
-        <input id="academicDegree" type="text" value="" class="validate">
-        <label for="academicDegree">Достижения</label>
-        </div>
-    </div>
-      <a class="modal-close btn waves-effect waves-light green accent-4" onclick="Update()" name="action">Сохранить
-        <i class="material-icons right">send</i>
-      </a>
-    </form>
-  </div>
-        
-    </div>
-      </div>
-</body>
+    </body>
 
 </html>

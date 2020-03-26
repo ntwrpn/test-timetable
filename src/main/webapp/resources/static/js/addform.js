@@ -4,47 +4,47 @@ const openAddCreateModal = (event) => {
 
 //CREATE ADD FORM TO TABLE
 const getFieldTypeByOptions = (type) => {
-    switch(type){
-      case "integer":
-        return "number";
-      case "string":
-        return "text";
-      case "object":
-        return "object";
-      case "date":
-        return "date";
-      case "array":
-        return "list";
-      case "boolean":
-        return "boolean";
-      default:
-        return type;
+    switch (type) {
+        case "integer":
+            return "number";
+        case "string":
+            return "text";
+        case "object":
+            return "object";
+        case "date":
+            return "date";
+        case "array":
+            return "list";
+        case "boolean":
+            return "boolean";
+        default:
+            return type;
     }
-  }
+}
 
 
 const addFromEvent = () => {
     let json = getJSONfromForm("add-modal-content");
 
-    let name =getMappingUrl(localStorage.getItem("current_open_table"));
+    let name = getMappingUrl(localStorage.getItem("current_open_table"));
     console.log(json);
     let type = 'POST';
-    if (json['id']!=undefined && json['id']!=null){
+    if (json['id'] != undefined && json['id'] != null) {
         type = 'PUT';
-        name = name+json['id'];
+        name = name + json['id'];
     }
-    
+
     $.ajax({
-        headers: { 
+        headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json'
         },
         'type': type,
         'async': false,
         'url': name,
         'data': JSON.stringify(json),
         'dataType': 'json',
-        'success': function(response) {
+        'success': function (response) {
             console.log(response);
         }
     });
@@ -52,39 +52,38 @@ const addFromEvent = () => {
 }
 
 const getJSONfromForm = (formname) => {
-    let formData = $("#"+formname).serializeArray();
-    let name =  localStorage.getItem("current_open_table");
+    let formData = $("#" + formname).serializeArray();
+    let name = localStorage.getItem("current_open_table");
     let optionType = getListDataFromServer(name);
     console.log(formData);
     let json = {};
-    for (let data in formData){
-        if (formData[data]['name']=="id"){ 
-            if (formData[data]['value']!="undefined"){
-               json[formData[data]['name']]=formData[data]['value'];
-            } else{
+    for (let data in formData) {
+        if (formData[data]['name'] == "id") {
+            if (formData[data]['value'] != "undefined") {
+                json[formData[data]['name']] = formData[data]['value'];
+            } else {
                 continue;
             }
-        } else if (getFieldTypeByOptions(optionType[formData[data]['name']]["type"])=="text"){
+        } else if (getFieldTypeByOptions(optionType[formData[data]['name']]["type"]) == "text") {
             json[formData[data]['name']] = formData[data]['value'];
 
-        } else if (getFieldTypeByOptions(optionType[formData[data]['name']]["type"])=="number"){
-             json[formData[data]['name']] = parseInt(formData[data]['value']);
-        } else if (["set", "list"].includes(getFieldTypeByOptions(optionType[formData[data]['name']]["type"]))){
+        } else if (getFieldTypeByOptions(optionType[formData[data]['name']]["type"]) == "number") {
+            json[formData[data]['name']] = parseInt(formData[data]['value']);
+        } else if (["set", "list"].includes(getFieldTypeByOptions(optionType[formData[data]['name']]["type"]))) {
             console.log(formData[data]['name']);
             console.log(optionType[formData[data]['name']]["items"]["id"]);
             console.log(getMappingUrl(optionType[formData[data]['name']]["items"]["id"]));
-            let current_data = getDataFromServer(optionType[formData[data]['name']]["items"]["id"],formData[data]['value']);
-            if (typeof(json[formData[data]['name']]) == "undefined"){
+            let current_data = getDataFromServer(optionType[formData[data]['name']]["items"]["id"], formData[data]['value']);
+            if (typeof (json[formData[data]['name']]) == "undefined") {
                 json[formData[data]['name']] = [];
             }
             json[formData[data]['name']].push(current_data);
-        } else if (["boolean", "uuid", "id"].includes(optionType[formData[data]['name']]["type"])){
-            if (formData[data]['value']!="undefined"){
-                json[formData[data]['name']]=formData[data]['value'];
+        } else if (["boolean", "uuid", "id"].includes(optionType[formData[data]['name']]["type"])) {
+            if (formData[data]['value'] != "undefined") {
+                json[formData[data]['name']] = formData[data]['value'];
             }
-        }
-        else {
-            let current_data = getDataFromServer(optionType[formData[data]['name']]["id"],formData[data]['value']);
+        } else {
+            let current_data = getDataFromServer(optionType[formData[data]['name']]["id"], formData[data]['value']);
             json[formData[data]['name']] = current_data;
         }
 
@@ -94,78 +93,78 @@ const getJSONfromForm = (formname) => {
 
 
 const getMappingUrl = (name) => {
- let data;
- $.ajax({
-        headers: { 
+    let data;
+    $.ajax({
+        headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json'
         },
         'async': false,
         'type': 'GET',
         'url': "/resources/static/json/mapping.json",
-        'success': function(response) {
+        'success': function (response) {
             data = response[name];
         }
     });
-return data;
+    return data;
 }
 
 const getListDataFromServer = (name) => {
- let url = getMappingUrl(name);
- let data;
- $.ajax({
-        headers: { 
+    let url = getMappingUrl(name);
+    let data;
+    $.ajax({
+        headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json'
         },
         'async': false,
         'type': 'OPTIONS',
         'url': url,
-        'success': function(response) {
+        'success': function (response) {
             data = response["properties"];
         }
     });
-return data;
+    return data;
 }
 
 const getDataFromServer = (name, id) => {
     let url = getMappingUrl(name);
-    if (id!=undefined){
-        url = url+id;
+    if (id != undefined) {
+        url = url + id;
     }
     let data;
-     $.ajax({
-            headers: { 
-                'Accept': 'application/json',
-                'Content-Type': 'application/json' 
-            },
-            'async': false,
-            'type': 'GET',
-            'url': url,
-            'success': function(response) {
-                data = response;
-            }
-        });
-return data;
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'async': false,
+        'type': 'GET',
+        'url': url,
+        'success': function (response) {
+            data = response;
+        }
+    });
+    return data;
 }
 
 
 const clearPostFromModal = () => {
     var container = document.getElementById("add-modal");
-    if (container!=null){
+    if (container != null) {
         while (container.hasChildNodes()) {
-             container.removeChild(container.lastChild);
+            container.removeChild(container.lastChild);
         }
     }
 }
 
 const createPostFormModal = (changeData) => {
     console.log(changeData);
-    let name =  localStorage.getItem("current_open_table");
+    let name = localStorage.getItem("current_open_table");
     let data = getListDataFromServer(name);
 
     let modalForm = document.getElementById("add-modal");
-    if (modalForm==null){
+    if (modalForm == null) {
         modalForm = document.createElement("div");
         modalForm.className = "modal";
         modalForm.id = "add-modal";
@@ -174,133 +173,131 @@ const createPostFormModal = (changeData) => {
     let modalContent = document.createElement("form");
     modalContent.className = "modal-content";
     modalContent.id = "add-modal-content";
-    
+
     let modalHeader = document.createElement("h4");
     modalHeader.innerText = "Добавить запись";
     modalHeader.id = "add-modal-header";
     modalContent.appendChild(modalHeader);
 
 
-    for (let key in data){
-        if (key=="id"){
-             let loadField = document.createElement("input");
+    for (let key in data) {
+        if (key == "id") {
+            let loadField = document.createElement("input");
             loadField.id = key;
             loadField.name = key;
             loadField.type = "hidden";
             loadField.value = changeData[key];
             modalContent.appendChild(loadField);
             continue;
-        } else if (key=="password" && changeData.id!=undefined){
+        } else if (key == "password" && changeData.id != undefined) {
             continue;
         }
         let local_var_type = getFieldTypeByOptions(data[key]["type"]);
-        if(["text", "int"].includes(local_var_type)){
-        let loadCaption = document.createElement("p");
-        loadCaption.innerText = key;
-        loadCaption.id = "add-modal-caption";
-        modalContent.appendChild(loadCaption);
+        if (["text", "int"].includes(local_var_type)) {
+            let loadCaption = document.createElement("p");
+            loadCaption.innerText = key;
+            loadCaption.id = "add-modal-caption";
+            modalContent.appendChild(loadCaption);
 
-        let loadField = document.createElement("input");
-        loadField.id = key;
-        loadField.name = key;
-        if (changeData!=undefined && changeData[key]!=null){
-            loadField.value = changeData[key];
-        }
-        loadField.type = local_var_type;
-        loadField.className = "validate";
-        loadField.required = true;
-        modalContent.appendChild(loadField);
-
-        modalForm.appendChild(modalContent);
-      } else if (["set", "list"].includes(local_var_type)){
-        let loadCaption = document.createElement("p");
-        loadCaption.innerText = key;
-        loadCaption.id = "add-modal-caption";
-        modalContent.appendChild(loadCaption);
-
-        let loadField = document.createElement("select");
-        loadField.setAttribute("name", key);
-        loadField.className = "select";
-        loadField.multiple = true;
-        loadField.required = true;
-        console.log(data[key]["items"]["id"]);
-        let big_data = getDataFromServer(data[key]["items"]["id"]);
-        for (let key_value in big_data){
-          console.log(changeData[key]);
-          let option = document.createElement("option");
-          option.id = key;
-          option.name = key;
-          option.value = big_data[key_value]["id"];
-          option.innerText = big_data[key_value]["role"];
-          if (changeData!=undefined && changeData[key]!=null){
-            if (changeData[key].find(obj => obj.id == big_data[key_value]["id"])){
-                option.selected=true;
+            let loadField = document.createElement("input");
+            loadField.id = key;
+            loadField.name = key;
+            if (changeData != undefined && changeData[key] != null) {
+                loadField.value = changeData[key];
             }
-           }
-          loadField.appendChild(option);
-        }
-        modalContent.appendChild(loadField);
-        modalForm.appendChild(modalContent);
-      
-        }
-        else if (["boolean"].includes(local_var_type)){
+            loadField.type = local_var_type;
+            loadField.className = "validate";
+            loadField.required = true;
+            modalContent.appendChild(loadField);
+
+            modalForm.appendChild(modalContent);
+        } else if (["set", "list"].includes(local_var_type)) {
+            let loadCaption = document.createElement("p");
+            loadCaption.innerText = key;
+            loadCaption.id = "add-modal-caption";
+            modalContent.appendChild(loadCaption);
+
+            let loadField = document.createElement("select");
+            loadField.setAttribute("name", key);
+            loadField.className = "select";
+            loadField.multiple = true;
+            loadField.required = true;
+            console.log(data[key]["items"]["id"]);
+            let big_data = getDataFromServer(data[key]["items"]["id"]);
+            for (let key_value in big_data) {
+                console.log(changeData[key]);
+                let option = document.createElement("option");
+                option.id = key;
+                option.name = key;
+                option.value = big_data[key_value]["id"];
+                option.innerText = big_data[key_value]["role"];
+                if (changeData != undefined && changeData[key] != null) {
+                    if (changeData[key].find(obj => obj.id == big_data[key_value]["id"])) {
+                        option.selected = true;
+                    }
+                }
+                loadField.appendChild(option);
+            }
+            modalContent.appendChild(loadField);
+            modalForm.appendChild(modalContent);
+
+        } else if (["boolean"].includes(local_var_type)) {
             console.log(local_var_type);
 
             let loadCaption = document.createElement("p");
             loadCaption.innerText = key;
             loadCaption.id = "add-modal-caption";
             modalContent.appendChild(loadCaption);
-    
+
             let loadField = document.createElement("select");
             loadField.setAttribute("name", key);
             loadField.className = "select";
             loadField.required = true;
-            
+
             let big_data = [true, false];
-            for (let key_value in big_data){
-              let option = document.createElement("option");
-              option.id = key;
-              option.name = key;
-              option.value = big_data[key_value].toString();
-              option.innerText = big_data[key_value].toString();
-              if (changeData!=undefined && changeData[key]!=null){
-                if (changeData[key]==true){
-                    option.selected=true;
+            for (let key_value in big_data) {
+                let option = document.createElement("option");
+                option.id = key;
+                option.name = key;
+                option.value = big_data[key_value].toString();
+                option.innerText = big_data[key_value].toString();
+                if (changeData != undefined && changeData[key] != null) {
+                    if (changeData[key] == true) {
+                        option.selected = true;
+                    }
                 }
-               }
-              loadField.appendChild(option);
+                loadField.appendChild(option);
             }
             modalContent.appendChild(loadField);
             modalForm.appendChild(modalContent);
-          
-        }
-      else{
-        let loadCaption = document.createElement("p");
-        loadCaption.innerText = key;
-        loadCaption.id = "add-modal-caption";
-        modalContent.appendChild(loadCaption);
 
-        let loadField = document.createElement("select");
-        loadField.setAttribute("name", key);
-        loadField.className = "select";
-        loadField.required = true;
-        let big_data = getDataFromServer(data[key]["id"]);
-        for (let key_value in big_data){
-          let option = document.createElement("option");
-          option.id = key;
-          option.name = key;
-          option.value = big_data[key_value]["id"];
-          option.innerText = big_data[key_value]["name"];
-          if (changeData!=undefined && changeData[key]!=null){
-            if (changeData[key] == big_data[key_value]["id"]){
-                option.selected=true;
+        } else {
+            let loadCaption = document.createElement("p");
+            loadCaption.innerText = key;
+            loadCaption.id = "add-modal-caption";
+            modalContent.appendChild(loadCaption);
+
+            let loadField = document.createElement("select");
+            loadField.setAttribute("name", key);
+            loadField.className = "select";
+            loadField.required = true;
+            let big_data = getDataFromServer(data[key]["id"]);
+            for (let key_value in big_data) {
+                let option = document.createElement("option");
+                option.id = key;
+                option.name = key;
+                option.value = big_data[key_value]["id"];
+                option.innerText = big_data[key_value]["name"];
+                if (changeData != undefined && changeData[key] != null) {
+                    if (changeData[key] == big_data[key_value]["id"]) {
+                        option.selected = true;
+                    }
+                }
+                loadField.appendChild(option);
             }
-           }
-          loadField.appendChild(option);
+            modalContent.appendChild(loadField);
+            modalForm.appendChild(modalContent);
         }
-        modalContent.appendChild(loadField);
-        modalForm.appendChild(modalContent);
-      }
     }
 
     let modalFooter = document.createElement("div");

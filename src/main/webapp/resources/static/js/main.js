@@ -63,10 +63,10 @@ const createFormLoadEl = (id, name, hours) => {
 const removeFormLoadEl = (event) => {
     let id = event.currentTarget.parentElement.id;
     $(".loads-list")
-        .find("#" + id)
-        .removeClass("inactive")
-        .draggable({ disabled: false })
-        .css("background-color", $(event.currentTarget.parentElement).css("background-color"));
+            .find("#" + id)
+            .removeClass("inactive")
+            .draggable({disabled: false})
+            .css("background-color", $(event.currentTarget.parentElement).css("background-color"));
     event.currentTarget.parentElement.remove();
 }
 
@@ -121,7 +121,7 @@ const renderLoadsList = (data, id) => {
     if (id) {
 
         let subjectsData = getJSONDataFromLocalStorage("subjects");
-		//let subjectsData = data;
+        //let subjectsData = data;
         let currentSubject = subjectsData.find(x => x.id == id);
         let ids = currentSubject["plans_id"].map(load => {
             return load.name_id;
@@ -130,7 +130,7 @@ const renderLoadsList = (data, id) => {
 
         itemsList.forEach(item => {
             if (ids.includes(+item.id)) {
-                $(item).addClass("inactive").css("background-color", "#ffffff").draggable({ disabled: true });
+                $(item).addClass("inactive").css("background-color", "#ffffff").draggable({disabled: true});
             }
         });
     }
@@ -184,145 +184,122 @@ const renderDataList = (data) => {
     let createSubjectButton = document.createElement("li");
     createSubjectButton.id = "create-data-button";
     createSubjectButton.class = "collection-item";
-/*
-    let addIcon = document.createElement("a");
-    addIcon.className = "material-icons";
-    addIcon.innerText = "add";
-    createSubjectButton.appendChild(addIcon);
-    createSubjectButton.addEventListener("click", createSubjectEvent);
+    /*
+     let addIcon = document.createElement("a");
+     addIcon.className = "material-icons";
+     addIcon.innerText = "add";
+     createSubjectButton.appendChild(addIcon);
+     createSubjectButton.addEventListener("click", createSubjectEvent);
+     
+     subjectsList.appendChild(createSubjectButton);*/
 
-    subjectsList.appendChild(createSubjectButton);*/
 
 
-   
 }
 
-const openTableEvent = (event) => {
+const openTableEvent = (value, add) => {
     //var List = require("collections/list");
-    let value = event.currentTarget.id;
-    renderTableEvent(value);
-}
-
-
-
-const openToChangeForm = (event)=> {
-    let id = event.currentTarget.value;
-    let value = localStorage.getItem("current_open_table");
-    $.get("/"+value+"/"+id+"/", function(data, status){ 
-      clearPostFromModal();
-      createPostFormModal(data);
-      openAddCreateModal();
-    });
-
-  }
-
-const renderTableEvent = (value) => {
+    $("#add-modal").modal("close");
+    let newvalue = event.currentTarget.id;
+    if (newvalue != "add-load-button") {
+        value = newvalue;
+    }
     localStorage.setItem("current_open_table", value);
+
     clearPostFromModal();
-    createPostFormModal();
-    $.get("/"+value+"/", function(data, status){ 
-    saveJSONDataToLocalStorage(value, data);
-    var container = document.getElementById("subjects-form-table");
-    while (container.hasChildNodes()) {
-        container.removeChild(container.lastChild);
-    }
-    container.className='subjects-form';
-    var p = document.createElement("table");
-    p.id='subjects-form-header';
-    p.className="subjects-form-header";
-    p.innerText='Таблицы';
-
-    //var list = new List([1, 2, 3]);
-
-    container.appendChild(p);
-    var table = document.createElement("table");
-    table.id='data-tr-table';
+    createPostFormModal(value);
 
 
-      var a = document.createElement("a");
-      a.className = 'btn-floating btn-large waves-effect waves-light btn greeen accent-4';
-      a.dataset.target = "add-modal";
-      a.addEventListener("click", openAddCreateModal);
-      var i = document.createElement("i");
-      i.className = 'material-icons';
-      i.textContent = 'add';
-      a.append(i);
-      container.append(a)
+    let url = getMappingUrl(value);
 
-    if (data.length>0){
-        var thread = createThread(data);
-        table.appendChild(thread);
-        var tbody = createTbody(data);
-        table.appendChild(tbody);
-        container.append(table);
-    }
-    $(document).ready( function () {
-        $('#data-tr-table').DataTable();
-       });
+    $.get(url, function (data, status) {
+        saveJSONDataToLocalStorage(value, data);
+        var container = document.getElementById("table-forme");
+        container.className = 'display';
+        //var list = new List([1, 2, 3]);
+        while (container.hasChildNodes()) {
+            container.removeChild(container.lastChild);
+        }
+        var table = document.createElement("table");
+        table.id = 'data-tr-table';
+        console.log(url);
+
+        if (data.length > 0) {
+            var thread = createThread(data);
+            table.appendChild(thread);
+            var tbody = createTbody(data, false);
+            table.appendChild(tbody);
+            container.appendChild(table);
+        }
+        $(document).ready(function () {
+            $('#data-tr-table').DataTable();
+        });
     });
-    
 
+
+    /*$(document).ready( function () {
+     $('#data-tr-table').DataTable();
+     });*/
+    //let dataformData = getJSONDataFromLocalStorage(value);
 }
 
 const createThread = (data) => {
     var threadHeader = document.createElement("thead");
-  
+
     var thread = document.createElement("tr");
-    for (let key in data[0]){
-      var th = document.createElement("th");
-      if (key != 'id'){
-        th.append(key);
-        thread.append(th);
-      }
+    for (let key in data[0]) {
+        var th = document.createElement("th");
+        if (key != 'id') {
+            th.append(key);
+            thread.append(th);
+        }
     }
     var th = document.createElement("th");
     th.append("Действия");
     thread.append(th);
     threadHeader.append(thread);
     return threadHeader;
-  }
+}
 
-  const createTbody = (data, accept) => {
+const createTbody = (data, accept) => {
     var tbody = document.createElement("tbody");
-  
+    console.log(data);
     data.forEach(item => {
         var input = document.createElement("tr");
-        for (let key in item){
-          var id = 0;
-          var td = document.createElement("td");
-          if (key != 'id'){
-            if (typeof(item[key])=="object" && item[key]!=null){
-                if (item[key]["name"]==undefined){
-                for (let role in item[key]){
-                  td.append(item[key][role]["name"]);
-                  td.append(" ");
-                  input.append(td);
+        for (let key in item) {
+            var id = 0;
+            var td = document.createElement("td");
+            if (key != 'id') {
+                if (typeof (item[key]) == "object" && item[key] != null) {
+                    for (let role in item[key]) {
+                        if (item[key][role]["role"] != undefined) {
+                            td.append(item[key][role]["role"]);
+                            td.append(" ");
+                            input.append(td);
+                        } else {
+                            td.append(item[key]["name"]);
+                            input.append(td);
+                            break;
+                        }
                     }
-                    if (item[key].length==0){
-                        td.append(" ");
-                        input.append(td);
-                    }
+                } else if (item[key] == null) {
+                    td.append(" ");
+                    input.append(td);
                 } else {
-                td.append(item[key]["name"]);
-                input.append(td);
-              }
-            } else  if (item[key]==null){
-              td.append(" ");
-              input.append(td);
+                    td.append(item[key]);
+                    input.append(td);
+                }
+            } else {
+                id = item[key];
+                input.id = id;
             }
-            else {
-            td.append(item[key]);
-            input.append(td);
-              }
-          } else{
-            id = item[key];
-            input.id = id;
-          }
         }
         var td = document.createElement("td");
         var a = document.createElement("a");
         a.className = 'btn-floating btn-large waves-effect waves-light btn red';
+        //a.href = '#1';
         a.value = item.id;
+        //a.textContent = 'Удалить';
         a.addEventListener("click", deleteValueFromTable);
         var i = document.createElement("i");
         i.className = 'material-icons';
@@ -332,7 +309,9 @@ const createThread = (data) => {
 
         var a = document.createElement("a");
         a.className = 'btn-floating btn-large waves-effect waves-light btn yellow';
+        //a.href = '#1';
         a.value = item.id;
+        //a.textContent = 'Удалить';
         a.addEventListener("click", openToChangeForm);
         var i = document.createElement("i");
         i.className = 'material-icons';
@@ -340,40 +319,56 @@ const createThread = (data) => {
         a.append(i);
         td.append(a);
 
-        if (accept==true){
-          var a = document.createElement("a");
-          a.className = 'btn-floating btn-large waves-effect waves-light green accent-4';
-          a.href = '#1';
-          a.value = item.id;
-          //a.textContent = 'Удалить';
-          a.addEventListener("click", acceptValueFromTable);
-          var i = document.createElement("i");
-          i.className = 'material-icons';
-          i.textContent = 'done';
-          a.append(i);
-          td.append(a);
+        if (accept == true) {
+            var a = document.createElement("a");
+            a.className = 'btn-floating btn-large waves-effect waves-light green accent-4';
+            a.href = '#1';
+            a.value = item.id;
+            a.addEventListener("click", acceptValueFromTable);
+            var i = document.createElement("i");
+            i.className = 'material-icons';
+            i.textContent = 'done';
+            a.append(i);
+            td.append(a);
         }
-        
-        
-       
         input.append(td);
         tbody.appendChild(input);
-        
+
     });
     return tbody;
-  }
+}
+
+
+
+
+
+const openToChangeForm = (event) => {
+    clearPostFromModal();
+    let id = event.currentTarget.value;
+    let value = localStorage.getItem("current_open_table");
+    let url = getMappingUrl(value);
+    $.get(url + id, function (data, status) {
+        createPostFormModal(data);
+        $("#add-modal").modal("open");
+    });
+}
+
+
+
+
 
 const deleteValueFromTable = (event) => {
     let id = event.currentTarget.value;
-    var value = localStorage.getItem("current_open_table");    
+    var value = localStorage.getItem("current_open_table");
+    let url = getMappingUrl(value);
     $.ajax({
-        headers: { 
+        headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json'
         },
         'type': 'DELETE',
-        'url': "/"+value+"/"+id,
-        'success': function(response) {
+        'url': url + id,
+        'success': function (response) {
             renderTableEvent(value);
         }
 
@@ -382,10 +377,10 @@ const deleteValueFromTable = (event) => {
 
 
 var ID = function () {
-  // Math.random should be unique because of its seeding algorithm.
-  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-  // after the decimal.
-  return '_' + Math.random().toString(36).substr(2, 9);
+    // Math.random should be unique because of its seeding algorithm.
+    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+    // after the decimal.
+    return '_' + Math.random().toString(36).substr(2, 9);
 };
 
 
@@ -422,7 +417,7 @@ const addSubjectEvent = () => {
     let subjectLoads = [];
     let loadsData = getJSONDataFromLocalStorage("loads");
 
-   loadsFormList.forEach(loadEl => {
+    loadsFormList.forEach(loadEl => {
         if (loadEl.tagName == "DIV") {
             let loadID = +loadEl.id;
             let name = loadEl.children[0].innerHTML;
@@ -431,32 +426,32 @@ const addSubjectEvent = () => {
                 name_id: loadsData.find(x => x.name == name)["id"],
                 hours: loadValue
             }
-            if (loadID!=0){
+            if (loadID != 0) {
                 learningseveritylist.id = loadID;
             }
-        
+
             subjectLoads.push(learningseveritylist);
-           
+
         }
     });
     let syllabus = {
         name: subjectName,
         plans_id: subjectLoads
     };
-    
+
     console.log("edit syllabus ", syllabus);
-    
+
     $.ajax({
-        headers: { 
+        headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json'
         },
         'type': 'POST',
         'async': false,
         'url': "/syllabus/",
         'data': JSON.stringify(syllabus),
         'dataType': 'json',
-        'success': function(response) {
+        'success': function (response) {
             console.log(response);
         }
 
@@ -484,7 +479,8 @@ const clearSubjectFormFields = () => {
 
     while (loadsFormListEl.firstChild) {
         loadsFormListEl.removeChild(loadsFormListEl.firstChild);
-    };
+    }
+    ;
 }
 
 const subjectCreateMode = () => {
@@ -519,7 +515,7 @@ const subjectEditMode = (id) => {
 
     let loadsData = getJSONDataFromLocalStorage("loads");
 
-	//let loadsData = data;
+    //let loadsData = data;
 
     let currentSubject = subjectsData.find(x => x.id == id);
 
@@ -528,49 +524,49 @@ const subjectEditMode = (id) => {
     document.getElementById("subject-name").value = currentSubject["name"];
 
     let loadsFormListEl = document.getElementById("loads-form");
-    
+
     console.log(loadsFormListEl);
 
-    
+
     console.log(currentSubject["plans_id"]);
-    
-   let loadEls = currentSubject["plans_id"].map(load => {
-                return createFormLoadEl(load["id"], loadsData.find(x => x.id == load["name_id"])["name"], load["hours"]);
-            });
+
+    let loadEls = currentSubject["plans_id"].map(load => {
+        return createFormLoadEl(load["id"], loadsData.find(x => x.id == load["name_id"])["name"], load["hours"]);
+    });
 
     loadEls.forEach(el => {
-                loadsFormListEl.appendChild(el);
-            });
- 
-/*
-    $.ajax({
-        headers: { 
-            'Accept': 'application/json',
-            'Content-Type': 'application/json' 
-        },
-        'type': 'POST',
-        'url': "/learningseveritylist/bylist/",
-        'data': JSON.stringify(currentSubject["plans_id"]),
-        'dataType': 'json',
-        'success': function(response) {
-            console.log("/learningseveritylist/bylist/", response);
-            let loadEls = response.map(load => {
-                return createFormLoadEl(load["id"], loadsData.find(x => x.id == load["name_id"])["name"], load["hours"]);
-            });
-
-            loadEls.forEach(el => {
-                loadsFormListEl.appendChild(el);
-            });
-        }
-
+        loadsFormListEl.appendChild(el);
     });
-*/
+
+    /*
+     $.ajax({
+     headers: { 
+     'Accept': 'application/json',
+     'Content-Type': 'application/json' 
+     },
+     'type': 'POST',
+     'url': "/learningseveritylist/bylist/",
+     'data': JSON.stringify(currentSubject["plans_id"]),
+     'dataType': 'json',
+     'success': function(response) {
+     console.log("/learningseveritylist/bylist/", response);
+     let loadEls = response.map(load => {
+     return createFormLoadEl(load["id"], loadsData.find(x => x.id == load["name_id"])["name"], load["hours"]);
+     });
+     
+     loadEls.forEach(el => {
+     loadsFormListEl.appendChild(el);
+     });
+     }
+     
+     });
+     */
 
 
     /*
-    loadEls.forEach(el => {
-        loadsFormListEl.appendChild(el);
-    });*/
+     loadEls.forEach(el => {
+     loadsFormListEl.appendChild(el);
+     });*/
 
     let formButtons = document.getElementById("form-buttons");
 
@@ -638,12 +634,12 @@ const updateSubjectEvent = () => {
                 name_id: loadsData.find(x => x.name == name)["id"],
                 hours: loadValue
             }
-            if (loadID!=0){
+            if (loadID != 0) {
                 learningseveritylist.id = loadID;
             }
-        
+
             subjectLoads.push(learningseveritylist);
-           
+
         }
     });
     let currId = localStorage.getItem("current_edit_subject_id");
@@ -653,33 +649,33 @@ const updateSubjectEvent = () => {
         name: subjectName,
         plans_id: subjectLoads
     };
-    
+
     console.log("edit syllabus ", syllabus);
-    
+
     $.ajax({
-        headers: { 
+        headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json'
         },
         'type': 'PUT',
         'async': false,
-        'url': "/syllabus/"+currId,
+        'url': "/syllabus/" + currId,
         'data': JSON.stringify(syllabus),
         'dataType': 'json',
-        'success': function(response) {
+        'success': function (response) {
             console.log(response);
 
         }
 
     });
 
-    
+
     /*
-	here you need uose pose and get loads
-	*/
+     here you need uose pose and get loads
+     */
 
     localStorage.removeItem("current_edit_subject_id");
-    
+
     let data = getDataFromServer("syllabus");
     console.log(data);
     saveJSONDataToLocalStorage("subjects", data);
@@ -816,32 +812,32 @@ const addLoadEvent = () => {
         id: ObjIdentity("loads"),
         name: loadName,
     };
-    
+
     let to_load = {
         name: loadName
     }
 
     $.ajax({
-        headers: { 
+        headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json'
         },
         'type': 'POST',
         'url': "/learningseverity/",
         'data': JSON.stringify(to_load),
         'dataType': 'json',
-        'success': function(response) {
+        'success': function (response) {
             console.log(response);
-                $.get("/learningseverity/", function(data, status){ 
+            $.get("/learningseverity/", function (data, status) {
                 saveJSONDataToLocalStorage("loads", data);
                 console.log(data);
                 renderSubjectsList(data);
-	});
+            });
         }
 
     });
-	
-   // addItemToLocalStorage("loads", load);
+
+    // addItemToLocalStorage("loads", load);
 
     let data = getJSONDataFromLocalStorage("loads");
     renderLoadsList(data);
@@ -855,145 +851,170 @@ const addLoadEvent = () => {
 
 //CREATE ADD FORM TO TABLE
 const getFieldTypeByOptions = (type) => {
-  switch(type){
-    case "integer":
-      return "number";
-    case "string":
-      return "text";
-    case "date":
-      return "date";
-    default:
-      return type;
-  }
+    switch (type) {
+        case "integer":
+            return "number";
+        case "string":
+            return "text";
+        case "object":
+            return "object";
+        case "date":
+            return "date";
+        case "array":
+            return "list";
+        case "boolean":
+            return "boolean";
+        default:
+            return type;
+    }
 }
+
 
 
 const addFromEvent = () => {
     let json = getJSONfromForm("add-modal-content");
-    let name = localStorage.getItem("current_open_table");
+
+    let name = getMappingUrl(localStorage.getItem("current_open_table"));
     console.log(json);
-    
+    let type = 'POST';
+    if (json['id'] != undefined && json['id'] != null) {
+        type = 'PUT';
+        name = name + json['id'];
+    }
+
     $.ajax({
-        headers: { 
+        headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json'
         },
-        'type': 'POST',
+        'type': type,
         'async': false,
-        'url': "/"+name+"/",
+        'url': name,
         'data': JSON.stringify(json),
         'dataType': 'json',
-        'success': function(response) {
+        'success': function (response) {
             console.log(response);
+            openTableEvent(localStorage.getItem("current_open_table"));
+
         }
     });
-    renderTableEvent(name);
-}
-
-
-const putFromEvent = (id) => {
-    let json = getJSONfromForm("add-modal-content");
-    let name = localStorage.getItem("current_open_table");
-    console.log(json);
-    
-    $.ajax({
-        headers: { 
-            'Accept': 'application/json',
-            'Content-Type': 'application/json' 
-        },
-        'type': 'PUT',
-        'async': false,
-        'url': "/"+name+"/"+id+"/",
-        'data': JSON.stringify(json),
-        'dataType': 'json',
-        'success': function(response) {
-            console.log(response);
-        }
-    });
-    renderTableEvent(name);
 }
 
 const getJSONfromForm = (formname) => {
-    let formData = $("#"+formname).serializeArray();
+    let formData = $("#" + formname).serializeArray();
     let name = localStorage.getItem("current_open_table");
     let optionType = getListDataFromServer(name);
     console.log(formData);
     let json = {};
-    for (let data in formData){
-        if (getFieldTypeByOptions(optionType[formData[data]['name']])=="text"){
-        json[formData[data]['name']] = formData[data]['value'];
-        }
-        else if (getFieldTypeByOptions(optionType[formData[data]['name']])=="int"){
-             json[formData[data]['name']] = parseInt(formData[data]['value']);
-        } else if (["set", "list"].includes(optionType[formData[data]['name']])){
-            let current_data = getDataFromServer([formData[data]['name']]+"/"+formData[data]['value']);
-            if (typeof(json[formData[data]['name']]) == "undefined"){
+    for (let data in formData) {
+        if (formData[data]['name'] == "id") {
+            if (formData[data]['value'] != "undefined") {
+                json[formData[data]['name']] = formData[data]['value'];
+            } else {
+                continue;
+            }
+        } else if (getFieldTypeByOptions(optionType[formData[data]['name']]["type"]) == "text") {
+            json[formData[data]['name']] = formData[data]['value'];
+
+        } else if (getFieldTypeByOptions(optionType[formData[data]['name']]["type"]) == "number") {
+            json[formData[data]['name']] = parseInt(formData[data]['value']);
+        } else if (["set", "list"].includes(getFieldTypeByOptions(optionType[formData[data]['name']]["type"]))) {
+            console.log(formData[data]['name']);
+            console.log(optionType[formData[data]['name']]["items"]["id"]);
+            console.log(getMappingUrl(optionType[formData[data]['name']]["items"]["id"]));
+            let current_data = getDataFromServer(optionType[formData[data]['name']]["items"]["id"], formData[data]['value']);
+            if (typeof (json[formData[data]['name']]) == "undefined") {
                 json[formData[data]['name']] = [];
             }
-            console.log(formData[data]);
-
             json[formData[data]['name']].push(current_data);
-        } 
-        else {
-            let current_data = getDataFromServer(optionType[formData[data]['name']]+"/"+formData[data]['value']);
+        } else if (["boolean", "uuid", "id"].includes(optionType[formData[data]['name']]["type"])) {
+            if (formData[data]['value'] != "undefined") {
+                json[formData[data]['name']] = formData[data]['value'];
+            }
+        } else {
+            let current_data = getDataFromServer(optionType[formData[data]['name']]["id"], formData[data]['value']);
             json[formData[data]['name']] = current_data;
         }
 
-
     }
-    console.log(json);
     return json;
 }
 
-const getListDataFromServer = (name) => {
- let data;
- $.ajax({
-        headers: { 
-            'Accept': 'application/json',
-            'Content-Type': 'application/json' 
-        },
-        'async': false,
-        'type': 'OPTIONS',
-        'url': "/"+name+"/",
-        'success': function(response) {
-            data = response;
-        }
-    });
-return data;
-}
 
-const getDataFromServer = (name) => {
- let data;
- $.ajax({
-        headers: { 
+const getMappingUrl = (name) => {
+    let data;
+    $.ajax({
+        headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json'
         },
         'async': false,
         'type': 'GET',
-        'url': "/"+name+"/",
-        'success': function(response) {
+        'url': "/resources/static/json/mapping.json",
+        'success': function (response) {
+            data = response[name];
+        }
+    });
+    return data;
+}
+
+const getListDataFromServer = (name) => {
+    let url = getMappingUrl(name);
+    let data;
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'async': false,
+        'type': 'OPTIONS',
+        'url': url,
+        'success': function (response) {
+            data = response["properties"];
+        }
+    });
+    return data;
+}
+
+const getDataFromServer = (name, id) => {
+    let url = getMappingUrl(name);
+    if (id != undefined) {
+        url = url + id;
+    }
+    let data;
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'async': false,
+        'type': 'GET',
+        'url': url,
+        'success': function (response) {
             data = response;
         }
     });
-return data;
+    return data;
 }
 
 
 const clearPostFromModal = () => {
     var container = document.getElementById("add-modal");
-    if (container!=null){
+    if (container != null) {
         while (container.hasChildNodes()) {
-             container.removeChild(container.lastChild);
+            container.removeChild(container.lastChild);
         }
     }
 }
 
+
 const createPostFormModal = (changeData) => {
+    console.log(changeData);
     let name = localStorage.getItem("current_open_table");
     let data = getListDataFromServer(name);
+
     let modalForm = document.getElementById("add-modal");
-    if (modalForm==null){
+    if (modalForm == null) {
         modalForm = document.createElement("div");
         modalForm.className = "modal";
         modalForm.id = "add-modal";
@@ -1002,134 +1023,132 @@ const createPostFormModal = (changeData) => {
     let modalContent = document.createElement("form");
     modalContent.className = "modal-content";
     modalContent.id = "add-modal-content";
-    
+
     let modalHeader = document.createElement("h4");
     modalHeader.innerText = "Добавить запись";
-    let ids;
-    if (changeData!=undefined){
-        ids = changeData.id;
-        modalHeader.innerText = "Изменить запись";
-    }
     modalHeader.id = "add-modal-header";
     modalContent.appendChild(modalHeader);
 
 
-    for (let key in data){
-        if (key=="id"){
+    for (let key in data) {
+        console.log(key + "  " + data[key]["type"] + "  " + getFieldTypeByOptions(data[key]["type"]));
+        console.log(changeData[key]);
+
+        if (key == "id") {
+            let loadField = document.createElement("input");
+            loadField.id = key;
+            loadField.name = key;
+            loadField.type = "hidden";
+            loadField.value = changeData[key];
+            modalContent.appendChild(loadField);
             continue;
         }
-        let local_var_type = getFieldTypeByOptions(data[key]);
-        if(["text", "int"].includes(local_var_type)){
-        let loadCaption = document.createElement("p");
-        loadCaption.innerText = key;
-        loadCaption.id = "add-modal-caption";
-        modalContent.appendChild(loadCaption);
+        let local_var_type = getFieldTypeByOptions(data[key]["type"]);
+        if (["text", "number"].includes(local_var_type)) {
+            let loadCaption = document.createElement("p");
+            loadCaption.innerText = key;
+            loadCaption.id = "add-modal-caption";
+            modalContent.appendChild(loadCaption);
 
-        let loadField = document.createElement("input");
-        loadField.id = key;
-        loadField.name = key;
-        if (changeData!=undefined && changeData[key]!=null){
-            loadField.value = changeData[key];
-        }
-        loadField.type = local_var_type;
-        loadField.className = "validate";
-        loadField.required = true;
-        modalContent.appendChild(loadField);
-
-        modalForm.appendChild(modalContent);
-      } else if (["set", "list"].includes(local_var_type)){
-        let loadCaption = document.createElement("p");
-        loadCaption.innerText = key;
-        loadCaption.id = "add-modal-caption";
-        modalContent.appendChild(loadCaption);
-
-        let loadField = document.createElement("select");
-        loadField.setAttribute("name", key);
-        loadField.className = "select";
-        loadField.multiple = true;
-        loadField.required = true;
-        let big_data;
-        if (["set", "list"].includes(local_var_type)) {
-            big_data = getDataFromServer(key);
-        } else{
-            big_data = getDataFromServer(local_var_type);
-        }
-        for (let key_value in big_data){
-          let option = document.createElement("option");
-          option.id = key;
-          option.name = key;
-          option.value = big_data[key_value]["id"];
-          option.innerText = big_data[key_value]["name"];
-          if (changeData!=undefined && changeData[key]!=null){
-            if (changeData[key].find(obj => obj.id == big_data[key_value]["id"])){
-                option.selected=true;
+            let loadField = document.createElement("input");
+            loadField.id = key;
+            loadField.name = key;
+            if (changeData != undefined && changeData[key] != null) {
+                loadField.value = changeData[key];
             }
-           }
-          loadField.appendChild(option);
-        }
-        modalContent.appendChild(loadField);
-        modalForm.appendChild(modalContent);
-      
-        }
-        else if (["boolean"].includes(local_var_type)){
+            loadField.type = local_var_type;
+            loadField.className = "validate";
+            loadField.required = true;
+            modalContent.appendChild(loadField);
+
+            modalForm.appendChild(modalContent);
+        } else if (["set", "list"].includes(local_var_type)) {
+            let loadCaption = document.createElement("p");
+            loadCaption.innerText = key;
+            loadCaption.id = "add-modal-caption";
+            modalContent.appendChild(loadCaption);
+
+            let loadField = document.createElement("select");
+            loadField.setAttribute("name", key);
+            loadField.className = "select";
+            loadField.multiple = true;
+            loadField.required = true;
+            console.log(data[key]["items"]["id"]);
+            let big_data = getDataFromServer(data[key]["items"]["id"]);
+            for (let key_value in big_data) {
+                console.log(changeData[key]);
+                let option = document.createElement("option");
+                option.id = key;
+                option.name = key;
+                option.value = big_data[key_value]["id"];
+                option.innerText = big_data[key_value]["role"];
+                if (changeData != undefined && changeData[key] != null) {
+                    if (changeData[key].find(obj => obj.id == big_data[key_value]["id"])) {
+                        option.selected = true;
+                    }
+                }
+                loadField.appendChild(option);
+            }
+            modalContent.appendChild(loadField);
+            modalForm.appendChild(modalContent);
+
+        } else if (["boolean"].includes(local_var_type)) {
             console.log(local_var_type);
 
             let loadCaption = document.createElement("p");
             loadCaption.innerText = key;
             loadCaption.id = "add-modal-caption";
             modalContent.appendChild(loadCaption);
-    
+
             let loadField = document.createElement("select");
             loadField.setAttribute("name", key);
             loadField.className = "select";
             loadField.required = true;
-            
-            let big_data = ["true", "false"];
-            for (let key_value in big_data){
-              let option = document.createElement("option");
-              option.id = key;
-              option.name = key_value;
-              option.value = key_value;
-              option.innerText = key_value;
-              if (changeData!=undefined && changeData[key]!=null){
-                if (changeData[key]==true){
-                    option.selected=true;
+
+            let big_data = [true, false];
+            for (let key_value in big_data) {
+                let option = document.createElement("option");
+                option.id = key;
+                option.name = key;
+                option.value = big_data[key_value].toString();
+                option.innerText = big_data[key_value].toString();
+                if (changeData != undefined && changeData[key] != null) {
+                    if (changeData[key] == true) {
+                        option.selected = true;
+                    }
                 }
-               }
-              loadField.appendChild(option);
+                loadField.appendChild(option);
             }
             modalContent.appendChild(loadField);
             modalForm.appendChild(modalContent);
-          
-        }
-      else{
-        let loadCaption = document.createElement("p");
-        loadCaption.innerText = key;
-        loadCaption.id = "add-modal-caption";
-        modalContent.appendChild(loadCaption);
 
-        let loadField = document.createElement("select");
-        loadField.setAttribute("name", key);
-        loadField.className = "select";
-        loadField.required = true;
-        
-        let big_data = getDataFromServer(local_var_type);
-        for (let key_value in big_data){
-          let option = document.createElement("option");
-          option.id = key;
-          option.name = key;
-          option.value = big_data[key_value]["id"];
-          option.innerText = big_data[key_value]["name"];
-          if (changeData!=undefined && changeData[key]!=null){
-            if (changeData[key].id ==key_value["id"]){
-                option.selected=true;
+        } else {
+            let loadCaption = document.createElement("p");
+            loadCaption.innerText = key;
+            loadCaption.id = "add-modal-caption";
+            modalContent.appendChild(loadCaption);
+
+            let loadField = document.createElement("select");
+            loadField.setAttribute("name", key);
+            loadField.className = "select";
+            loadField.required = true;
+            let big_data = getDataFromServer(data[key]["id"]);
+            for (let key_value in big_data) {
+                let option = document.createElement("option");
+                option.id = key;
+                option.name = key;
+                option.value = big_data[key_value]["id"];
+                option.innerText = big_data[key_value]["name"];
+                if (changeData != undefined && changeData[key] != null) {
+                    if (changeData[key] == big_data[key_value]["id"]) {
+                        option.selected = true;
+                    }
+                }
+                loadField.appendChild(option);
             }
-           }
-          loadField.appendChild(option);
+            modalContent.appendChild(loadField);
+            modalForm.appendChild(modalContent);
         }
-        modalContent.appendChild(loadField);
-        modalForm.appendChild(modalContent);
-      }
     }
 
     let modalFooter = document.createElement("div");
@@ -1137,29 +1156,17 @@ const createPostFormModal = (changeData) => {
     modalFooter.id = "add-modal-buttons";
 
     let addButton = document.createElement("a");
-    addButton.className = "waves-effect waves-green btn green accent-4";
+    addButton.className = "modal-close waves-effect waves-green btn green accent-4";
     addButton.id = "add-load-button";
     //addButton.href = "#!";
     addButton.innerText = "Добавить";
-
-    if (changeData!=undefined){
-        addButton.innerText = "Принять";
-        addButton.addEventListener("click", function(){
-            let body = document.getElementById("body");
-            body.style = '';
-            putFromEvent(ids);
-        });
-
-    } else{
-        addButton.addEventListener("click", addFromEvent);
-
-    }
+    addButton.addEventListener("click", addFromEvent);
     modalFooter.appendChild(addButton);
 
     let exitButton = document.createElement("a");
-    exitButton.href = "#!";
     exitButton.className = "modal-close waves-effect waves-green btn red accent-4";
     exitButton.id = "exit-load-button";
+    //exitButton.href = "#!";
     exitButton.innerText = "Выйти";
 
     modalFooter.appendChild(exitButton);
@@ -1176,18 +1183,18 @@ const createPostFormModal = (changeData) => {
 $(document).ready(() => {
 
 
-    $.get("/learningseverity/", function(data, status){ 
+    $.get("/learningseverity/", function (data, status) {
         console.log(data);
-	saveJSONDataToLocalStorage("loads", data);        
+        saveJSONDataToLocalStorage("loads", data);
         renderLoadsList(data);
-	});
-	
-    $.get("/syllabus/", function(data, status){ 
+    });
+
+    $.get("/syllabus/", function (data, status) {
         saveJSONDataToLocalStorage("subjects", data);
         renderSubjectsList(data);
-    
-	});
-	
+
+    });
+
     if (localStorage.getItem("subjects_identity") == undefined) {
         localStorage.setItem("subjects_identity", 0);
     }
@@ -1207,12 +1214,12 @@ $(document).ready(() => {
 
     $(() => {
         $(".subjects-form").droppable({
-            drop: function(event, ui) {
+            drop: function (event, ui) {
                 let loadEl = createFormLoadEl(0, ui.draggable.text());
 
                 $(loadEl).appendTo(".loads-form-list");
 
-                ui.draggable.addClass("inactive").css("background-color", "#ffffff").draggable({ disabled: true });
+                ui.draggable.addClass("inactive").css("background-color", "#ffffff").draggable({disabled: true});
             }
         });
     });
@@ -1220,26 +1227,43 @@ $(document).ready(() => {
     let subjectsData = getJSONDataFromLocalStorage("subjects");
     let loadsData = getJSONDataFromLocalStorage("loads");
     let dataformData = [
-        {name:"Подгруппы", key:"subgroup"},
-        {name:"Группы", key:"groups"},
-        {name:"Поток", key:"flow"},
-        {name:"Кафедры", key:"lectern"},
-        {name:"Деканаты", key:"deanery"},
-        {name:"Типы кафедр", key:"lecterntype"},
-        {name:"Занятия", key:"lesson"},
-        //{name:"Пла ханятийн", key:"neededlesson"},
-        {name:"Роли", key:"role"},
-        {name:"Специальности", key:"speciality"},
-        {name:"Предметы", key:"subject"},
-        {name:"Предподаватели", key:"teacher"},
-        //{name:"canteach", key:"canteach"},
-        {name:"Аудитории", key:"classroom"},
-        {name:"Типы аудиторий", key:"classroomtype"},
-        {name:"Корпуса", key:"corps"},
-        {name:"Факультеты", key:"faculty"},
-        {name:"Смены", key:"turn"},
-
-        //{name:"Типы занятий", key:"typeoflesson"}
+        {"name": "CanTeach", "key": "urn:jsonschema:com:java:domain:CanTeach"},
+        {"name": "Classroom", "key": "urn:jsonschema:com:java:domain:Classroom"},
+        {"name": "ClassroomType", "key": "urn:jsonschema:com:java:domain:ClassroomType"},
+        {"name": "Corps", "key": "urn:jsonschema:com:java:domain:Corps"},
+        {"name": "Course", "key": "urn:jsonschema:com:java:domain:Course"},
+        {"name": "Deanery", "key": "urn:jsonschema:com:java:domain:Deanery"},
+        {"name": "EducationForm", "key": "urn:jsonschema:com:java:domain:EducationForm"},
+        {"name": "Faculty", "key": "urn:jsonschema:com:java:domain:Faculty"},
+        {"name": "Flow", "key": "urn:jsonschema:com:java:domain:Flow"},
+        {"name": "Groups", "key": "urn:jsonschema:com:java:domain:Groups"},
+        {"name": "LearningSeverity", "key": "urn:jsonschema:com:java:domain:LearningSeverity"},
+        {"name": "LearningSeverityList", "key": "urn:jsonschema:com:java:domain:LearningSeverityList"},
+        {"name": "Lectern", "key": "urn:jsonschema:com:java:domain:Lectern"},
+        {"name": "LecternType", "key": "urn:jsonschema:com:java:domain:LecternType"},
+        {"name": "Lesson", "key": "urn:jsonschema:com:java:domain:Lesson"},
+        {"name": "NeededLesson", "key": "urn:jsonschema:com:java:domain:NeededLesson"},
+        {"name": "Occupation", "key": "urn:jsonschema:com:java:domain:Occupation"},
+        {"name": "OccupationCounter", "key": "urn:jsonschema:com:java:domain:OccupationCounter"},
+        {"name": "OccupationCounterCourse", "key": "urn:jsonschema:com:java:domain:OccupationCounterCourse"},
+        {"name": "PereodicSeverity", "key": "urn:jsonschema:com:java:domain:PereodicSeverity"},
+        {"name": "PereodicSeveritySubject", "key": "urn:jsonschema:com:java:domain:PereodicSeveritySubject"},
+        {"name": "Schedule", "key": "urn:jsonschema:com:java:domain:Schedule"},
+        {"name": "Semester", "key": "urn:jsonschema:com:java:domain:Semester"},
+        {"name": "SemesterNumber", "key": "urn:jsonschema:com:java:domain:SemesterNumber"},
+        {"name": "Severity", "key": "urn:jsonschema:com:java:domain:Severity"},
+        {"name": "SeveritySubject", "key": "urn:jsonschema:com:java:domain:SeveritySubject"},
+        {"name": "Speciality", "key": "urn:jsonschema:com:java:domain:Speciality"},
+        {"name": "StudyPlan", "key": "urn:jsonschema:com:java:domain:StudyPlan"},
+        {"name": "StudyPlanStatus", "key": "urn:jsonschema:com:java:domain:StudyPlanStatus"},
+        {"name": "Subgroup", "key": "urn:jsonschema:com:java:domain:Subgroup"},
+        {"name": "Subject", "key": "urn:jsonschema:com:java:domain:Subject"},
+        {"name": "Syllabus", "key": "urn:jsonschema:com:java:domain:Syllabus"},
+        {"name": "Teacher", "key": "urn:jsonschema:com:java:domain:Teacher"},
+        {"name": "Turn", "key": "urn:jsonschema:com:java:domain:Turn"},
+        {"name": "TypeOfLesson", "key": "urn:jsonschema:com:java:domain:TypeOfLesson"},
+        {"name": "Week", "key": "urn:jsonschema:com:java:domain:Week"},
+        {"name": "WeekCount", "key": "urn:jsonschema:com:java:domain:WeekCount"},
     ]
 
     renderDataList(dataformData);

@@ -1,103 +1,103 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
-<head>
-    <meta charset="utf-8" />
-    <link type="text/css" rel="stylesheet" href="/resources/static/css/jquery-ui.min.css" />
-    <link type="text/css" rel="stylesheet" href="/resources/static/css/materialize.min.css" />
-    <link type="text/css" rel="stylesheet" href="/resources/static/css/material-icons.css" />
-    <link type="text/css" rel="stylesheet" href="/resources/static/css/main.css" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <head>
+        <meta charset="utf-8" />
+        <link type="text/css" rel="stylesheet" href="/resources/static/css/jquery-ui.min.css" />
+        <link type="text/css" rel="stylesheet" href="/resources/static/css/materialize.min.css" />
+        <link type="text/css" rel="stylesheet" href="/resources/static/css/material-icons.css" />
+        <link type="text/css" rel="stylesheet" href="/resources/static/css/main.css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
-    <script src="/resources/static/js/jquery-3.3.1.min.js"></script>
-    <script src="/resources/static/js/jquery-ui.min.js"></script>
-    <script src="/resources/static/js/materialize.min.js"></script>
-    <script src="/resources/static/js/home.js"></script>
-</head>
+        <script src="/resources/static/js/jquery-3.3.1.min.js"></script>
+        <script src="/resources/static/js/jquery-ui.min.js"></script>
+        <script src="/resources/static/js/materialize.min.js"></script>
+        <script src="/resources/static/js/home.js"></script>
+    </head>
 
-<body>
-    <nav class="nav-extended green accent-4">
-        <div class="nav-wrapper">
-            <a href="/" class="brand-logo">БНТУ</a>
-            <ul class="right hide-on-med-and-down">
-                <li><a href="home.html"><i class="material-icons">home</i></a></li>
-                <li><a href="#"><i class="material-icons">refresh</i></a></li>
-                <li><a href="#"><i class="material-icons">more_vert</i></a></li>
-            </ul>
+    <body>
+        <nav class="nav-extended green accent-4">
+            <div class="nav-wrapper">
+                <a href="/" class="brand-logo">БНТУ</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="home.html"><i class="material-icons">home</i></a></li>
+                    <li><a href="#"><i class="material-icons">refresh</i></a></li>
+                    <li><a href="#"><i class="material-icons">more_vert</i></a></li>
+                </ul>
+            </div>
+        </nav>
+
+
+        <div class="row">
+            <div class="col m2 l2">
+                <ul class="collapsible">
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Кабинет</div>
+                        <div class="collapsible-body"><span>
+                                <a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="/home">
+                                    <i class="material-icons left">home</i>
+                                    Мой кабинет</a>
+                                <br></br>
+                                <a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="#exams-schedule">
+                                    <i class="material-icons left">event</i>
+                                    Расписание экзаменов</a>
+
+
+                            </span></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Объекты</div>
+                        <div class="collapsible-body"><span>
+
+
+                                <hr></hr>
+                                <a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="/objects">
+                                    <i class="material-icons left">subject</i>
+                                    Объекты</a>
+
+
+                            </span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Аккаунт</div>
+                        <div class="collapsible-body"><span>
+
+
+                                <a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="/mypage">
+                                    <i class="material-icons left">account_circle</i>
+                                    Мой аккаунт</a><hr></hr>
+
+                                <a class="waves-effect waves-light btn yellow accent-4" style="width: 100%;" href="#exams-schedule">
+                                    <i class="material-icons left">settings</i>
+                                    Настройки</a><hr></hr>
+
+                                <a class="waves-effect waves-light btn red accent-4" style="width: 100%;" href="/logout">
+                                    <i class="material-icons left">exit_to_app</i>
+                                    Выход</a>
+
+
+                            </span></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col m3 l7">
+                <h5>Добро пожаловать в Систему управления расписанием БНТУ</h5>
+                <p>
+                    Новости:
+                    <br/> 18.10.2019
+
+                    <br/> Исправлена сущность пользователи<br/> Добавлен промотр пользователей и ролей на страницу администратора<br/>
+                    <br/>
+                    <br/> 17.10.2019
+                    <br/> Добавлено меню на домашнюю страницу<br/> Исправлена страница администратора<br/>
+                    <br/> 16.10.2019
+                    <br/> Добавлена Домашняя страница со списком новостей и изменений<br/> Доабалена страница администратора<br/> Добавлена страница юзеров и ролей<br/>
+                </p>
+            </div>
         </div>
-    </nav>
 
 
-    <div class="row">
-        <div class="col m3 l3">
-            <ul class="collapsible">
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Кабинет</div>
-                    <div class="collapsible-body"><span>
-			<a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="/home">
-		        <i class="material-icons left">home</i>
-		        Мой кабинет</a>
-                      <br></br>
-		      <a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="#exams-schedule">
-		        <i class="material-icons left">event</i>
-		        Расписание экзаменов</a>
-                            <hr></hr>
-
-				</span></div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Объекты</div>
-                    <div class="collapsible-body"><span>
-
-
-					<hr></hr>
-					<a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="/objects">
-		        <i class="material-icons left">subject</i>
-		        Объекты</a>
-
-
-				</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Аккаунт</div>
-                    <div class="collapsible-body"><span>
-
-
-					<a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="/mypage">
-		        <i class="material-icons left">account_circle</i>
-		        Мой аккаунт</a><hr></hr>
-
-					<a class="waves-effect waves-light btn yellow accent-4" style="width: 100%;" href="#exams-schedule">
-		        <i class="material-icons left">settings</i>
-		        Настройки</a><hr></hr>
-
-					<a class="waves-effect waves-light btn red accent-4" style="width: 100%;" href="/logout">
-		        <i class="material-icons left">exit_to_app</i>
-		        Выход</a>
-
-
-				</span></div>
-                </li>
-            </ul>
-        </div>
-        <div class="col m3 l7">
-            <h5>Добро пожаловать в Систему управления расписанием БНТУ</h5>
-            <p>
-                Новости:
-                <br/> 18.10.2019
-
-                <br/> Исправлена сущность пользователи<br/> Добавлен промотр пользователей и ролей на страницу администратора<br/>
-                <br/>
-                <br/> 17.10.2019
-                <br/> Добавлено меню на домашнюю страницу<br/> Исправлена страница администратора<br/>
-                <br/> 16.10.2019
-                <br/> Добавлена Домашняя страница со списком новостей и изменений<br/> Доабалена страница администратора<br/> Добавлена страница юзеров и ролей<br/>
-            </p>
-        </div>
-    </div>
-
-
-</body>
+    </body>
 
 </html>

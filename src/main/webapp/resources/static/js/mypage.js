@@ -10,13 +10,13 @@ $(document).ready(() => {
 
 
 $.ajax({
-    headers: { 
+    headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json' 
+        'Content-Type': 'application/json'
     },
     'type': 'GET',
     'url': "/users/me/",
-    'success': function(response) {
+    'success': function (response) {
         $("#email").val(response["username"]);
         $("#name").val(response["teacher"]["name"]);
         $("#surname").val(response["teacher"]["surname"]);
@@ -25,8 +25,8 @@ $.ajax({
         $("#rank").val(response["teacher"]["rank"]);
         $("#academicDegree").val(response["teacher"]["academicDegree"]);
 
-        $(document).ready(function() {
-          M.updateTextFields();
+        $(document).ready(function () {
+            M.updateTextFields();
         });
     }
 
@@ -39,6 +39,6 @@ const Update = () => {
 }
 
 const getJSONfromForm = (formname) => {
-    let formData = $("#"+formname).first().serializeArray();
+    let formData = $("#" + formname).first().serializeArray();
     return formData;
 }
