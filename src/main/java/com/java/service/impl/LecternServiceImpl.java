@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import com.java.domain.Lectern;
 import com.java.repository.LecternRepository;
+import com.java.repository.DeaneryRepository;
 
 import java.lang.reflect.Field;
 import org.json.simple.JSONObject;
@@ -24,9 +25,14 @@ public class LecternServiceImpl implements LecternService {
 
     @Autowired
     private LecternRepository lecternRepository;
-
+	
+	@Autowired
+    private DeaneryRepository deaneryRepository;
+	
+	
     @Override
-    public Lectern save(Lectern obj) {
+    public Lectern save(Lectern obj, UUID id) {
+		obj.setDeanery(deaneryRepository.findById(id).get());
         return lecternRepository.save(obj);
     }
 
@@ -65,5 +71,10 @@ public class LecternServiceImpl implements LecternService {
             return null;
         } 
     }
+	
+	@Override
+	public List<Lectern> findLecternsByDeaneryId(UUID id){
+		return lecternRepository.findLecternsByDeaneryId(id);
+	};
 }
 

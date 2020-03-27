@@ -60,12 +60,12 @@ public class StudyPlanController {
         studyplanService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-	
-	@GetMapping(value="/lectern/{id}")
+
+	@GetMapping("/lectern/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
 	public ResponseEntity<List<StudyPlan>> getStudyPlansByLectern(HttpServletRequest request, Model model, @PathVariable("id") UUID id) {
-		List<StudyPlan> studyplan = studyplanService.findStudyplansByLecternId(id); 
-		return new ResponseEntity<List<StudyPlan>>(studyplan, HttpStatus.OK); 
-}
+		List<StudyPlan> studyplan = studyplanService.findStudyplansByLecternId(id);
+		return new ResponseEntity<>(studyplan, HttpStatus.OK);
+	}
 
 }

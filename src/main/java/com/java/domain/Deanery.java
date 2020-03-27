@@ -1,8 +1,12 @@
 package com.java.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import java.util.List;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -25,7 +29,12 @@ public class Deanery {
     
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name="faculty", referencedColumnName="id", nullable = true)
+	@JsonBackReference
     private Faculty faculty;
+	
+	@OneToMany(mappedBy="deanery", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Lectern> lecterns;
 
     @Column(name = "fullname")
     private String fullname;
