@@ -30,11 +30,11 @@ public class Week {
     @Column(name = "colspan")
     private int colspan;
     
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name="occupation", referencedColumnName="id")
-	private Occupation occupation;
+    private Occupation occupation;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
     @JoinColumn(name="studyplan", referencedColumnName="id")
     @JsonBackReference(value="studyPlan-week-movement")
     private StudyPlan studyPlan;

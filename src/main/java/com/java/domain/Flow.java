@@ -33,7 +33,7 @@ public class Flow {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "flow", fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "flow", fetch = FetchType.LAZY, cascade = CascadeType.MERGE, orphanRemoval = true)
     @JsonManagedReference(value = "flow-group")
     @Column(nullable = true)
     private List<Groups> groups;
