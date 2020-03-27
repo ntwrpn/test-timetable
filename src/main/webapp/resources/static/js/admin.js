@@ -26,7 +26,12 @@ const deleteValueFromTable = (event) => {
         'type': 'DELETE',
         'url': url + id,
         'success': function (response) {
+            M.toast({html: "Запись удалена"});
             openTableEvent(name, "");
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+            M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
         }
 
     });
@@ -46,7 +51,12 @@ const acceptValueFromTable = (event) => {
         'type': 'POST',
         'url': "/users/accept/" + id,
         'success': function (response) {
+            M.toast({html: "Юзер подтвержден!"});
             openTableEvent("urn:jsonschema:com:java:domain:Users", "?enabled=False");
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+            M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
         }
 
     });
@@ -107,7 +117,7 @@ const createThread = (data) => {
     for (let key in data[0]) {
         var th = document.createElement("th");
         if (key != 'id') {
-            th.append(key);
+            th.append(getLocalizedName(key));
             thread.append(th);
         }
     }

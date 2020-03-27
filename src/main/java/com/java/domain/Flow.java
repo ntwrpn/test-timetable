@@ -1,4 +1,3 @@
-
 package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -22,7 +21,6 @@ import java.util.Set;
 @Table(name = "flow")
 public class Flow {
 
-    
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
@@ -34,18 +32,24 @@ public class Flow {
 
     @Column(name = "description")
     private String description;
-    
-    @OneToMany(mappedBy="flow", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE }, orphanRemoval = true)
-    @JsonManagedReference(value="flow-group")
+
+    @OneToMany(mappedBy = "flow", fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE}, orphanRemoval = true)
+    @JsonManagedReference(value = "flow-group")
     @Column(nullable = true)
     private List<Groups> groups;
-    
-    
-    @ManyToOne(optional=true, fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name="faculty", referencedColumnName="id", nullable = true)
+
+    @ManyToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "faculty", referencedColumnName = "id", nullable = true)
     //@JsonManagedReference
-    private Faculty faculty=null;
+    private Faculty faculty = null;
 
-
+    /*public void setGroups(List<Groups> groups) {
+        this.groups.clear();
+        this.groups.addAll(groups);
+        if (groups != null) {
+            for (Groups group : groups) {
+                this.groups.add(group);
+            }
+        }
+    }*/
 }
-

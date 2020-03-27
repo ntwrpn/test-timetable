@@ -8,6 +8,41 @@ const draggableProps = {
 
 const rainbowColors = ["#FF0000", "#E2571E", "#FF7F00", "#FFFF00", "#00FF00", "#96bf33", "#0000FF", "#4B0082", "#8B00FF"];
 
+const getLocalization = () => {
+    let data;
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'async': false,
+        'type': 'GET',
+        'url': "/resources/static/json/localize.json",
+        'success': function (response) {
+            data = response;
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+            M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
+        }
+    });
+    return data;
+}
+
+
+const getLocalizedName = (name) => {
+    console.log();
+    if (LOCALIZATION[name]!=undefined){
+        return LOCALIZATION[name];
+    } else if (LOCALIZATION[name.toLowerCase()]!=undefined){
+        return LOCALIZATION[name.toLowerCase()];
+    } else{
+        return name;
+    }
+}
+
+let LOCALIZATION = getLocalization();
+
 const createSubjectItemEl = (id, name) => {
     let newItem = document.createElement("li");
     newItem.className = "subject-item collection-item";
@@ -160,7 +195,7 @@ const createDataItemEl = (key, name) => {
     let newItem = document.createElement("li");
     newItem.className = "subject-item collection-item";
     newItem.id = key;
-    newItem.innerText = name;
+    newItem.innerText = getLocalizedName(name);
     return newItem;
 }
 
@@ -200,9 +235,11 @@ const renderDataList = (data) => {
 const openTableEvent = (value, add) => {
     //var List = require("collections/list");
     $("#add-modal").modal("close");
-    let newvalue = event.currentTarget.id;
-    if (newvalue != "add-load-button") {
-        value = newvalue;
+    if (event != undefined) {
+        let newvalue = event.currentTarget.id;
+        if (newvalue != "add-load-button") {
+            value = newvalue;
+        }
     }
     localStorage.setItem("current_open_table", value);
 
@@ -250,7 +287,7 @@ const createThread = (data) => {
     for (let key in data[0]) {
         var th = document.createElement("th");
         if (key != 'id') {
-            th.append(key);
+            th.append(getLocalizedName(key));
             thread.append(th);
         }
     }
@@ -263,23 +300,26 @@ const createThread = (data) => {
 
 const createTbody = (data, accept) => {
     var tbody = document.createElement("tbody");
-    console.log(data);
+    let name = localStorage.getItem("current_open_table");
+    let optionType = getListDataFromServer(name);
     data.forEach(item => {
         var input = document.createElement("tr");
         for (let key in item) {
             var id = 0;
             var td = document.createElement("td");
             if (key != 'id') {
-                if (typeof (item[key]) == "object" && item[key] != null) {
-                    for (let role in item[key]) {
-                        if (item[key][role]["role"] != undefined) {
-                            td.append(item[key][role]["role"]);
+                if (optionType[key]["type"] == "object" && item[key] != null) {
+                    td.append(item[key]["name"]);
+                    input.append(td);
+                } else if (optionType[key]["type"] == "array" && item[key] != null) {
+                    if (item[key] == false) {
+                        td.append(" ");
+                        input.append(td);
+                    } else {
+                        for (let obj in item[key]) {
+                            td.append(item[key][obj]["name"]);
                             td.append(" ");
                             input.append(td);
-                        } else {
-                            td.append(item[key]["name"]);
-                            input.append(td);
-                            break;
                         }
                     }
                 } else if (item[key] == null) {
@@ -355,25 +395,6 @@ const openToChangeForm = (event) => {
 
 
 
-
-
-const deleteValueFromTable = (event) => {
-    let id = event.currentTarget.value;
-    var value = localStorage.getItem("current_open_table");
-    let url = getMappingUrl(value);
-    $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        'type': 'DELETE',
-        'url': url + id,
-        'success': function (response) {
-            renderTableEvent(value);
-        }
-
-    });
-}
 
 
 var ID = function () {
@@ -871,6 +892,46 @@ const getFieldTypeByOptions = (type) => {
 
 
 
+
+const getJSONfromForm = (formname) => {
+    let formData = $("#" + formname).serializeArray();
+    let name = localStorage.getItem("current_open_table");
+    let optionType = getListDataFromServer(name);
+    console.log(formData);
+    let json = {};
+    for (let data in formData) {
+        if (formData[data]['name'] == "id") {
+            if (formData[data]['value'] != "undefined") {
+                json[formData[data]['name']] = formData[data]['value'];
+            } else {
+                continue;
+            }
+        } else if (getFieldTypeByOptions(optionType[formData[data]['name']]["type"]) == "text") {
+            json[formData[data]['name']] = formData[data]['value'];
+
+        } else if (getFieldTypeByOptions(optionType[formData[data]['name']]["type"]) == "number") {
+            json[formData[data]['name']] = parseInt(formData[data]['value']);
+        } else if (["set", "list"].includes(getFieldTypeByOptions(optionType[formData[data]['name']]["type"]))) {
+            let current_data = getDataFromServer(optionType[formData[data]['name']]["items"]["id"], formData[data]['value']);
+            if (typeof (json[formData[data]['name']]) == "undefined") {
+                json[formData[data]['name']] = [];
+            }
+            json[formData[data]['name']].push(current_data);
+        } else if (["boolean", "uuid", "id"].includes(optionType[formData[data]['name']]["type"])) {
+            if (formData[data]['value'] != "undefined") {
+                json[formData[data]['name']] = formData[data]['value'];
+            }
+        } else {
+            if (formData[data]['value'] != "") {
+                let current_data = getDataFromServer(optionType[formData[data]['name']]["id"], formData[data]['value']);
+                json[formData[data]['name']] = current_data;
+            }
+        }
+    }
+    return json;
+}
+
+
 const addFromEvent = () => {
     let json = getJSONfromForm("add-modal-content");
 
@@ -893,51 +954,18 @@ const addFromEvent = () => {
         'data': JSON.stringify(json),
         'dataType': 'json',
         'success': function (response) {
-            console.log(response);
+            if (type == 'PUT') {
+                M.toast({html: "Запись изменена"});
+            } else if (type == 'POST') {
+                M.toast({html: "Запись создана"});
+            }
             openTableEvent(localStorage.getItem("current_open_table"));
-
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+            M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
         }
     });
-}
-
-const getJSONfromForm = (formname) => {
-    let formData = $("#" + formname).serializeArray();
-    let name = localStorage.getItem("current_open_table");
-    let optionType = getListDataFromServer(name);
-    console.log(formData);
-    let json = {};
-    for (let data in formData) {
-        if (formData[data]['name'] == "id") {
-            if (formData[data]['value'] != "undefined") {
-                json[formData[data]['name']] = formData[data]['value'];
-            } else {
-                continue;
-            }
-        } else if (getFieldTypeByOptions(optionType[formData[data]['name']]["type"]) == "text") {
-            json[formData[data]['name']] = formData[data]['value'];
-
-        } else if (getFieldTypeByOptions(optionType[formData[data]['name']]["type"]) == "number") {
-            json[formData[data]['name']] = parseInt(formData[data]['value']);
-        } else if (["set", "list"].includes(getFieldTypeByOptions(optionType[formData[data]['name']]["type"]))) {
-            console.log(formData[data]['name']);
-            console.log(optionType[formData[data]['name']]["items"]["id"]);
-            console.log(getMappingUrl(optionType[formData[data]['name']]["items"]["id"]));
-            let current_data = getDataFromServer(optionType[formData[data]['name']]["items"]["id"], formData[data]['value']);
-            if (typeof (json[formData[data]['name']]) == "undefined") {
-                json[formData[data]['name']] = [];
-            }
-            json[formData[data]['name']].push(current_data);
-        } else if (["boolean", "uuid", "id"].includes(optionType[formData[data]['name']]["type"])) {
-            if (formData[data]['value'] != "undefined") {
-                json[formData[data]['name']] = formData[data]['value'];
-            }
-        } else {
-            let current_data = getDataFromServer(optionType[formData[data]['name']]["id"], formData[data]['value']);
-            json[formData[data]['name']] = current_data;
-        }
-
-    }
-    return json;
 }
 
 
@@ -953,10 +981,39 @@ const getMappingUrl = (name) => {
         'url': "/resources/static/json/mapping.json",
         'success': function (response) {
             data = response[name];
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+            M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
         }
     });
     return data;
 }
+
+
+const deleteValueFromTable = (event) => {
+    let id = event.currentTarget.value;
+    var value = localStorage.getItem("current_open_table");
+    let url = getMappingUrl(value);
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'type': 'DELETE',
+        'url': url + id,
+        'success': function (response) {
+            M.toast({html: "Запись удалена"});
+            openTableEvent(localStorage.getItem("current_open_table"));
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+            M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
+        }
+
+    });
+}
+
 
 const getListDataFromServer = (name) => {
     let url = getMappingUrl(name);
@@ -971,6 +1028,10 @@ const getListDataFromServer = (name) => {
         'url': url,
         'success': function (response) {
             data = response["properties"];
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+            M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
         }
     });
     return data;
@@ -992,6 +1053,10 @@ const getDataFromServer = (name, id) => {
         'url': url,
         'success': function (response) {
             data = response;
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(url + " " + textStatus + ": " + jqXHR.status + " " + errorThrown);
+            M.toast({html: url + " " + textStatus + ": " + jqXHR.status + " " + errorThrown});
         }
     });
     return data;
@@ -1046,7 +1111,7 @@ const createPostFormModal = (changeData) => {
         let local_var_type = getFieldTypeByOptions(data[key]["type"]);
         if (["text", "number"].includes(local_var_type)) {
             let loadCaption = document.createElement("p");
-            loadCaption.innerText = key;
+            loadCaption.innerText = getLocalizedName(key);
             loadCaption.id = "add-modal-caption";
             modalContent.appendChild(loadCaption);
 
@@ -1064,7 +1129,7 @@ const createPostFormModal = (changeData) => {
             modalForm.appendChild(modalContent);
         } else if (["set", "list"].includes(local_var_type)) {
             let loadCaption = document.createElement("p");
-            loadCaption.innerText = key;
+            loadCaption.innerText = getLocalizedName(key);
             loadCaption.id = "add-modal-caption";
             modalContent.appendChild(loadCaption);
 
@@ -1081,7 +1146,7 @@ const createPostFormModal = (changeData) => {
                 option.id = key;
                 option.name = key;
                 option.value = big_data[key_value]["id"];
-                option.innerText = big_data[key_value]["role"];
+                option.innerText = big_data[key_value]["name"];
                 if (changeData != undefined && changeData[key] != null) {
                     if (changeData[key].find(obj => obj.id == big_data[key_value]["id"])) {
                         option.selected = true;
@@ -1096,7 +1161,7 @@ const createPostFormModal = (changeData) => {
             console.log(local_var_type);
 
             let loadCaption = document.createElement("p");
-            loadCaption.innerText = key;
+            loadCaption.innerText = getLocalizedName(key);
             loadCaption.id = "add-modal-caption";
             modalContent.appendChild(loadCaption);
 
@@ -1124,7 +1189,7 @@ const createPostFormModal = (changeData) => {
 
         } else {
             let loadCaption = document.createElement("p");
-            loadCaption.innerText = key;
+            loadCaption.innerText = getLocalizedName(key);
             loadCaption.id = "add-modal-caption";
             modalContent.appendChild(loadCaption);
 
@@ -1233,7 +1298,6 @@ $(document).ready(() => {
         {"name": "Corps", "key": "urn:jsonschema:com:java:domain:Corps"},
         {"name": "Course", "key": "urn:jsonschema:com:java:domain:Course"},
         {"name": "Deanery", "key": "urn:jsonschema:com:java:domain:Deanery"},
-        {"name": "EducationForm", "key": "urn:jsonschema:com:java:domain:EducationForm"},
         {"name": "Faculty", "key": "urn:jsonschema:com:java:domain:Faculty"},
         {"name": "Flow", "key": "urn:jsonschema:com:java:domain:Flow"},
         {"name": "Groups", "key": "urn:jsonschema:com:java:domain:Groups"},
@@ -1255,7 +1319,6 @@ $(document).ready(() => {
         {"name": "SeveritySubject", "key": "urn:jsonschema:com:java:domain:SeveritySubject"},
         {"name": "Speciality", "key": "urn:jsonschema:com:java:domain:Speciality"},
         {"name": "StudyPlan", "key": "urn:jsonschema:com:java:domain:StudyPlan"},
-        {"name": "StudyPlanStatus", "key": "urn:jsonschema:com:java:domain:StudyPlanStatus"},
         {"name": "Subgroup", "key": "urn:jsonschema:com:java:domain:Subgroup"},
         {"name": "Subject", "key": "urn:jsonschema:com:java:domain:Subject"},
         {"name": "Syllabus", "key": "urn:jsonschema:com:java:domain:Syllabus"},
