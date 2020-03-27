@@ -1,35 +1,35 @@
 
 package com.java.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
-@Table(name = "Teacher")
-
-@NamedQueries({
-@NamedQuery(name = "Teacher.getAll", query = "SELECT c from Teacher c"),
-@NamedQuery(name = "Teacher.getById", query = "SELECT c from Teacher c where c.id=:id")
-}) 
-
-
+@Table(name = "teacher")
 public class Teacher {
 
-    
     @Id
-    @Column(name = "idteacher")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
-    
-    public int getId() {
-        return id;
-    }
-    
-    public void setId(int id) {
-        this.id = id;
-    }
+    @Column(name = "id")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
-    @Column(name = "lectern_id")
-    private int lectern_id;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="lectern_id")
+    @JsonIgnore
+    private Lectern lectern;
 
     @Column(name = "name")
     private String name;
@@ -40,42 +40,17 @@ public class Teacher {
     @Column(name = "surname")
     private String surname;
 
+    @Column(name = "position")
+    private String position;
 
-    public Teacher() {
-    }
+    @Column(name = "rank")
+    private String rank;
 
+    @Column(name = "academic_degree")
+    private String academicDegree;
     
-    public int getLectern_id() {
-        return lectern_id;
-    }
-    
-    public void setLectern_id(int lectern_id) {
-        this.lectern_id=lectern_id;
-    }
-
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name=name;
-    }
-
-    public String getPatronymic() {
-        return patronymic;
-    }
-    
-    public void setPatronymic(String patronymic) {
-        this.patronymic=patronymic;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-    
-    public void setSurname(String surname) {
-        this.surname=surname;
-    }
-
+    @OneToOne(mappedBy = "teacher")
+    @JsonIgnore
+    private Users users;
 }
 

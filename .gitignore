@@ -1,2 +1,3 @@
 
 src/test/java/com/javasampleapproach/springsecurity/jdbcauthentication/SpringSecurityJdbcAuthenticationPostgreSqlApplicationTests.java
+/target/

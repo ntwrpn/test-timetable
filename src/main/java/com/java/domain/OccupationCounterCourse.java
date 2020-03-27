@@ -2,24 +2,30 @@
 package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "occupationcountercourse")
-
-@NamedQueries({
-@NamedQuery(name = "OccupationCounterCourse.getAll", query = "SELECT c from OccupationCounterCourse c"),
-@NamedQuery(name = "OccupationCounterCourse.getById", query = "SELECT c from OccupationCounterCourse c where c.id=:id")
-}) 
-
-
 public class OccupationCounterCourse {
 
     
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id=0;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
     
     @Column(name = "count")
     private int count;
@@ -28,56 +34,16 @@ public class OccupationCounterCourse {
     @JoinColumn(name="schedule", referencedColumnName="id", nullable = true)
     @JsonBackReference
     private Schedule schedule;*/
-    
-    @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.MERGE)
+
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="occupation", referencedColumnName="id")
-    @JsonBackReference(value="occupation-movement")
-	private Occupation occupation;
-    
+    private Occupation occupation;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
     @JoinColumn(name="course", referencedColumnName="id")
     @JsonBackReference(value="course-movement")
     private Course course;
 
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public Occupation getOccupation() {
-        return occupation;
-    }
-
-    public void setOccupation(Occupation occupation) {
-        this.occupation = occupation;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    /*public Schedule getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
-    }*/
 
 }
 
