@@ -28,7 +28,7 @@ public class Schedule {
     private UUID id;
     
     @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonManagedReference(value="courses-movement")
+    @JsonManagedReference(value="courses-movement")
     private List<Course> courses;
        
     @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL, orphanRemoval = true)

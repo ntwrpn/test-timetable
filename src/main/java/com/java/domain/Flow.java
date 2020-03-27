@@ -2,9 +2,10 @@ package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.ArrayList;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-
+import com.java.service.GroupsService;
 import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
@@ -33,22 +34,25 @@ public class Flow {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "flow", fetch = FetchType.LAZY, cascade = CascadeType.MERGE, orphanRemoval = true)
+    @OneToMany(mappedBy = "flow", cascade = CascadeType.MERGE, orphanRemoval = true)
     @JsonManagedReference(value = "flow-group")
-    @Column(nullable = true)
-    private List<Groups> groups;
+    //@Column(nullable = true)
+    private List<Groups> groups =new ArrayList<Groups>();
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "faculty", referencedColumnName = "id", nullable = true)
     //@JsonManagedReference
     private Faculty faculty = null;
 
-    /*public void setGroups(List<Groups> groups) {
-        this.groups.clear();
-        this.groups.addAll(groups);
-        if (groups != null) {
-            for (Groups group : groups) {
-                this.groups.add(group);
+    /*public void setGroups(List<Groups> newgroups) {
+        if (newgroups != null) {
+            if (groups == null) {
+                groups = new ArrayList<Groups>();          
+            }
+            
+            for (Groups group : newgroups) {
+                group.setFlow(this);
+                groups.add(group);
             }
         }
     }*/

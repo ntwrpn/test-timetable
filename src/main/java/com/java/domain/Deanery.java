@@ -29,10 +29,10 @@ public class Deanery {
     
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name="faculty", referencedColumnName="id", nullable = true)
-	@JsonBackReference
+    @JsonBackReference
     private Faculty faculty;
 	
-	@OneToMany(mappedBy="deanery", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="deanery", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Lectern> lecterns;
 
