@@ -2,6 +2,108 @@ const openAddCreateModal = (event) => {
     $("#add-modal").modal("open");
 }
 
+
+const getMappingUrl = (name) => {
+    let data;
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'async': false,
+        'type': 'GET',
+        'url': "/resources/static/json/mapping.json",
+        'success': function (response) {
+            data = response[name];
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+            M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
+        }
+    });
+    return data;
+}
+
+
+const getLocalization = () => {
+    let data;
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'async': false,
+        'type': 'GET',
+        'url': "/resources/static/json/localize.json",
+        'success': function (response) {
+            data = response;
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+            M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
+        }
+    });
+    return data;
+}
+
+
+const getLocalizedName = (name) => {
+    if (LOCALIZATION[name]!=undefined){
+        return LOCALIZATION[name];
+    } else{
+        return name;
+    }
+}
+
+const getListDataFromServer = (name) => {
+    let url = getMappingUrl(name);
+    let data;
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'async': false,
+        'type': 'OPTIONS',
+        'url': url,
+        'success': function (response) {
+            data = response["properties"];
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+            M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
+        }
+    });
+    return data;
+}
+
+const getDataFromServer = (name, id) => {
+    let url = getMappingUrl(name);
+    if (id != undefined) {
+        url = url + id;
+    }
+    let data;
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'async': false,
+        'type': 'GET',
+        'url': url,
+        'success': function (response) {
+            data = response;
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+            M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
+        }
+    });
+    return data;
+}
+
+let LOCALIZATION = getLocalization();
+
 //CREATE ADD FORM TO TABLE
 const getFieldTypeByOptions = (type) => {
     switch (type) {
@@ -45,7 +147,21 @@ const addFromEvent = () => {
         'data': JSON.stringify(json),
         'dataType': 'json',
         'success': function (response) {
-            console.log(response);
+            if (type == 'PUT') {
+                M.toast({html: "Запись изменена"});
+            } else if (type == 'POST') {
+                M.toast({html: "Запись создана"});
+            }
+            openTableEvent(localStorage.getItem("current_open_table"));
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            if (textStatus == "200") {
+                console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+                M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
+            }
+            openTableEvent(localStorage.getItem("current_open_table"));
+
         }
     });
     openTableEvent(name);
@@ -58,7 +174,7 @@ const getJSONfromForm = (formname) => {
     console.log(formData);
     let json = {};
     for (let data in formData) {
-        if (formData[data]['name'] == "id") {
+        if (formData[data]['name'] == "id" || formData[data]['name'] == "password") {
             if (formData[data]['value'] != "undefined") {
                 json[formData[data]['name']] = formData[data]['value'];
             } else {
@@ -80,69 +196,13 @@ const getJSONfromForm = (formname) => {
                 json[formData[data]['name']] = formData[data]['value'];
             }
         } else {
-            let current_data = getDataFromServer(optionType[formData[data]['name']]["id"], formData[data]['value']);
-            json[formData[data]['name']] = current_data;
+            if (formData[data]['value'] != "") {
+                let current_data = getDataFromServer(optionType[formData[data]['name']]["id"], formData[data]['value']);
+                json[formData[data]['name']] = current_data;
+            }
         }
-
     }
     return json;
-}
-
-
-const getMappingUrl = (name) => {
-    let data;
-    $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        'async': false,
-        'type': 'GET',
-        'url': "/resources/static/json/mapping.json",
-        'success': function (response) {
-            data = response[name];
-        }
-    });
-    return data;
-}
-
-const getListDataFromServer = (name) => {
-    let url = getMappingUrl(name);
-    let data;
-    $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        'async': false,
-        'type': 'OPTIONS',
-        'url': url,
-        'success': function (response) {
-            data = response["properties"];
-        }
-    });
-    return data;
-}
-
-const getDataFromServer = (name, id) => {
-    let url = getMappingUrl(name);
-    if (id != undefined) {
-        url = url + id;
-    }
-    let data;
-    $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        'async': false,
-        'type': 'GET',
-        'url': url,
-        'success': function (response) {
-            data = response;
-        }
-    });
-    return data;
 }
 
 
@@ -177,6 +237,21 @@ const createPostFormModal = (changeData) => {
     modalContent.appendChild(modalHeader);
 
 
+    if (name == "urn:jsonschema:com:java:domain:Users" && typeof changeData != "object") {
+        let loadCaption = document.createElement("p");
+        loadCaption.innerText = "Пароль";
+        loadCaption.id = "add-modal-caption";
+        modalContent.appendChild(loadCaption);
+
+        let loadField = document.createElement("input");
+        loadField.id = "password";
+        loadField.name = "password";
+        loadField.type = "password";
+        loadField.minlength = "6"
+        loadField.maxlength = "40"
+        modalContent.appendChild(loadField);
+    }
+
     for (let key in data) {
         if (key == "id") {
             let loadField = document.createElement("input");
@@ -186,13 +261,12 @@ const createPostFormModal = (changeData) => {
             loadField.value = changeData[key];
             modalContent.appendChild(loadField);
             continue;
-        } else if (key == "password" && changeData.id != undefined) {
-            continue;
         }
+
         let local_var_type = getFieldTypeByOptions(data[key]["type"]);
         if (["text", "int"].includes(local_var_type)) {
             let loadCaption = document.createElement("p");
-            loadCaption.innerText = key;
+            loadCaption.innerText = getLocalizedName(key);
             loadCaption.id = "add-modal-caption";
             modalContent.appendChild(loadCaption);
 
@@ -210,7 +284,7 @@ const createPostFormModal = (changeData) => {
             modalForm.appendChild(modalContent);
         } else if (["set", "list"].includes(local_var_type)) {
             let loadCaption = document.createElement("p");
-            loadCaption.innerText = key;
+            loadCaption.innerText = getLocalizedName(key);
             loadCaption.id = "add-modal-caption";
             modalContent.appendChild(loadCaption);
 
@@ -226,7 +300,7 @@ const createPostFormModal = (changeData) => {
             option.value = "";
             option.innerText = "--";
             loadField.appendChild(option);
-            
+
             let big_data = getDataFromServer(data[key]["items"]["id"]);
             for (let key_value in big_data) {
                 let option = document.createElement("option");
@@ -247,7 +321,7 @@ const createPostFormModal = (changeData) => {
             console.log(local_var_type);
 
             let loadCaption = document.createElement("p");
-            loadCaption.innerText = key;
+            loadCaption.innerText = getLocalizedName(key);
             loadCaption.id = "add-modal-caption";
             modalContent.appendChild(loadCaption);
 
@@ -255,7 +329,7 @@ const createPostFormModal = (changeData) => {
             loadField.setAttribute("name", key);
             loadField.className = "select";
             loadField.required = true;
-            
+
 
             let big_data = [true, false];
             for (let key_value in big_data) {
@@ -276,7 +350,7 @@ const createPostFormModal = (changeData) => {
 
         } else {
             let loadCaption = document.createElement("p");
-            loadCaption.innerText = key;
+            loadCaption.innerText = getLocalizedName(key);
             loadCaption.id = "add-modal-caption";
             modalContent.appendChild(loadCaption);
 
@@ -285,15 +359,15 @@ const createPostFormModal = (changeData) => {
             loadField.className = "select";
             loadField.required = true;
             let big_data = getDataFromServer(data[key]["id"]);
-            
+
             let option = document.createElement("option");
             option.id = key;
             option.name = key;
             option.value = "";
             option.innerText = "";
             loadField.appendChild(option);
-            
-            
+
+
             console.log(changeData);
             for (let key_value in big_data) {
                 let option = document.createElement("option");

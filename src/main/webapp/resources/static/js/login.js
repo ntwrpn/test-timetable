@@ -28,6 +28,10 @@ const LoginClick = () => {
             myHeaders.set('Authorization', response['tokenType']+" "+response['accessToken']);
             setCookie('Authorization', response['tokenType']+" "+response['accessToken']);   
             window.location.href = "/";
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+            M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
         }
     });
 

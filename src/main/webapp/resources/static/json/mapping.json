@@ -18,7 +18,7 @@
     "urn:jsonschema:com:java:domain:NeededLesson": "/api/neededlesson/",
     "urn:jsonschema:com:java:domain:Occupation": "/api/occupation/",
     "urn:jsonschema:com:java:domain:OccupationCounter": "/api/occupationcounter/",
-    "urn:jsonschema:com:java:domain:OccupationCounterCourse": "/api/occupationcountercourse/",
+    "urn:jsonschema:com:java:domain:OccupationCounterCourse": "/api/OccupationCounterCourse/",
     "urn:jsonschema:com:java:domain:PereodicSeverity": "/api/pereodicseverity/",
     "urn:jsonschema:com:java:domain:PereodicSeveritySubject": "/api/pereodicseveritysubject/",
     "urn:jsonschema:com:java:domain:Role": "/api/role/",

@@ -28,7 +28,11 @@ const RegistrationClick = () => {
             'type': 'POST',
             'url': "/registration/",
             'data': JSON.stringify(regform),
-            'dataType': 'json'
+            'dataType': 'json',
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+                M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
+            }
         });
     }
 }
