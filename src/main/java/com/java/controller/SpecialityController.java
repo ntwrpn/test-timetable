@@ -3,7 +3,6 @@ package com.java.controller;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.Optional;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +25,10 @@ public class SpecialityController {
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Speciality>> getSpecialities(HttpServletRequest request) {
+    public ResponseEntity<List<Speciality>> getSpecialities(HttpServletRequest request, @RequestParam(name = "lecternId", required = false) UUID lecternId) {
+        if (lecternId != null){
+            return new ResponseEntity<>(specialityService.getAllByLecternId(lecternId), HttpStatus.OK);
+        }
         return new ResponseEntity<>(specialityService.getAll(), HttpStatus.OK);
     }
 
@@ -42,16 +44,10 @@ public class SpecialityController {
         return new ResponseEntity<>(specialityService.getById(id).get(), HttpStatus.OK);
     }
 
-//    @PostMapping("/")
-//    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-//    public ResponseEntity<Speciality> addSpecialty(HttpServletRequest request, @RequestBody Speciality speciality) {
-//        return new ResponseEntity<>(specialityService.save(speciality), HttpStatus.CREATED);
-//    }
-
     @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Speciality> addSpecialtyToLectern(HttpServletRequest request, @RequestParam(name = "lecternId") UUID letcternId, @RequestBody Speciality speciality) {
-        return new ResponseEntity<>(specialityService.save(speciality, letcternId), HttpStatus.CREATED);
+    public ResponseEntity<Speciality> addSpeciality(HttpServletRequest request, @RequestParam(name = "lecternId") UUID lecternId, @RequestBody Speciality speciality) {
+        return new ResponseEntity<>(specialityService.save(speciality, lecternId), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

@@ -47,6 +47,7 @@ public class SpecialityServiceImpl implements SpecialityService {
             speciality.get().setId(obj.getId());
             speciality.get().setDescription(obj.getDescription());
             speciality.get().setName(obj.getName());
+            speciality.get().setAbbreviation(obj.getAbbreviation());
             return specialityRepository.save(speciality.get());
         }
         return null;
@@ -68,6 +69,11 @@ public class SpecialityServiceImpl implements SpecialityService {
     }
 
     @Override
+    public List<Speciality> getAllByLecternId(UUID lecternId) {
+        return specialityRepository.getSpecialitiesByLectern_Id(lecternId);
+    }
+
+    @Override
     public JsonSchema getFields() {
         JSONObject obj = new JSONObject();
         ObjectMapper mapper = new ObjectMapper();
@@ -78,7 +84,7 @@ public class SpecialityServiceImpl implements SpecialityService {
             return schema;
         } catch (IOException exx){
             return null;
-        } 
+        }
     }
 }
 

@@ -42,5 +42,8 @@ public class Speciality {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "abbreviation")
+    private String abbreviation;
 }
 

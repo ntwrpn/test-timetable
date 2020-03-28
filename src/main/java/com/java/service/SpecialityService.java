@@ -19,6 +19,8 @@ public interface SpecialityService {
 
     List<Speciality> getAll();
 
+    List<Speciality> getAllByLecternId(UUID uuid);
+
     Optional<Speciality> getById(UUID userId);
     
     public JsonSchema getFields();

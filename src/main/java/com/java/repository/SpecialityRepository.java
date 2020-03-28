@@ -2,18 +2,18 @@ package com.java.repository;
 
 import com.java.domain.*;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface SpecialityRepository extends JpaRepository<Speciality,UUID> {
+public interface SpecialityRepository extends JpaRepository<Speciality, UUID> {
 
     Optional<Speciality> findById(UUID uuid);
+
+    List<Speciality> getSpecialitiesByLectern_Id(UUID uuid);
 
     void deleteById(UUID uuid);
 }
