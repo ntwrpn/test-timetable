@@ -12,11 +12,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface TeacherRepository extends JpaRepository<Teacher,UUID> {
+public interface EmployeeRepository extends JpaRepository<Employee,UUID> {
 
-    Optional<Teacher> findById(UUID uuid);
+    Optional<Employee> findById(UUID uuid);
 
     void deleteById(UUID uuid);
 
-    List<Teacher> findByLecternId(UUID uuid);
+    List<Employee> findByDeaneryId(UUID uuid);
 }

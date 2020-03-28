@@ -60,6 +60,10 @@ public class Users {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher", referencedColumnName = "id")
     private Teacher teacher;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee", referencedColumnName = "id")
+    private Employee employee;
     
 }
 

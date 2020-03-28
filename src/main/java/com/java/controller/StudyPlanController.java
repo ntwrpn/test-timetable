@@ -25,8 +25,13 @@ public class StudyPlanController {
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<StudyPlan>> getStudyPlans(HttpServletRequest request, Model model) {
-        return new ResponseEntity<>(studyplanService.getAll(), HttpStatus.OK);
+    public ResponseEntity<List<StudyPlan>> getStudyPlans(HttpServletRequest request, @RequestParam(name = "lecternId", required = false) UUID uuid) {
+        if(uuid != null){
+            return new ResponseEntity<>(studyplanService.findStudyplansByLecternId(uuid), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(studyplanService.getAll(), HttpStatus.OK);
+        }
+
     }
 
     @RequestMapping(value = "/", method = RequestMethod.OPTIONS)
@@ -59,13 +64,5 @@ public class StudyPlanController {
     public ResponseEntity<Void> deleteStudyPlan(HttpServletRequest request, @PathVariable UUID id) {
         studyplanService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-	@GetMapping("/lectern/{id}")
-    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-	public ResponseEntity<List<StudyPlan>> getStudyPlansByLectern(HttpServletRequest request, Model model, @PathVariable("id") UUID id) {
-		List<StudyPlan> studyplan = studyplanService.findStudyplansByLecternId(id);
-		return new ResponseEntity<>(studyplan, HttpStatus.OK);
 	}
-
 }

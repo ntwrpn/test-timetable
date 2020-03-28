@@ -35,6 +35,10 @@ public class Deanery {
     @OneToMany(mappedBy="deanery", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Lectern> lecterns;
+	
+	@OneToMany(mappedBy = "deanery", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Employee> employee;
 
     @Column(name = "fullname")
     private String fullname;

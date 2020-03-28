@@ -20,4 +20,6 @@ public interface TeacherService {
     Optional<Teacher> getById(UUID userId);
     
     public JsonSchema getFields();
+
+    List<Teacher> findByLectern(UUID uuid);
 }

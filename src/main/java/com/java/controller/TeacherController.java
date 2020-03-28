@@ -25,8 +25,12 @@ public class TeacherController {
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Teacher>> getTeachers(HttpServletRequest request) {
-        return new ResponseEntity<>(teacherService.getAll(), HttpStatus.OK);
+    public ResponseEntity<List<Teacher>> getTeachers(HttpServletRequest request, @RequestParam(name = "lecternId", required = false) UUID uuid) {
+        if(uuid != null){
+            return new ResponseEntity<>(teacherService.findByLectern(uuid), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(teacherService.getAll(), HttpStatus.OK);
+        }
     }
 
     @RequestMapping(value = "/", method = RequestMethod.OPTIONS)

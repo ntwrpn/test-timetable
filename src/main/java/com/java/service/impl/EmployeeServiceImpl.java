@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.java.domain.Teacher;
-import com.java.repository.TeacherRepository;
+import com.java.domain.Employee;
+import com.java.repository.EmployeeRepository;
 
 import java.lang.reflect.Field;
 import org.json.simple.JSONObject;
@@ -17,39 +17,39 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
 import java.io.IOException;
-import com.java.service.TeacherService;
+import com.java.service.EmployeeService;
 
 @Service
-public class TeacherServiceImpl implements TeacherService {
+public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
-    private TeacherRepository teacherRepository;
+    private EmployeeRepository employeeRepository;
 
     @Override
-    public Teacher save(Teacher obj) {
-        return teacherRepository.save(obj);
+    public Employee save(Employee obj) {
+        return employeeRepository.save(obj);
     }
 
     @Override
-    public Teacher update(Teacher obj) {
-        return teacherRepository.save(obj);
+    public Employee update(Employee obj) {
+        return employeeRepository.save(obj);
     }
 
     
     @Override
     public void delete(UUID id) {
-        teacherRepository.deleteById(id);
+        employeeRepository.deleteById(id);
     }
 
 
     @Override
-    public List<Teacher> getAll() {
-        return teacherRepository.findAll();
+    public List<Employee> getAll() {
+        return employeeRepository.findAll();
     }
 
     @Override
-    public Optional<Teacher> getById(UUID id) {
-        return teacherRepository.findById(id);
+    public Optional<Employee> getById(UUID id) {
+        return employeeRepository.findById(id);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class TeacherServiceImpl implements TeacherService {
         ObjectMapper mapper = new ObjectMapper();
         SchemaFactoryWrapper visitor = new SchemaFactoryWrapper();
         try{
-            mapper.acceptJsonFormatVisitor(Teacher.class, visitor);
+            mapper.acceptJsonFormatVisitor(Employee.class, visitor);
             JsonSchema schema = visitor.finalSchema();
             return schema;
         } catch (IOException exx){
@@ -67,8 +67,8 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Teacher> findByLectern(UUID uuid) {
-        return teacherRepository.findByLecternId(uuid);
+    public List<Employee> findByDeanery(UUID uuid) {
+        return employeeRepository.findByDeaneryId(uuid);
     }
 }
 
