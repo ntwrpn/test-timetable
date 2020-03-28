@@ -37,10 +37,7 @@ public class Subject {
     
     @Column(name = "department")
     private String department;
-    
-    @Column(name = "number_of_discipline")
-    private String numberOfDiscipline;
-    
+
     @Column(name = "sum_of_hours")
     private int sumOfHours;
     
@@ -71,7 +68,7 @@ public class Subject {
     @Column(nullable = true)
     private Set<PereodicSeveritySubject> pereodicSeverities;
     
-    @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
     @JoinColumn(name = "study_plan_id", nullable = true)
     @JsonBackReference
     private StudyPlan studyPlan;
