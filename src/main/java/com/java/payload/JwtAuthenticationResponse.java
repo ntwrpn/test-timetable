@@ -1,5 +1,8 @@
 package com.java.payload;
+import lombok.*;
 
+@Getter
+@Setter
 public class JwtAuthenticationResponse {
     private String accessToken;
     private String tokenType = "Bearer";

@@ -32,36 +32,17 @@
         <div id ="login-modal" class="modal">
             <div class="modal-content center">
                 <div>
-                    <h5 class="loads-modal-header">Вход</h5>
-                    <div th:if="${param.error}">
-                        <p style="color: red">Логин или пароль не верны.</p>
-
-                    </div>
-                    <div th:if="${param.logout}">
-                        <h1 style="color: blue">Выход.</h1>
-                    </div>
-                    <form id="login-form" th:action="@{/api/auth/signin}" method="post">
+                    <h5 class="loads-modal-header">Введите почту</h5>
+                    <form id="login-form" th:action="@{/resetPassword}" method="get">
                         <div class="row">
                             <div class="input-field col s12">
-                                <label for="username">Логин(email): </label>
+                                <label for="username">Введите новый пароль: </label>
                                 <input type="text" class="validate" id="username" placeholder="Введите логин" name="username"/>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <label for="password">Пароль </label>
-                                <input type="password" class="validate" id="password" placeholder="Введите пароль" name="password"/>
-                            </div>
-                        </div>
-                        <a class="modal-close btn waves-effect waves-light green accent-4" onclick="LoginClick()" name="action">Войти
-                            <i class="material-icons right">send</i>
-                        </a>
+                        <input class="modal-close btn waves-effect waves-light green accent-4" type="submit" value="Отправить" name="action">
+                        </input>
                     </form>
-                </div>
-                <div>
-                    <hr></hr>
-                    <a class="modal-close btn waves-effect waves-light green accent-4 left" href="/registration/">Присоединиться</a>
-                    <a class="modal-close btn waves-effect waves-light green accent-4 right" href="/resetPassword">Забыли пароль?</a>
                 </div>
             </div>
 

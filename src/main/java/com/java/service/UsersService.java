@@ -6,7 +6,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.java.domain.Users;
+import com.java.payload.ResetPasswordRequest;
 import org.json.simple.JSONObject;
+import org.springframework.http.ResponseEntity;
 
 public interface UsersService {
 
@@ -37,7 +39,9 @@ public interface UsersService {
 
     public JsonSchema getFields();
     
-    /*void createPasswordResetTokenForUser(Users user, String token);
+    String createTokenForUser(Users user);
     
-    String validatePasswordResetToken(UUID id, String token);*/
+    String validatePasswordResetToken(UUID id, String token);
+    
+    ResponseEntity<?> updatePassword(ResetPasswordRequest resetPasswordRequest);
 }

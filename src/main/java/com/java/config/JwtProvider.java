@@ -6,23 +6,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-  
+
 import java.util.Date;
 import java.util.UUID;
- 
+
 @Component
 public class JwtProvider {
- 
+
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
- 
+
     @Value("${app.jwtSecret}")
     private String jwtSecret;
- 
+
     @Value("${app.jwtExpiration}")
     private int jwtExpiration;
- 
+
     public String generateJwtToken(Authentication authentication) {
- 
+
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         Date now = new Date();
@@ -35,14 +35,14 @@ public class JwtProvider {
                 .signWith(SignatureAlgorithm.HS256, jwtSecret)
                 .compact();
     }
- 
+
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser()
-                      .setSigningKey(jwtSecret)
-                      .parseClaimsJws(token)
-                      .getBody().getSubject();
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(token)
+                .getBody().getSubject();
     }
-    
+
     public UUID getUserIdFromJWT(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
@@ -51,7 +51,7 @@ public class JwtProvider {
 
         return UUID.fromString(claims.getSubject());
     }
- 
+
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
@@ -67,7 +67,7 @@ public class JwtProvider {
         } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty -> Message: {}", e);
         }
-        
+
         return false;
     }
 }

@@ -5,9 +5,8 @@
  */
 package com.java.config;
 
- 
 import java.io.IOException;
- 
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,23 +22,23 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.java.domain.Users;
 import java.util.UUID;
 import org.springframework.util.StringUtils;
- 
+
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
- 
+
     @Autowired
     private JwtProvider tokenProvider;
- 
+
     @Autowired
     private CustomUserDetailsService userDetailsService;
- 
+
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
- 
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, 
-                    HttpServletResponse response, 
-                    FilterChain filterChain) 
-                        throws ServletException, IOException {
-  try {
+    protected void doFilterInternal(HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain)
+            throws ServletException, IOException {
+        try {
             String jwt = getJwt(request);
 
             if (StringUtils.hasText(jwt) && tokenProvider.validateJwtToken(jwt)) {
@@ -56,14 +55,14 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
- 
+
     private String getJwt(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
-          
+
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-          return authHeader.replace("Bearer ","");
+            return authHeader.replace("Bearer ", "");
         }
- 
+
         return null;
     }
 }
