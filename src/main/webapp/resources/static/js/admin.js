@@ -94,8 +94,16 @@ const openTableEvent = (value, add) => {
             container.appendChild(table);
         }
         $(document).ready(function () {
-            $('#data-tr-table').DataTable();
+            $('#data-tr-table').DataTable({
+                "language": {
+                    "url": "/resources/static/json/russian.json"
+                }
+            });
+            $('#data-tr-table').on('draw.dt', function () {
+                $('select').formSelect();
+            });
         });
+
     });
 
 }
@@ -130,9 +138,9 @@ const createTbody = (data, accept) => {
             if (key != 'id') {
                 if (optionType[key]["type"] == "object" && item[key] != null) {
                     if (["employee", "teacher"].includes(key)) {
-                        td.append(item[key]["name"]+" "+item[key]["username"]+" "+item[key]["patronymic"]);
+                        td.append(item[key]["name"] + " " + item[key]["username"] + " " + item[key]["patronymic"]);
                         input.append(td);
-                    } else{
+                    } else {
                         td.append(item[key]["name"]);
                         input.append(td);
                     }

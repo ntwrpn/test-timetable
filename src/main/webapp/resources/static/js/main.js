@@ -32,11 +32,11 @@ const getLocalization = () => {
 
 const getLocalizedName = (name) => {
     console.log();
-    if (LOCALIZATION[name]!=undefined){
+    if (LOCALIZATION[name] != undefined) {
         return LOCALIZATION[name];
-    } else if (LOCALIZATION[name.toLowerCase()]!=undefined){
+    } else if (LOCALIZATION[name.toLowerCase()] != undefined) {
         return LOCALIZATION[name.toLowerCase()];
-    } else{
+    } else {
         return name;
     }
 }
@@ -233,7 +233,6 @@ const renderDataList = (data) => {
 }
 
 const openTableEvent = (value, add) => {
-    //var List = require("collections/list");
     $("#add-modal").modal("close");
     if (event != undefined) {
         let newvalue = event.currentTarget.id;
@@ -245,21 +244,16 @@ const openTableEvent = (value, add) => {
 
     clearPostFromModal();
     createPostFormModal(value);
-
-
     let url = getMappingUrl(value);
-
     $.get(url, function (data, status) {
-        saveJSONDataToLocalStorage(value, data);
+        //saveJSONDataToLocalStorage(value, data);
         var container = document.getElementById("table-forme");
         container.className = 'display';
-        //var list = new List([1, 2, 3]);
         while (container.hasChildNodes()) {
             container.removeChild(container.lastChild);
         }
         var table = document.createElement("table");
         table.id = 'data-tr-table';
-        console.log(url);
 
         if (data.length > 0) {
             var thread = createThread(data);
@@ -269,15 +263,18 @@ const openTableEvent = (value, add) => {
             container.appendChild(table);
         }
         $(document).ready(function () {
-            $('#data-tr-table').DataTable();
+            $('#data-tr-table').DataTable({
+                "language": {
+                    "url": "/resources/static/json/russian.json"
+                }
+            });
+            $('#data-tr-table').on('draw.dt', function () {
+                $('select').formSelect();
+            });
         });
+
     });
 
-
-    /*$(document).ready( function () {
-     $('#data-tr-table').DataTable();
-     });*/
-    //let dataformData = getJSONDataFromLocalStorage(value);
 }
 
 const createThread = (data) => {
