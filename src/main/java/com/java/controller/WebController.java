@@ -47,15 +47,20 @@ public class WebController {
             return "admin";
         } else if (request.isUserInRole("USER")) {
             return "mypage";
-        } else if (request.isUserInRole("TEST")) {
+        } else if (request.isUserInRole("LECTERN")) {
             String login = request.getUserPrincipal().getName();
             String jwt = getJwt(request);
             Users user = userService.getByName(login).get();
             return "redirect:http://localhost:4200/lectern/" + user.getLectern().getId();// + "?token=" + jwt;
-        } else if (request.isUserInRole("LECTERN")) {
-            return "mypage";
         } else {
-            return "home";
+            String login = request.getUserPrincipal().getName();
+            Users user = userService.getByName(login).get();
+            if (!user.getUserRoles().isEmpty()){
+                if (user.getUserRoles().get(0).getEndpoint()!=null){
+                    return "redirect:"+user.getUserRoles().get(0).getEndpoint();
+                }
+            }
+            return "mypage";
         }
     }
 

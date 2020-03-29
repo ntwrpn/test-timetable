@@ -30,6 +30,9 @@ public class UserRoles {
     
     @Column(name = "role")
     private String role;
+    
+    @Column(name = "endpoint")
+    private String endpoint;
 
     @ManyToMany(mappedBy="userRoles",fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JsonBackReference(value="user-roles")

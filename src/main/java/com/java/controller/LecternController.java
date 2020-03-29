@@ -61,8 +61,7 @@ public class LecternController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 	
-	
-	@GetMapping(value = "/deanery/{id}")
+    @GetMapping(value = "/deanery/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Lectern>> getLecternsByDeaneryId(HttpServletRequest request, @PathVariable("id") UUID id) {
         List<Lectern> lectern = lecternService.findLecternsByDeaneryId(id); 

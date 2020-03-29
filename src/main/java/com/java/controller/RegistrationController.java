@@ -21,6 +21,7 @@ import java.util.Set;
 
 import com.java.service.UsersService;
 import com.java.service.EmailService;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -77,7 +78,7 @@ public class RegistrationController {
             user.setEnabled(false);
             user.setUsername(regRequest.getUsername());
             user.setPassword(passwordEncoder.encode(regRequest.getPassword()));
-            Set<UserRoles> set_roles = new HashSet<UserRoles>();
+            List<UserRoles> set_roles = new ArrayList<UserRoles>();
             set_roles.add(role);
             user.setUserRoles(set_roles);
             usersService.save(user);

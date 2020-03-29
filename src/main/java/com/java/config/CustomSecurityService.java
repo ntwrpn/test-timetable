@@ -32,7 +32,7 @@ public class CustomSecurityService {
         logger.info("USER:"+authentication.getName()+" URI:"+fullURI+" METHOD:" + request.getMethod());
         for(GrantedAuthority role:authentication.getAuthorities()){
             for(Access access:accessService.getByUserRoles(role.toString())){
-               if (access.getPath().equals(fullURI) &&
+               if ((access.getPath().equals(fullURI) || access.getPath().equals("*"))&&
                       (access.getType().equals(request.getMethod()) || access.getType().equals("*"))){
                    return true;
                }

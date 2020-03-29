@@ -39,7 +39,7 @@ public class Users {
     @Column(name = "enabled")
     private boolean enabled = false;   
     
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     //@JoinColumn(name="username", referencedColumnName="username")
     @JoinTable(name = "users_roles", joinColumns = { @JoinColumn(name = "users", nullable = false, updatable = false)},
      inverseJoinColumns = { @JoinColumn(name = "user_role_id", nullable = false, updatable = false)})
@@ -47,7 +47,7 @@ public class Users {
     //@JsonIdentityReference(alwaysAsId = true)
     //@JsonManagedReference
     @JsonIgnoreProperties("username")
-    private Set<UserRoles> userRoles;
+    private List<UserRoles> userRoles;
     
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE )
     @JoinColumn(name="deanery", referencedColumnName="id", nullable = true)
@@ -61,7 +61,7 @@ public class Users {
     @JoinColumn(name = "teacher", referencedColumnName = "id")
     private Teacher teacher;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee", referencedColumnName = "id")
     private Employee employee;
     
