@@ -6,7 +6,7 @@
     "fullname": "Полное имя",
     "deanery": "Деканат",
     "lectern": "Кафедра",
-    "teacher": "Предподаватель",
+    "teacher": "Преподаватель",
     "role": "Роль",
     "path": "Ресурс",
     "type": "Тип",
@@ -35,6 +35,10 @@
     "semesternumber": "Номер семестра",
     "studyplan": "Учебный план",
     "canteach": "Ведет",
+    "employee": "Работник",
+    "surname": "Фамилия",
+    "patronymic": "Отчество",
+    "rank": "Ранг",
 
 
     "countOccupation": "Количество нагрузок"

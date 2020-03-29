@@ -14,10 +14,8 @@ const saveJSONDataToLocalStorage = (key, data) => {
 
 const deleteValueFromTable = (event) => {
     let id = event.currentTarget.value;
-    console.log(event.currentTarget);
     let name = localStorage.getItem("current_open_table");
     let url = getMappingUrl(name);
-    console.log(id);
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -41,8 +39,6 @@ const deleteValueFromTable = (event) => {
 
 const acceptValueFromTable = (event) => {
     let id = event.currentTarget.value;
-    console.log(event.currentTarget);
-    console.log(id);
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -66,7 +62,7 @@ const acceptValueFromTable = (event) => {
 
 
 const openTableEvent = (value, add) => {
-    //var List = require("collections/list");
+    $("#add-modal").modal("close");
     localStorage.setItem("current_open_table", value);
 
     clearPostFromModal();
@@ -79,7 +75,6 @@ const openTableEvent = (value, add) => {
         saveJSONDataToLocalStorage(value, data);
         var container = document.getElementById("table-form");
         container.className = 'display';
-        //var list = new List([1, 2, 3]);
         while (container.hasChildNodes()) {
             container.removeChild(container.lastChild);
         }
@@ -103,11 +98,6 @@ const openTableEvent = (value, add) => {
         });
     });
 
-
-    /*$(document).ready( function () {
-     $('#data-tr-table').DataTable();
-     });*/
-    //let dataformData = getJSONDataFromLocalStorage(value);
 }
 
 const createThread = (data) => {
@@ -134,16 +124,19 @@ const createTbody = (data, accept) => {
     let optionType = getListDataFromServer(name);
     data.forEach(item => {
         var input = document.createElement("tr");
-        console.log(item);
         for (let key in item) {
             var id = 0;
             var td = document.createElement("td");
             if (key != 'id') {
                 if (optionType[key]["type"] == "object" && item[key] != null) {
-                     console.log(key);
-                     td.append(item[key]["name"]);
-                     input.append(td);
-                }else if (optionType[key]["type"] == "array" && item[key] != null) {
+                    if (["employee", "teacher"].includes(key)) {
+                        td.append(item[key]["name"]+" "+item[key]["username"]+" "+item[key]["patronymic"]);
+                        input.append(td);
+                    } else{
+                        td.append(item[key]["name"]);
+                        input.append(td);
+                    }
+                } else if (optionType[key]["type"] == "array" && item[key] != null) {
                     for (let role in item[key]) {
                         td.append(item[key][role]["role"]);
                         td.append(" ");
@@ -164,9 +157,7 @@ const createTbody = (data, accept) => {
         var td = document.createElement("td");
         var a = document.createElement("a");
         a.className = 'btn-floating btn-large waves-effect waves-light btn red';
-        //a.href = '#1';
         a.value = item.id;
-        //a.textContent = 'Удалить';
         a.addEventListener("click", deleteValueFromTable);
         var i = document.createElement("i");
         i.className = 'material-icons';
@@ -176,9 +167,7 @@ const createTbody = (data, accept) => {
 
         var a = document.createElement("a");
         a.className = 'btn-floating btn-large waves-effect waves-light btn yellow';
-        //a.href = '#1';
         a.value = item.id;
-        //a.textContent = 'Удалить';
         a.addEventListener("click", openToChangeForm);
         var i = document.createElement("i");
         i.className = 'material-icons';

@@ -129,7 +129,6 @@ const addFromEvent = () => {
     let json = getJSONfromForm("add-modal-content");
 
     let name = getMappingUrl(localStorage.getItem("current_open_table"));
-    console.log(json);
     let type = 'POST';
     if (json['id'] != undefined && json['id'] != null) {
         type = 'PUT';
@@ -164,14 +163,13 @@ const addFromEvent = () => {
 
         }
     });
-    openTableEvent(name);
+    openTableEvent(localStorage.getItem("current_open_table"));
 }
 
 const getJSONfromForm = (formname) => {
     let formData = $("#" + formname).serializeArray();
     let name = localStorage.getItem("current_open_table");
     let optionType = getListDataFromServer(name);
-    console.log(formData);
     let json = {};
     for (let data in formData) {
         if (formData[data]['name'] == "id" || formData[data]['name'] == "password") {
@@ -216,7 +214,6 @@ const clearPostFromModal = () => {
 }
 
 const createPostFormModal = (changeData) => {
-    console.log(changeData);
     let name = localStorage.getItem("current_open_table");
     let data = getListDataFromServer(name);
 
@@ -318,8 +315,6 @@ const createPostFormModal = (changeData) => {
             modalForm.appendChild(modalContent);
 
         } else if (["boolean"].includes(local_var_type)) {
-            console.log(local_var_type);
-
             let loadCaption = document.createElement("p");
             loadCaption.innerText = getLocalizedName(key);
             loadCaption.id = "add-modal-caption";
@@ -368,7 +363,6 @@ const createPostFormModal = (changeData) => {
             loadField.appendChild(option);
 
 
-            console.log(changeData);
             for (let key_value in big_data) {
                 let option = document.createElement("option");
                 option.id = key;

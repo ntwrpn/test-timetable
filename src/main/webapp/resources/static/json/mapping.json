@@ -39,5 +39,6 @@
     "urn:jsonschema:com:java:domain:UserRoles": "/api/userroles/",
     "urn:jsonschema:com:java:domain:Users": "/users/",
     "urn:jsonschema:com:java:domain:Week": "/api/week/",
+    "urn:jsonschema:com:java:domain:Employee": "/api/employee/",
     "urn:jsonschema:com:java:domain:WeekCount": "/api/weekcount/"
 }
