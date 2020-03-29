@@ -51,7 +51,7 @@ public class StudyPlan {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "speciality_id", nullable = true)
-    @JsonIgnoreProperties(value = {"descr", "lectern", "studyPlan"})
+    @JsonIgnoreProperties(value = {"description", "lectern", "studyPlan"})
     private Speciality speciality;
 
     @Enumerated(EnumType.ORDINAL)

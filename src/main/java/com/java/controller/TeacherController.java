@@ -26,7 +26,7 @@ public class TeacherController {
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Teacher>> getTeachers(HttpServletRequest request, @RequestParam(name = "lecternId", required = false) UUID uuid) {
-        if(uuid != null){
+        if (uuid != null) {
             return new ResponseEntity<>(teacherService.findByLectern(uuid), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(teacherService.getAll(), HttpStatus.OK);
@@ -47,15 +47,15 @@ public class TeacherController {
 
     @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Teacher> addTeacher(HttpServletRequest request, @RequestBody Teacher Teacher) {
-        return new ResponseEntity<>(teacherService.save(Teacher), HttpStatus.CREATED);
+    public ResponseEntity<Teacher> addTeacher(HttpServletRequest request, @RequestParam(name = "lecternId") UUID lectern_id, @RequestBody Teacher teacher) {
+        return new ResponseEntity<>(teacherService.save(teacher, lectern_id), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Teacher> updateTeacher(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Teacher Teacher) {
-        Teacher.setId(id);
-        return new ResponseEntity<>(teacherService.update(Teacher), HttpStatus.OK);
+    public ResponseEntity<Teacher> updateTeacher(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Teacher teacher) {
+        teacher.setId(id);
+        return new ResponseEntity<>(teacherService.update(teacher), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

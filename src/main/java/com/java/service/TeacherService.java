@@ -9,9 +9,11 @@ import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface TeacherService {
 
-    Teacher save(Teacher Teacher);
+    Teacher save(Teacher teacher);
 
-    Teacher update(Teacher Teacher);
+    Teacher save(Teacher teacher, UUID lecternId);
+
+    Teacher update(Teacher teacher);
 
     void delete(UUID id);
 

@@ -27,7 +27,7 @@ public class SubjectController {
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Subject>> getSubjects(HttpServletRequest request, Model model) {
         List<Subject> subject = subjectService.getAll();
-        return new ResponseEntity<List<Subject>>(subject, HttpStatus.OK);
+        return new ResponseEntity<>(subject, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.OPTIONS)
