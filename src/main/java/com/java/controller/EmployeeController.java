@@ -47,8 +47,8 @@ public class EmployeeController {
 
     @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Employee> addEmployee(HttpServletRequest request, @RequestBody Employee Employee) {
-        return new ResponseEntity<>(employeeService.save(Employee), HttpStatus.CREATED);
+    public ResponseEntity<Employee> addEmployee(HttpServletRequest request, @RequestParam(name = "deaneryId", required = false) UUID id,@RequestBody Employee Employee) {
+        return new ResponseEntity<>(employeeService.save(Employee, id), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

@@ -32,13 +32,24 @@ public class LecternServiceImpl implements LecternService {
 	
     @Override
     public Lectern save(Lectern obj, UUID id) {
-		obj.setDeanery(deaneryRepository.findById(id).get());
+        if(id !=null){
+		    obj.setDeanery(deaneryRepository.findById(id).get());
+        }
         return lecternRepository.save(obj);
     }
 
     @Override
     public Lectern update(Lectern obj) {
-        return lecternRepository.save(obj);
+		//obj.setDeanery(deaneryRepository.findById(obj.getDeanery().getId()).get());
+		Optional<Lectern> lectern = lecternRepository.findById(obj.getId());
+        if(lectern.isPresent()){
+            lectern.get().setId(obj.getId());
+            lectern.get().setFullname(obj.getFullname());
+            lectern.get().setName(obj.getName());
+            lectern.get().setDescription(obj.getDescription());
+            return lecternRepository.save(lectern.get());
+        }
+        return null;
     }
 
     

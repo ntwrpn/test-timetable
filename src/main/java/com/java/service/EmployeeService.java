@@ -9,7 +9,7 @@ import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface EmployeeService {
 
-    Employee save(Employee employee);
+    Employee save(Employee employee, UUID uuid);
 
     Employee update(Employee employee);
 

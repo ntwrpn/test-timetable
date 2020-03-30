@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import com.java.domain.Employee;
 import com.java.repository.EmployeeRepository;
+import com.java.repository.DeaneryRepository;
 
 import java.lang.reflect.Field;
 import org.json.simple.JSONObject;
@@ -24,15 +25,31 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+	
+	@Autowired
+    private DeaneryRepository deaneryRepository;
 
     @Override
-    public Employee save(Employee obj) {
+    public Employee save(Employee obj, UUID id) {
+        if(id !=null){
+		    obj.setDeanery(deaneryRepository.findById(id).get());
+        }
         return employeeRepository.save(obj);
     }
 
     @Override
     public Employee update(Employee obj) {
-        return employeeRepository.save(obj);
+		Optional<Employee> employee = employeeRepository.findById(obj.getId());
+        if(employee.isPresent()){
+            employee.get().setId(obj.getId());
+            employee.get().setSurname(obj.getSurname());
+            employee.get().setName(obj.getName());
+            employee.get().setRank(obj.getRank());
+			employee.get().setPatronymic(obj.getPatronymic());
+            return employeeRepository.save(employee.get());
+        }
+        return null;
+		//obj.setDeanery(deaneryRepository.findById(obj.getDeanery().getId()).get());
     }
 
     

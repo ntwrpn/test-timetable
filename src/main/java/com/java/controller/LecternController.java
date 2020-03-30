@@ -25,8 +25,14 @@ public class LecternController {
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Lectern>> getLecterns(HttpServletRequest request) {
-        return new ResponseEntity<>(lecternService.getAll(), HttpStatus.OK);
+    public ResponseEntity<List<Lectern>> getLecterns(HttpServletRequest request,  @RequestParam(name = "deaneryId", required = false) UUID uuid) {
+		if(uuid != null){
+			List<Lectern> lectern = lecternService.findLecternsByDeaneryId(uuid);
+			return new ResponseEntity<List<Lectern>>(lectern, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<>(lecternService.getAll(), HttpStatus.OK);
+		}
+
     }
 
     @RequestMapping(value = "/", method = RequestMethod.OPTIONS)
@@ -41,7 +47,7 @@ public class LecternController {
         return new ResponseEntity<>(lecternService.getById(id).get(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/{id}")
+    @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Lectern> addLectern(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Lectern lectern) {
         return new ResponseEntity<>(lecternService.save(lectern,id), HttpStatus.CREATED);
@@ -59,13 +65,6 @@ public class LecternController {
     public ResponseEntity<Void> deleteLectern(HttpServletRequest request, @PathVariable UUID id) {
         lecternService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-	
-    @GetMapping(value = "/deanery/{id}")
-    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Lectern>> getLecternsByDeaneryId(HttpServletRequest request, @PathVariable("id") UUID id) {
-        List<Lectern> lectern = lecternService.findLecternsByDeaneryId(id); 
-		return new ResponseEntity<List<Lectern>>(lectern, HttpStatus.OK); 
     }
 }
 
