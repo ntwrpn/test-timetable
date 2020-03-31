@@ -29,9 +29,15 @@ public class Users {
     @Column(name = "username")
     private String username;
 
-    @Column(name = "fullname")
-    private String fullname;
-    
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "patronymic")
+    private String patronymic;
+
+    @Column(name = "surname")
+    private String surname;
+
     @Column(name = "password")
     @JsonBackReference
     private String password;

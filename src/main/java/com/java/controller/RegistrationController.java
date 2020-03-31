@@ -67,14 +67,11 @@ public class RegistrationController {
     @RequestMapping(value = "/registration/", method = RequestMethod.POST, headers = "Accept=application/json")
     public ResponseEntity<?> add(@Valid @RequestBody RegistrationRequest regRequest) {
         Users user = new Users();
-        Teacher teacher = new Teacher();
         if (usersService.getByName(regRequest.getUsername()).isEmpty()) {
             UserRoles role = userRolesService.getByName("ROLE_USER").get();
-            teacher.setName(regRequest.getName());
-            teacher.setSurname(regRequest.getSurname());
-            teacher.setPatronymic(regRequest.getPatronymic());
-            teacherService.save(teacher);
-            user.setTeacher(teacher);
+            user.setName(regRequest.getName());
+            user.setSurname(regRequest.getSurname());
+            user.setPatronymic(regRequest.getPatronymic());
             user.setEnabled(false);
             user.setUsername(regRequest.getUsername());
             user.setPassword(passwordEncoder.encode(regRequest.getPassword()));
@@ -117,50 +114,4 @@ public class RegistrationController {
         return usersService.updatePassword(resetPasswordRequest);
     }
     
-
-    /*
-    @RequestMapping(value="/resetpassword/", method = RequestMethod.GET)
-    public String resetPassword(){
-        return "reset";
-    }
-    
-    @RequestMapping(value="/resetpassword/", method = RequestMethod.POST, headers="Accept=application/json")
-    @ResponseBody
-    public ResponseEntity<Void>  resetPass(HttpServletRequest request, 
-        @RequestParam("email") String userEmail) {
-        Optional<Users> user = usersService.getByName(userEmail);
-        if (user.isEmpty()) {
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-        }
-        String token = UUID.randomUUID().toString();
-        usersService.createPasswordResetTokenForUser(user.get(), token);
-        EmailService.sendEmail(constructResetTokenEmail(request.getContextPath(), request.getLocale(), token, user.get()));
-        return new ResponseEntity<Void>(HttpStatus.OK);
-    }
-    
-    private SimpleMailMessage constructResetTokenEmail(String contextPath, Locale locale, String token, Users user) {
-        String url = contextPath + "/user/changePassword?id=" + user.getId() + "&token=" + token;
-        //String message = messages.getMessage("message.resetPassword", null, locale);
-        return constructEmail("Reset Password", "Confirm reset password:" + " \r\n" + url, user);
-      }
-
-      private SimpleMailMessage constructEmail(String subject, String body, Users user) {
-        SimpleMailMessage email = new SimpleMailMessage();
-        email.setSubject(subject);
-        email.setText(body);
-        email.setTo(user.getUsername());
-        email.setFrom("timetable-service");
-        return email;
-      }
- 
-    @GetMapping("/user/changePassword")
-    public String showChangePasswordPage(Locale locale, Model model, 
-      @RequestParam("id") UUID id, @RequestParam("token") String token) {
-        String result = usersService.validatePasswordResetToken(id, token);
-        if (result != null) {
-            model.addAttribute("message", result);
-            return "redirect:/login?lang=" + locale.getLanguage();
-        }
-        return "redirect:/updatePassword.html?lang=" + locale.getLanguage();
-    }*/
 }
