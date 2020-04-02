@@ -10,45 +10,21 @@ const saveJSONDataToLocalStorage = (key, data) => {
     let dataString = JSON.stringify(data);
     localStorage.setItem(key, dataString);
 }
-
-
 const deleteValueFromTable = (event) => {
     let id = event.currentTarget.value;
     let name = localStorage.getItem("current_open_table");
-    let url = getMappingUrl(name);
-    $.ajax({
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        'type': 'DELETE',
-        'url': url + id,
-        'success': function (response) {
-            M.toast({html: "Запись удалена"});
-            openTableEvent(name, "");
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
-            M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
-        }
 
-    });
-
-}
-
-
-const acceptValueFromTable = (event) => {
-    let id = event.currentTarget.value;
     $.ajax({
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         'type': 'POST',
-        'url': "/users/accept/" + id,
+        'url': "deleteuserfromteacher" + "?teacherId=" + id,
         'success': function (response) {
-            M.toast({html: "Юзер подтвержден!"});
-            openTableEvent("urn:jsonschema:com:java:domain:Users", "?enabled=False");
+            M.toast({html: "Связь удалена"});
+            openTableEvent("table-form", "data-tr-table", "urn:jsonschema:com:java:domain:Teacher");
+            $("#add-modal").modal("close");
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
@@ -57,12 +33,40 @@ const acceptValueFromTable = (event) => {
 
     });
 
+}
+
+
+
+const acceptValueFromTable = (event) => {
+    let id = event.currentTarget.value;
+    let url = "addusertoteacher/?userId=" + id + "&teacherId=" + localStorage.getItem("teacher");
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'type': 'POST',
+        'url': url,
+        'success': function (response) {
+            M.toast({html: "Аккаунты связаны"});
+            openTableEvent("table-form", "data-tr-table", "urn:jsonschema:com:java:domain:Teacher");
+            $("#add-modal").modal("close");
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+            M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
+            $("#add-modal").modal("close");
+
+        }
+
+    });
+
 
 }
 
 
-const openTableEvent = (value, add) => {
-    $("#add-modal").modal("close");
+const openTableEvent = (form, table_name, value, add) => {
+    //$("#add-modal").modal("close");
     localStorage.setItem("current_open_table", value);
 
     clearPostFromModal();
@@ -70,38 +74,43 @@ const openTableEvent = (value, add) => {
 
 
     let url = getMappingUrl(value);
+    if (value == "urn:jsonschema:com:java:domain:Teacher") {
+        let fullurl = window.location.pathname;
+        url += "?lecternId=" + fullurl.match("lectern\/(.+)\/")[1];
+    } else if (value == "urn:jsonschema:com:java:domain:Users") {
+        url += "?clear=true";
+    }
 
-    $.get(url + add, function (data, status) {
+    $.get(url, function (data, status) {
         saveJSONDataToLocalStorage(value, data);
-        var container = document.getElementById("table-form");
-        container.className = 'display';
+        var container = document.getElementById(form);
         while (container.hasChildNodes()) {
             container.removeChild(container.lastChild);
         }
         var table = document.createElement("table");
-        table.id = 'data-tr-table';
+        table.id = table_name;
 
 
         if (data.length > 0) {
             var thread = createThread(data);
             table.appendChild(thread);
-            if (add == '?enabled=False') {
-                var tbody = createTbody(data, true);
-            } else {
-                var tbody = createTbody(data, false);
-            }
+            var tbody = createTbody(data, add);
             table.appendChild(tbody);
             container.appendChild(table);
         }
         $(document).ready(function () {
-            $('#data-tr-table').DataTable({
+            $(table).DataTable({
                 "language": {
                     "url": "/resources/static/json/russian.json"
                 }
             });
-            $('#data-tr-table').on('draw.dt', function () {
+            $(table).on('draw.dt', function () {
                 $('select').formSelect();
             });
+            if (add) {
+                $("#add-modal").modal("open");
+            }
+
         });
 
     });
@@ -114,7 +123,7 @@ const createThread = (data) => {
     var thread = document.createElement("tr");
     for (let key in data[0]) {
         var th = document.createElement("th");
-        if (key != 'id') {
+        if (key != 'id' && key != "username" && key != "userRoles") {
             th.append(getLocalizedName(key));
             thread.append(th);
         }
@@ -126,7 +135,7 @@ const createThread = (data) => {
     return threadHeader;
 }
 
-const createTbody = (data, accept) => {
+const createTbody = (data, add) => {
     var tbody = document.createElement("tbody");
     let name = localStorage.getItem("current_open_table");
     let optionType = getListDataFromServer(name);
@@ -135,11 +144,27 @@ const createTbody = (data, accept) => {
         for (let key in item) {
             var id = 0;
             var td = document.createElement("td");
-            if (key != 'id') {
+            if (key != 'id' && key != "username" && key != "userRoles") {
                 if (optionType[key]["type"] == "object" && item[key] != null) {
-                    if (["employee", "teacher"].includes(key)) {
-                        td.append(item[key]["name"] + " " + item[key]["surname"] + " " + item[key]["patronymic"]);
+                    if (["employee"].includes(key)) {
+                        td.append(item[key]["deanery"]["name"]);
                         input.append(td);
+                    } else if (["teacher"].includes(key)) {
+                        if (item[key]["lectern"] != null) {
+                            td.append(item[key]["lectern"]["name"]);
+                            input.append(td);
+                        } else {
+                            td.append("");
+                            input.append(td);
+                        }
+                    } else if (["users"].includes(key)) {
+                        if (item[key]["username"] != null) {
+                            td.append(item[key]["username"]);
+                            input.append(td);
+                        } else {
+                            td.append("");
+                            input.append(td);
+                        }
                     } else {
                         td.append(item[key]["name"]);
                         input.append(td);
@@ -163,46 +188,49 @@ const createTbody = (data, accept) => {
             }
         }
         var td = document.createElement("td");
-        var a = document.createElement("a");
-        a.className = 'btn-floating btn-large waves-effect waves-light btn red';
-        a.value = item.id;
-        a.addEventListener("click", deleteValueFromTable);
-        var i = document.createElement("i");
-        i.className = 'material-icons';
-        i.textContent = 'delete';
-        a.append(i);
-        td.append(a);
+
 
         var a = document.createElement("a");
-        a.className = 'btn-floating btn-large waves-effect waves-light btn yellow';
+        a.className = 'btn btn waves-effect waves-light green accent-4';
+        a.href = '#1';
         a.value = item.id;
-        a.addEventListener("click", openToChangeForm);
-        var i = document.createElement("i");
-        i.className = 'material-icons';
-        i.textContent = 'edit';
-        a.append(i);
-        td.append(a);
+        if (add) {
+            a.addEventListener("click", acceptValueFromTable);
+            a.append("Подтвердить");
+            td.append(a);
+            input.append(td);
 
-        if (accept == true) {
+        } else {
+            a.addEventListener("click", opentableinform);
+            a.append("Связать");
+            td.append(a);
             var a = document.createElement("a");
-            a.className = 'btn-floating btn-large waves-effect waves-light green accent-4';
+            a.className = 'btn btn waves-effect waves-light red accent-4';
             a.href = '#1';
             a.value = item.id;
-            a.addEventListener("click", acceptValueFromTable);
-            var i = document.createElement("i");
-            i.className = 'material-icons';
-            i.textContent = 'done';
-            a.append(i);
+            a.addEventListener("click", deleteValueFromTable);
+            a.append("Удалить связь");
             td.append(a);
+            input.append(td);
         }
-        input.append(td);
+
+
+
+
+
+
+
+        deleteValueFromTable
         tbody.appendChild(input);
 
     });
     return tbody;
 }
 
-
+const opentableinform = (event) => {
+    localStorage.setItem("teacher", event.currentTarget.value)
+    openTableEvent("add-modal", "data-tr-table", "urn:jsonschema:com:java:domain:Users", "true");
+}
 
 const openToChangeForm = (event) => {
     clearPostFromModal();
@@ -220,7 +248,7 @@ $(document).ready(function () {
     $("ul.tabs").tabs();
     $(".sidenav").sidenav();
     $('.modal').modal();
-    openTableEvent("urn:jsonschema:com:java:domain:Users", "?enabled=True");
+    openTableEvent("table-form", "data-tr-table1", "urn:jsonschema:com:java:domain:Teacher");
 });
 
 

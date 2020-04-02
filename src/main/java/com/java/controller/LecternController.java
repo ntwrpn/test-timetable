@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import com.java.domain.Lectern;
 import com.java.service.LecternService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @RequestMapping("/api/lectern")

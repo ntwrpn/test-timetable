@@ -112,25 +112,20 @@ public class UsersServiceImpl implements UsersService {
         }
         return usersRepository.findByEnabledFalse();
     }
-
+    
     @Override
-    public List<Users> getByLecternName(String lectern) {
-        return usersRepository.getByLectern(lectern);
+    public List<Users> getClear() {
+        return usersRepository.findClear();
     }
 
     @Override
-    public List<Users> getByDeaneryName(String deanery) {
-        return usersRepository.getByDeanery(deanery);
+    public Optional<Users> getByTeacherId(UUID teacher) {
+        return usersRepository.findByTeacherId(teacher);
     }
 
     @Override
-    public List<Users> getByLectern(UUID id) {
-        return usersRepository.findByLectern(id);
-    }
-
-    @Override
-    public List<Users> getByDeanery(UUID id) {
-        return usersRepository.findByDeanery(id);
+    public Optional<Users> getByEmployeeId(UUID employee) {
+        return usersRepository.findByEmployeeId(employee);
     }
 
     @Override

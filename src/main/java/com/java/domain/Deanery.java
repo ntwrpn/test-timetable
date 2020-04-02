@@ -36,7 +36,7 @@ public class Deanery {
     @JsonIgnore
     private List<Lectern> lecterns;
 	
-	@OneToMany(mappedBy = "deanery", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "deanery", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Employee> employee;
 

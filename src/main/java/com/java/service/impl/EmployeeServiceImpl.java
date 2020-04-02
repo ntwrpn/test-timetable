@@ -25,39 +25,40 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
-	
-	@Autowired
+
+    @Autowired
     private DeaneryRepository deaneryRepository;
 
     @Override
     public Employee save(Employee obj, UUID id) {
-        if(id !=null){
-		    obj.setDeanery(deaneryRepository.findById(id).get());
+        if (id != null) {
+            obj.setDeanery(deaneryRepository.findById(id).get());
         }
         return employeeRepository.save(obj);
     }
 
     @Override
     public Employee update(Employee obj) {
-		Optional<Employee> employee = employeeRepository.findById(obj.getId());
-        if(employee.isPresent()){
+        Optional<Employee> employee = employeeRepository.findById(obj.getId());
+        if (employee.isPresent()) {
             employee.get().setId(obj.getId());
             employee.get().setSurname(obj.getSurname());
             employee.get().setName(obj.getName());
             employee.get().setRank(obj.getRank());
-			employee.get().setPatronymic(obj.getPatronymic());
+            employee.get().setPatronymic(obj.getPatronymic());
+            if (obj.getDeanery() != null) {
+                employee.get().setDeanery(obj.getDeanery());
+            }
             return employeeRepository.save(employee.get());
         }
         return null;
-		//obj.setDeanery(deaneryRepository.findById(obj.getDeanery().getId()).get());
+        //obj.setDeanery(deaneryRepository.findById(obj.getDeanery().getId()).get());
     }
 
-    
     @Override
     public void delete(UUID id) {
         employeeRepository.deleteById(id);
     }
-
 
     @Override
     public List<Employee> getAll() {
@@ -74,13 +75,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         JSONObject obj = new JSONObject();
         ObjectMapper mapper = new ObjectMapper();
         SchemaFactoryWrapper visitor = new SchemaFactoryWrapper();
-        try{
+        try {
             mapper.acceptJsonFormatVisitor(Employee.class, visitor);
             JsonSchema schema = visitor.finalSchema();
             return schema;
-        } catch (IOException exx){
+        } catch (IOException exx) {
             return null;
-        } 
+        }
     }
 
     @Override
@@ -88,4 +89,3 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findByDeaneryId(uuid);
     }
 }
-

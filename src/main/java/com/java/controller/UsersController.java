@@ -34,24 +34,14 @@ public class UsersController {
     @RequestMapping(value="/users/", method=RequestMethod.GET)
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Users>> getUsersPage(HttpServletRequest request, @RequestParam(required = false) Boolean enabled,
-            @RequestParam(required = false) String lectern_name,
-            @RequestParam(required = false) String deanery_name,
-            @RequestParam(required = false) UUID lectern,
-            @RequestParam(required = false) UUID deanery,
+            @RequestParam(required = false) Boolean clear,
             Model model) {
         List<Users> users;
-        if (enabled!=null){
+        if (enabled != null){
             users = usersService.getByEnabled(enabled);
-        } else if (deanery_name!=null){
-            users = usersService.getByDeaneryName(deanery_name);
-        } else if (lectern_name!=null){
-            users = usersService.getByLecternName(lectern_name);
-        } else if (deanery!=null){
-            users = usersService.getByDeanery(deanery);
-        } else if (lectern!=null){
-            users = usersService.getByLectern(lectern);
-        }
-        else{
+        } else if (clear != null){
+            users = usersService.getClear();
+        } else {
             users = usersService.getAll();
         }
         

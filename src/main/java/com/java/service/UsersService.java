@@ -25,14 +25,13 @@ public interface UsersService {
     
     Optional<Users> getByName(String login);
     List<Users> getByEnabled(boolean state);
-
-    List<Users> getByLecternName(String lectern);
-
-    List<Users> getByDeaneryName(String deanery);
     
-    List<Users> getByLectern(UUID id);
+    List<Users> getClear();
 
-    List<Users> getByDeanery(UUID id);
+    Optional<Users> getByTeacherId(UUID userId);
+
+    Optional<Users> getByEmployeeId(UUID userId);
+
 
     void blockUser(UUID id);
     void unBlockUser(UUID id);

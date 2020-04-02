@@ -47,7 +47,7 @@ public class Course {
     private List<OccupationCounterCourse> countOccupation;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
-	@JoinColumn(name="schedule", referencedColumnName="id", nullable = true)
+    @JoinColumn(name="schedule", referencedColumnName="id", nullable = true)
     @JsonBackReference(value="courses-movement")
     private Schedule schedule;
 

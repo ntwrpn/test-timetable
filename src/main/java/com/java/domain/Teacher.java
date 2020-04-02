@@ -26,9 +26,8 @@ public class Teacher {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="lectern_id")
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name="lectern", referencedColumnName="id")
     private Lectern lectern;
 
     @Column(name = "name")
@@ -50,7 +49,7 @@ public class Teacher {
     private String academicDegree;
     
     @OneToOne(mappedBy = "teacher")
-    @JsonIgnore
+    @JsonIgnoreProperties("teacher")
     private Users users;
 }
 

@@ -101,7 +101,7 @@ public class RegistrationController {
     }
     
     @GetMapping("/changePassword")
-    public ModelAndView  getChangePassword(@RequestParam(required = false) String token, @RequestParam(required = false) UUID id) {
+    public ModelAndView getChangePassword(@RequestParam(required = false) String token, @RequestParam(required = false) UUID id) {
         ModelAndView model = new ModelAndView("changePassword");
         model.addObject("token", token);
         model.addObject("id", id);

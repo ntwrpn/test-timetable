@@ -1,4 +1,3 @@
-
 package com.java.controller;
 
 import java.util.List;
@@ -47,8 +46,14 @@ public class TeacherController {
 
     @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Teacher> addTeacher(HttpServletRequest request, @RequestParam(name = "lecternId") UUID lectern_id, @RequestBody Teacher teacher) {
-        return new ResponseEntity<>(teacherService.save(teacher, lectern_id), HttpStatus.CREATED);
+    public ResponseEntity<Teacher> addTeacher(HttpServletRequest request, @RequestParam(required = false) UUID lecternId, @RequestBody Teacher teacher) {
+        if (lecternId != null) {
+            return new ResponseEntity<>(teacherService.save(teacher, lecternId), HttpStatus.CREATED);
+        } else {
+            Teacher teacherToSave = teacherService.save(teacher);
+            teacherToSave.setLectern(teacher.getLectern());
+            return new ResponseEntity<>(teacherService.save(teacher), HttpStatus.CREATED);
+        }
     }
 
     @PutMapping("/{id}")
@@ -66,4 +71,3 @@ public class TeacherController {
     }
 
 }
-

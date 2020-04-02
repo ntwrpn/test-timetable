@@ -1,6 +1,5 @@
 package com.java.service.impl;
 
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -8,7 +7,6 @@ import java.util.UUID;
 import com.java.domain.Teacher;
 import com.java.repository.LecternRepository;
 import com.java.repository.TeacherRepository;
-
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,16 +39,20 @@ public class TeacherServiceImpl implements TeacherService {
         return teacherRepository.save(obj);
     }
 
+
     @Override
     public Teacher update(Teacher obj) {
         Optional<Teacher> teacher = this.teacherRepository.findById(obj.getId());
-        if(teacher.isPresent()){
+        if (teacher.isPresent()) {
             teacher.get().setName(obj.getName());
             teacher.get().setSurname(obj.getSurname());
             teacher.get().setPatronymic(obj.getPatronymic());
             teacher.get().setAcademicDegree(obj.getAcademicDegree());
             teacher.get().setPosition(obj.getPosition());
             teacher.get().setRank(obj.getRank());
+            if (obj.getLectern() != null) {
+                teacher.get().setLectern(obj.getLectern());
+            }
             return teacherRepository.save(teacher.get());
         }
         return teacherRepository.save(teacher.get());
@@ -90,4 +92,3 @@ public class TeacherServiceImpl implements TeacherService {
         return teacherRepository.findByLecternId(uuid);
     }
 }
-

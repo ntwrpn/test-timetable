@@ -55,14 +55,6 @@ public class Users {
     @JsonIgnoreProperties("username")
     private List<UserRoles> userRoles;
     
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE )
-    @JoinColumn(name="deanery", referencedColumnName="id", nullable = true)
-    private Deanery deanery;
-    
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE )
-    @JoinColumn(name="lectern", referencedColumnName="id", nullable = true)
-    private Lectern lectern;
-    
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher", referencedColumnName = "id")
     private Teacher teacher;
