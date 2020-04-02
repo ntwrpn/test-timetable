@@ -30,7 +30,7 @@ public class Lectern {
     @JsonIgnore
     private Deanery deanery;
 
-    @OneToMany(mappedBy = "lectern", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "lectern", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Teacher> teachers;
 
