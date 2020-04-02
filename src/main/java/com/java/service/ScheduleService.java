@@ -9,7 +9,7 @@ import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface ScheduleService {
 
-    Schedule save(Schedule Schedule);
+    Schedule save(Schedule Schedule, UUID id);
 
     Schedule update(Schedule Schedule);
 
@@ -20,4 +20,6 @@ public interface ScheduleService {
     Optional<Schedule> getById(UUID userId);
     
     public JsonSchema getFields();
+
+    List<Schedule> findByStudyPlan(UUID id);
 }

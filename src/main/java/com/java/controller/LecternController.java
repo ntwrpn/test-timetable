@@ -50,7 +50,7 @@ public class LecternController {
 
     @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Lectern> addLectern(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Lectern lectern) {
+    public ResponseEntity<Lectern> addLectern(HttpServletRequest request, @RequestParam(name = "deaneryId", required = false) UUID id, @RequestBody Lectern lectern) {
         return new ResponseEntity<>(lecternService.save(lectern,id), HttpStatus.CREATED);
     }
 

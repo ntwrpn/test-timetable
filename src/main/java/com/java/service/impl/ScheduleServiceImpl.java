@@ -18,21 +18,34 @@ import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
 import java.io.IOException;
 import com.java.service.ScheduleService;
+import com.java.repository.StudyPlanRepository;
+
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
     private ScheduleRepository scheduleRepository;
+	
+	@Autowired
+    private StudyPlanRepository studyPlanRepository;
 
     @Override
-    public Schedule save(Schedule obj) {
+    public Schedule save(Schedule obj, UUID id) {
+		if(id != null){
+			obj.setStudyPlan(studyPlanRepository.findById(id).get());
+		}
         return scheduleRepository.save(obj);
     }
 
     @Override
     public Schedule update(Schedule obj) {
-        return scheduleRepository.save(obj);
+		Optional<Schedule> schedule = scheduleRepository.findById(obj.getId());
+        if(schedule.isPresent()){
+            obj.setStudyPlan(schedule.get().getStudyPlan());
+            return scheduleRepository.save(obj);
+        }
+        return null;
     }
 
     
@@ -64,6 +77,11 @@ public class ScheduleServiceImpl implements ScheduleService {
         } catch (IOException exx){
             return null;
         } 
+    }
+
+    @Override
+    public List<Schedule> findByStudyPlan(UUID id) {
+        return scheduleRepository.findByStudyPlanId(id);
     }
 }
 

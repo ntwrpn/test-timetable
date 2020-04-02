@@ -25,7 +25,10 @@ public class ScheduleController {
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Schedule>> getSchedules(HttpServletRequest request) {
+    public ResponseEntity<List<Schedule>> getSchedules(HttpServletRequest request, @RequestParam(name = "studyplanId", required = false) UUID id) {
+        if(id != null){
+            return new ResponseEntity<>(scheduleService.findByStudyPlan(id), HttpStatus.OK);
+        }
         return new ResponseEntity<>(scheduleService.getAll(), HttpStatus.OK);
     }
 
@@ -41,11 +44,12 @@ public class ScheduleController {
         return new ResponseEntity<>(scheduleService.getById(id).get(), HttpStatus.OK);
     }
 
-    @PostMapping("/")
+	@PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Schedule> addSchedule(HttpServletRequest request, @RequestBody Schedule Schedule) {
-        return new ResponseEntity<>(scheduleService.save(Schedule), HttpStatus.CREATED);
+    public ResponseEntity<Schedule> addSchedule(HttpServletRequest request, @RequestParam(name = "studyplanId", required = false) UUID id, @RequestBody Schedule Schedule) {
+        return new ResponseEntity<>(scheduleService.save(Schedule,id), HttpStatus.CREATED);
     }
+
 
     @PutMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")

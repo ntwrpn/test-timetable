@@ -29,6 +29,9 @@ public class Week {
     
     @Column(name = "colspan")
     private int colspan;
+	
+	@Column(name = "position")
+    private int position;
     
     @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name="occupation", referencedColumnName="id")
