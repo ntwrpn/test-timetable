@@ -1,11 +1,13 @@
 package com.java.controller;
 
 import com.java.config.JwtProvider;
+import com.java.domain.Employee;
 import com.java.domain.Lectern;
 import com.java.domain.Teacher;
 import com.java.domain.Users;
 import com.java.payload.JwtAuthenticationResponse;
 import com.java.payload.LoginRequest;
+import com.java.service.EmployeeService;
 import com.java.service.LecternService;
 import com.java.service.TeacherService;
 import com.java.service.UsersService;
@@ -51,6 +53,10 @@ public class WebController {
 
     @Autowired
     private TeacherService teacherService;
+    
+    @Autowired
+    private EmployeeService employeeService;
+
 
     @RequestMapping(value = "/")
     public String index() {
@@ -119,7 +125,7 @@ public class WebController {
 
     @GetMapping(value = "/lectern/{id}/addusertoteacher")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ModelAndView getusertolectern(HttpServletRequest request, @PathVariable("id") UUID id, ModelMap map) {
+    public ModelAndView getusertoteacher(HttpServletRequest request, @PathVariable("id") UUID id, ModelMap map) {
         Lectern lectern = lecternService.getById(id).get();
         ModelAndView model = new ModelAndView("addusertoteacher");
         model.addObject("lectern", lectern.getName());
@@ -129,7 +135,7 @@ public class WebController {
 
     @PostMapping(value = "/lectern/{id}/addusertoteacher")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> addusertolectern(HttpServletRequest request, @PathVariable("id") UUID id,
+    public ResponseEntity<?> addusertoteacher(HttpServletRequest request, @PathVariable("id") UUID id,
             @RequestParam(required = false) UUID userId,
             @RequestParam(required = false) UUID teacherId) {
         if (userService.getByTeacherId(teacherId).isEmpty()) {
@@ -144,13 +150,48 @@ public class WebController {
 
     @PostMapping(value = "/lectern/{id}/deleteuserfromteacher")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> addusertolectern(HttpServletRequest request, @PathVariable("id") UUID id,
+    public ResponseEntity<?> addusertoteacher(HttpServletRequest request, @PathVariable("id") UUID id,
             @RequestParam(required = false) UUID teacherId) {
         if (userService.getByTeacherId(teacherId).isEmpty()) {
             return new ResponseEntity<>("Этот преподаватель никому не назначен", HttpStatus.CONFLICT);
         } else {
             Users user = userService.getByTeacherId(teacherId).get();
             user.setTeacher(null);
+            return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
+        }
+    }
+    
+    
+    @GetMapping(value = "/deanery/{id}/addusertoemployee")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public String getusertoemployee(HttpServletRequest request, @PathVariable("id") UUID id, ModelMap map) {
+        return "addusertoemployee";
+    }
+
+    @PostMapping(value = "/deanery/{id}/addusertoemployee")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> addusertoemployee(HttpServletRequest request, @PathVariable("id") UUID id,
+            @RequestParam(required = false) UUID userId,
+            @RequestParam(required = false) UUID EmployeeId) {
+        if (userService.getByEmployeeId(EmployeeId).isEmpty()) {
+            Users user = userService.getById(userId).get();
+            Employee employee = employeeService.getById(EmployeeId).get();
+            user.setEmployee(employee);
+            return new ResponseEntity<>(userService.save(user), HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("Этот работник уже назначен юзеру", HttpStatus.CONFLICT);
+        }
+    }
+
+    @PostMapping(value = "/deanery/{id}/deleteuseremployee")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> addusertoemployee(HttpServletRequest request, @PathVariable("id") UUID id,
+            @RequestParam(required = false) UUID EmployeeId) {
+        if (userService.getByEmployeeId(EmployeeId).isEmpty()) {
+            return new ResponseEntity<>("Этот работник никому не назначен", HttpStatus.CONFLICT);
+        } else {
+            Users user = userService.getByEmployeeId(EmployeeId).get();
+            user.setEmployee(null);
             return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
         }
     }

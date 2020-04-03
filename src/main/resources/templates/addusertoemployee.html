@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>Связать работника с аккаунтом</title>
+        <meta charset="utf-8"/>
+        <link type="text/css" rel="stylesheet" href="/resources/static/css/jquery-ui.min.css"/>
+        <link type="text/css" rel="stylesheet" href="/resources/static/css/materialize.min.css"/>
+        <link type="text/css" rel="stylesheet" href="/resources/static/css/material-icons.css"/>
+        <link type="text/css" rel="stylesheet" href="/resources/static/css/main.css"/>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+
+        <script src="/resources/static/js/jquery-3.3.1.min.js"></script>
+        <script src="/resources/static/js/jquery-ui.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css"/>
+
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+
+        <script src="/resources/static/js/materialize.min.js"></script>
+        <script src="/resources/static/js/addform.js"></script>
+        <script src="/resources/static/js/addtoemployee.js"></script>
+
+
+
+    </head>
+
+    <body>
+
+
+        <nav class="nav-extended green accent-4">
+
+            <div class="nav-wrapper">
+                <a href="/" class="breadcrumb">БНТУ</a>
+                <a href="/home" class="breadcrumb">Кафедра</a>
+                <a href="#" class="breadcrumb">Связать работника с аккаунтом</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="/home"><i class="material-icons">home</i></a></li>
+                    <li><a href="#"><i class="material-icons">refresh</i></a></li>
+                    <li><a href="#"><i class="material-icons">more_vert</i></a></li>
+                </ul>
+
+
+
+            </div>
+
+
+        </nav>
+
+
+
+
+        <div class="row">
+            <div class="col m2 l2">
+                <ul class="collapsible">
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Кабинет</div>
+                        <div class="collapsible-body"><span>
+                                <a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="/home">
+                                    <i class="material-icons left">home</i>
+                                    Мой кабинет</a><br></br>
+                                <a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="#exams-schedule">
+                                    <i class="material-icons left">event</i>
+                                    Расписание</a><br/>
+
+                            </span></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Аккаунт</div>
+                        <div class="collapsible-body"><span>
+
+
+                                <a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="/mypage">
+                                    <i class="material-icons left">account_circle</i>
+                                    Мой аккаунт</a><br></br>
+
+                                <a class="waves-effect waves-light btn yellow accent-4" style="width: 100%;" href="#exams-schedule">
+                                    <i class="material-icons left">settings</i>
+                                    Настройки</a><br></br>
+
+                                <a class="waves-effect waves-light btn red accent-4 extendfull" href="/logout" style="width: 100%;">
+                                    <i class="material-icons left">exit_to_app</i>
+                                    Выход</a>
+                            </span></div>
+                    </li>
+                </ul>
+            </div>
+            <div id="users-list" class="col s8">
+
+                <h4 class="tab-body-header">Связать работника с аккаунтом</h4>
+
+                <div class="row">
+                    <div id='table-form'>
+                        <table id = "data-tr-table" class="highlight">
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </body>
+
+</html>
