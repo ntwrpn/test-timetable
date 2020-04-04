@@ -1325,6 +1325,8 @@ $(document).ready(() => {
         {"name": "Week", "key": "urn:jsonschema:com:java:domain:Week"},
         {"name": "WeekCount", "key": "urn:jsonschema:com:java:domain:WeekCount"},
         {"name": "Employee", "key": "urn:jsonschema:com:java:domain:Employee"},
+        {"name": "Year", "key": "urn:jsonschema:com:java:domain:Year"},
+
     ]
 
     renderDataList(dataformData);

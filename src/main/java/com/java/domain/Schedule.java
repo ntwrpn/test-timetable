@@ -39,5 +39,10 @@ public class Schedule {
     @JoinColumn(name="study_plan", referencedColumnName="id", nullable = true)
     @JsonBackReference(value="schedule-movement")
     private StudyPlan studyPlan;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
+    @JoinColumn(name="year", referencedColumnName="id", nullable = true)
+    @JsonBackReference(value="schedule-year-movement")
+    private Year year;
 }
 
