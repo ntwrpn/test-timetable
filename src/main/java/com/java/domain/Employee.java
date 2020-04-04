@@ -25,7 +25,7 @@ public class Employee {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="deanery_id")
     @JsonIgnore
     private Deanery deanery;
@@ -44,5 +44,5 @@ public class Employee {
     
     @OneToOne(mappedBy = "employee")
     @JsonIgnore
-    private Users users;
+    private Users user;
 }

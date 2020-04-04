@@ -39,7 +39,7 @@ public class Flow {
     //@Column(nullable = true)
     private List<Groups> groups =new ArrayList<Groups>();
 
-    @ManyToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "faculty", referencedColumnName = "id", nullable = true)
     //@JsonManagedReference
     private Faculty faculty = null;

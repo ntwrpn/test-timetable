@@ -28,9 +28,9 @@ public class Faculty {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="corps", referencedColumnName="id", nullable = true)
-    private Corps corps=null;
+    private Corps corps;
 
     @Column(name = "fullname")
     private String fullname;

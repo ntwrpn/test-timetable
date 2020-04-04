@@ -27,7 +27,7 @@ public class Deanery {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
     
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="faculty", referencedColumnName="id", nullable = true)
     @JsonBackReference
     private Faculty faculty;

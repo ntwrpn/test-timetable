@@ -50,6 +50,6 @@ public class Teacher {
     
     @OneToOne(mappedBy = "teacher")
     @JsonIgnoreProperties("teacher")
-    private Users users;
+    private Users user;
 }
 
