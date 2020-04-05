@@ -37,11 +37,5 @@ public class Faculty {
 
     @Column(name = "name")
     private String name;
-    
-    @OneToMany(mappedBy="faculty", cascade = CascadeType.ALL)
-    @JsonBackReference
-    @Column(nullable = true)
-    private Set<Flow> flow;
-
 }
 
