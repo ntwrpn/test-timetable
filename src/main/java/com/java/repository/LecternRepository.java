@@ -17,7 +17,6 @@ public interface LecternRepository extends JpaRepository<Lectern, UUID> {
     Optional<Lectern> findById(UUID uuid);
 
     void deleteById(UUID uuid);
-	
-	@Query(value = "select * from lectern where deanery=?1", nativeQuery = true)
-	List<Lectern> findLecternsByDeaneryId(UUID id);
+
+	List<Lectern> findByDeaneryId(UUID id);
 }

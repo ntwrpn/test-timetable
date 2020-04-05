@@ -7,9 +7,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.java.domain.Groups;
+import com.java.repository.FlowRepository;
 import com.java.repository.GroupsRepository;
 
 import java.lang.reflect.Field;
+
+import com.java.repository.SpecialityRepository;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,13 +28,27 @@ public class GroupsServiceImpl implements GroupsService {
     @Autowired
     private GroupsRepository groupsRepository;
 
+    @Autowired
+    private FlowRepository flowRepository;
+
+    @Autowired
+    private SpecialityRepository specialityRepository;
+
     @Override
-    public Groups save(Groups obj) {
+    public Groups save(Groups obj, UUID flowId) {
+        if(flowId != null){
+            obj.setFlow(flowRepository.findById(flowId).get());
+        }
         return groupsRepository.save(obj);
     }
 
     @Override
     public Groups update(Groups obj) {
+        Optional<Groups> groups = groupsRepository.findById(obj.getId());
+        if(groups.isPresent()){
+            obj.setSpeciality(groups.get().getSpeciality());
+            obj.setFlow(groups.get().getFlow());
+        }
         return groupsRepository.save(obj);
     }
 
@@ -64,6 +81,11 @@ public class GroupsServiceImpl implements GroupsService {
         } catch (IOException exx){
             return null;
         } 
+    }
+
+    @Override
+    public List<Groups> findByFlowId(UUID uuid) {
+        return groupsRepository.findByFlowId(uuid);
     }
 }
 

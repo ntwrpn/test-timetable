@@ -85,7 +85,8 @@ public class LecternServiceImpl implements LecternService {
 	
 	@Override
 	public List<Lectern> findLecternsByDeaneryId(UUID id){
-		return lecternRepository.findLecternsByDeaneryId(id);
+
+        return lecternRepository.findByDeaneryId(id);
 	};
 }
 

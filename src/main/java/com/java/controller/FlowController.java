@@ -25,7 +25,10 @@ public class FlowController {
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Flow>> getFlows(HttpServletRequest request) {
+    public ResponseEntity<List<Flow>> getFlows(HttpServletRequest request, @RequestParam(name = "lecternId", required = false) UUID uuid) {
+        if(uuid != null){
+            return new ResponseEntity<>(flowService.findByLecternId(uuid), HttpStatus.OK);
+        }
         return new ResponseEntity<>(flowService.getAll(), HttpStatus.OK);
     }
 
@@ -43,11 +46,11 @@ public class FlowController {
 
     @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Flow> addFlow(HttpServletRequest request, @RequestBody Flow Flow) {
-        Flow flow = flowService.save(Flow);
+    public ResponseEntity<Flow> addFlow(HttpServletRequest request, @RequestParam(name = "lecternId", required = false) UUID uuid, @RequestBody Flow Flow) {
+        /*Flow flow = flowService.save(Flow);
         flow.setGroups(Flow.getGroups());
-        flowService.save(flow);
-        return new ResponseEntity<>(flow, HttpStatus.CREATED);
+        flowService.save(flow);*/
+        return new ResponseEntity<>(flowService.save(Flow, uuid), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

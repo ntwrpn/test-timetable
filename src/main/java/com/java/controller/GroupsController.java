@@ -25,7 +25,10 @@ public class GroupsController {
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Groups>> getGroupss(HttpServletRequest request) {
+    public ResponseEntity<List<Groups>> getGroupss(HttpServletRequest request, @RequestParam(name = "flowId", required = false) UUID uuid) {
+        if(uuid != null){
+            return new ResponseEntity<>(groupsService.findByFlowId(uuid), HttpStatus.OK);
+        }
         return new ResponseEntity<>(groupsService.getAll(), HttpStatus.OK);
     }
 
@@ -43,8 +46,8 @@ public class GroupsController {
 
     @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Groups> addGroups(HttpServletRequest request, @RequestBody Groups Groups) {
-        return new ResponseEntity<>(groupsService.save(Groups), HttpStatus.CREATED);
+    public ResponseEntity<Groups> addGroups(HttpServletRequest request, @RequestParam(name = "flowId", required = false) UUID flowId, @RequestBody Groups Groups) {
+        return new ResponseEntity<>(groupsService.save(Groups, flowId), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

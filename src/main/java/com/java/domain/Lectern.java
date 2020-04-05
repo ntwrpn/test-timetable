@@ -37,6 +37,10 @@ public class Lectern {
     @OneToMany(mappedBy = "lectern", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Speciality> specialities;
+	
+	@OneToMany(mappedBy="lectern", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Flow> flows;
 
     @Column(name = "fullname")
     private String fullname;

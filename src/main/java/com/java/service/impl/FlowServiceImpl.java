@@ -10,6 +10,8 @@ import com.java.domain.Flow;
 import com.java.repository.FlowRepository;
 
 import java.lang.reflect.Field;
+
+import com.java.repository.LecternRepository;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,14 +27,25 @@ public class FlowServiceImpl implements FlowService {
     @Autowired
     private FlowRepository flowRepository;
 
+    @Autowired
+    private LecternRepository lecternRepository;
+
     @Override
-    public Flow save(Flow obj) {
+    public Flow save(Flow obj, UUID id) {
+        if(id !=null){
+            obj.setLectern(lecternRepository.findById(id).get());
+        }
         return flowRepository.save(obj);
     }
 
     @Override
     public Flow update(Flow obj) {
-        return flowRepository.save(obj);
+        Optional<Flow> flow = flowRepository.findById(obj.getId());
+        if(flow.isPresent()){
+            obj.setLectern(flow.get().getLectern());
+            return flowRepository.save(obj);
+        }
+        return null;
     }
 
     
@@ -64,6 +77,11 @@ public class FlowServiceImpl implements FlowService {
         } catch (IOException exx){
             return null;
         } 
+    }
+
+    @Override
+    public List<Flow> findByLecternId(UUID uuid) {
+        return flowRepository.findByLecternId(uuid);
     }
 }
 

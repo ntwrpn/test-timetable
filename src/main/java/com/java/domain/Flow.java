@@ -1,5 +1,6 @@
 package com.java.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
@@ -37,12 +38,14 @@ public class Flow {
     @OneToMany(mappedBy = "flow", cascade = CascadeType.MERGE, orphanRemoval = true)
     @JsonManagedReference(value = "flow-group")
     //@Column(nullable = true)
-    private List<Groups> groups =new ArrayList<Groups>();
+    @JsonIgnore
+    private List<Groups> groups;
 
-    @ManyToOne(optional = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "faculty", referencedColumnName = "id", nullable = true)
+    @ManyToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "lectern", referencedColumnName = "id", nullable = true)
+	@JsonIgnore
     //@JsonManagedReference
-    private Faculty faculty = null;
+    private Lectern lectern;
 
     /*public void setGroups(List<Groups> newgroups) {
         if (newgroups != null) {

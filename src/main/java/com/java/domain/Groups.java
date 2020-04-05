@@ -44,9 +44,7 @@ public class Groups {
     @JoinColumn(name="speciality", referencedColumnName="id", nullable = true)
     private Speciality speciality;  
 
-
-    @OneToMany(mappedBy="groups", cascade=CascadeType.ALL)
-    @JsonBackReference //(value="subgroup-group")
-    @Column(nullable = true)
-    private List<Subgroup> subgroup;
+	@Column(name = "count_of_student")
+    private int countOfStudents;
+  
 }
