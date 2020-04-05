@@ -60,6 +60,21 @@ public class UsersController {
         return new ResponseEntity(usersService.getByName(login), HttpStatus.OK);
     }
     
+    @RequestMapping(value="/users/me/", method=RequestMethod.POST)
+    public ResponseEntity saveCurrentUser(HttpServletRequest request, @RequestBody Users obj,
+             @RequestParam(required = false) String Academic) {
+        String login = request.getUserPrincipal().getName();
+        Users user = usersService.getByName(login).get();
+        user.setName(obj.getName());
+        user.setSurname(obj.getSurname());
+        user.setPatronymic(obj.getPatronymic());
+        if (user.getTeacher()!=null){
+            user.getTeacher().setAcademicDegree(Academic);
+        }
+        usersService.save(user);
+        return new ResponseEntity(usersService.getByName(login), HttpStatus.OK);
+    }
+    
     @RequestMapping(value="/users/{id}", method=RequestMethod.GET)
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Users> getUsersPage(HttpServletRequest request, Model model, @PathVariable("id") UUID id) {

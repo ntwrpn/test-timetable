@@ -41,8 +41,6 @@ function setCookie(name, value, options = {}) {
 
   options = {
     path: '/',
-    // при необходимости добавьте другие значения по умолчанию
-    ...options
   };
 
   if (options.expires instanceof Date) {
