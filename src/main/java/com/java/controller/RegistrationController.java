@@ -1,6 +1,5 @@
 package com.java.controller;
 
-import com.java.domain.Subgroup;
 import com.java.domain.Teacher;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
