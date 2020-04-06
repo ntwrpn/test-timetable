@@ -34,13 +34,12 @@ public class Groups {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name="flow", referencedColumnName="id", nullable = true)
-    @JsonBackReference(value="flow-group")
     //@JsonIgnoreProperties(value = {"flow-group"})
     private Flow flow;
     
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name="speciality", referencedColumnName="id", nullable = true)
     private Speciality speciality;  
 

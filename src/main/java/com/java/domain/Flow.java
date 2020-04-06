@@ -36,14 +36,13 @@ public class Flow {
     private String description;
 
     @OneToMany(mappedBy = "flow", cascade = CascadeType.MERGE, orphanRemoval = true)
-    @JsonManagedReference(value = "flow-group")
+    //@JsonManagedReference(value = "flow-group")
     //@Column(nullable = true)
     @JsonIgnore
     private List<Groups> groups;
 
-    @ManyToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "lectern", referencedColumnName = "id", nullable = true)
-	@JsonIgnore
     //@JsonManagedReference
     private Lectern lectern;
 

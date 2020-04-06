@@ -18,5 +18,6 @@ public interface GroupsRepository extends JpaRepository<Groups,UUID> {
 
     void deleteById(UUID uuid);
 
-    List<Groups> findByFlowId(UUID uuid);
+    List<Groups> findByFlowLecternDeaneryId(UUID uuid);
+
 }
