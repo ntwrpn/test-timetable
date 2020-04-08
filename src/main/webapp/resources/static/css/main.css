@@ -1,3 +1,12 @@
+.nav-extended{
+    height: 60px;
+    align-items: center;
+    background-color: #1dae17;
+    color: white;
+    font-weight: 600;
+}
+
+
 .tab-body-header {
     text-align: center;
 }
@@ -80,7 +89,6 @@
 
 .subjects-form {
     width: 80%;
-    margin-left: 2.5%;
     margin-right: 2.5%;
 }
 
@@ -228,4 +236,14 @@ a#exit-subject-button {
 
 #exit-load-button {
     margin-left: 5%;
+}
+
+.table-format-01{
+    width: 100%;
+    margin: 2%;
+    padding: 2%;
+}
+
+.green.accent-4{
+    background-color: #1dae17!important;
 }

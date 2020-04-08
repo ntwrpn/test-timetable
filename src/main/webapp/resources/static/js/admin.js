@@ -74,7 +74,7 @@ const openTableEvent = (value, add) => {
     $.get(url + add, function (data, status) {
         saveJSONDataToLocalStorage(value, data);
         var container = document.getElementById("table-form");
-        container.className = 'display';
+        container.className = 'display z-depth-4 table-format-01';
         while (container.hasChildNodes()) {
             container.removeChild(container.lastChild);
         }
@@ -97,10 +97,12 @@ const openTableEvent = (value, add) => {
             $('#data-tr-table').DataTable({
                 "language": {
                     "url": "/resources/static/json/russian.json"
-                }
+                },
+                "columnDefs": [{"width": "50px", "targets": -1}]
             });
             $('#data-tr-table').on('draw.dt', function () {
                 $('select').formSelect();
+                $('.tooltipped').tooltip();
             });
         });
 
@@ -163,29 +165,14 @@ const createTbody = (data, accept) => {
             }
         }
         var td = document.createElement("td");
-        var a = document.createElement("a");
-        a.className = 'btn-floating btn-large waves-effect waves-light btn red';
-        a.value = item.id;
-        a.addEventListener("click", deleteValueFromTable);
-        var i = document.createElement("i");
-        i.className = 'material-icons';
-        i.textContent = 'delete';
-        a.append(i);
-        td.append(a);
 
-        var a = document.createElement("a");
-        a.className = 'btn-floating btn-large waves-effect waves-light btn yellow';
-        a.value = item.id;
-        a.addEventListener("click", openToChangeForm);
-        var i = document.createElement("i");
-        i.className = 'material-icons';
-        i.textContent = 'edit';
-        a.append(i);
-        td.append(a);
+
 
         if (accept == true) {
-            var a = document.createElement("a");
-            a.className = 'btn-floating btn-large waves-effect waves-light green accent-4';
+            var a = document.createElement("span");
+            a.className = "tooltipped";
+            a.setAttribute("data-tooltip", "Подтвердить пользователя");
+            a.setAttribute("data-position", "top");
             a.href = '#1';
             a.value = item.id;
             a.addEventListener("click", acceptValueFromTable);
@@ -195,6 +182,31 @@ const createTbody = (data, accept) => {
             a.append(i);
             td.append(a);
         }
+        var a = document.createElement("span");
+        a.className = "tooltipped";
+        a.value = item.id;
+        a.addEventListener("click", openToChangeForm);
+        a.setAttribute("data-tooltip", "Изменить запись");
+        a.setAttribute("data-position", "top");
+
+        var i = document.createElement("i");
+        i.className = 'material-icons';
+        i.textContent = 'edit';
+        a.append(i);
+        td.append(a);
+
+        var a = document.createElement("span");
+        a.value = item.id;
+        a.className = "tooltipped";
+        a.setAttribute("data-tooltip", "Удалить запись");
+        a.setAttribute("data-position", "top");
+        a.addEventListener("click", deleteValueFromTable);
+        var i = document.createElement("i");
+        i.className = 'material-icons';
+        i.textContent = 'delete';
+        a.append(i);
+        td.append(a);
+
         input.append(td);
         tbody.appendChild(input);
 
