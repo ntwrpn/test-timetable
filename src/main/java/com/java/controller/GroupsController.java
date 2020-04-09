@@ -64,5 +64,10 @@ public class GroupsController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(value = "/checkUniqGroupName/")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Boolean> checkUniqueName(HttpServletRequest request, @RequestParam(name = "name", required = false) String name) {
+        return new ResponseEntity<>(groupsService.findByName(name).size() == 0, HttpStatus.OK);
+    }
 }
 

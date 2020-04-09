@@ -20,4 +20,6 @@ public interface GroupsRepository extends JpaRepository<Groups,UUID> {
 
     List<Groups> findByFlowLecternDeaneryId(UUID uuid);
 
+    List<Groups> findByName(String name);
+
 }

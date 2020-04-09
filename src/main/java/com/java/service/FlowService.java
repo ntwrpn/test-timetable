@@ -22,4 +22,6 @@ public interface FlowService {
     public JsonSchema getFields();
 
     List<Flow> findByLecternId(UUID uuid);
+
+    List<Flow> findByName(String name);
 }

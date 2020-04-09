@@ -9,7 +9,7 @@ import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface LecternService {
 
-    Lectern save(Lectern Lectern, UUID id);
+    Lectern save(Lectern Lectern, UUID id) throws Exception;
 
     Lectern update(Lectern Lectern);
 
@@ -22,4 +22,8 @@ public interface LecternService {
     public JsonSchema getFields();
 
 	List<Lectern> findLecternsByDeaneryId(UUID id);
+
+    List<Lectern> findByName(String name);
+
+    List<Lectern> findByFullname(String fullname);
 }

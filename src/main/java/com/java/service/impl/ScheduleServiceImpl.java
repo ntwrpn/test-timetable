@@ -2,14 +2,18 @@ package com.java.service.impl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.java.domain.Schedule;
+import com.java.domain.*;
+import com.java.repository.OccupationRepository;
 import com.java.repository.ScheduleRepository;
 
 import java.lang.reflect.Field;
+
+import org.hibernate.validator.constraints.URL;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +33,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 	
 	@Autowired
     private StudyPlanRepository studyPlanRepository;
+
+    @Autowired
+    private OccupationRepository occupationRepository;
 
     @Override
     public Schedule save(Schedule obj, UUID id) {
@@ -57,12 +64,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public List<Schedule> getAll() {
-        return scheduleRepository.findAll();
+        return  sortOccupationCounters(scheduleRepository.findAll());
     }
 
     @Override
     public Optional<Schedule> getById(UUID id) {
-        return scheduleRepository.findById(id);
+        List<Schedule> schedules = new ArrayList<>();
+        Optional<Schedule> schedule = scheduleRepository.findById(id);
+        schedules.add(schedule.get());
+        schedule = Optional.of(sortOccupationCounters(schedules).get(0));
+        return schedule ;
     }
 
     @Override
@@ -81,7 +92,51 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public List<Schedule> findByStudyPlan(UUID id) {
-        return scheduleRepository.findByStudyPlanId(id);
+       return sortOccupationCounters(scheduleRepository.findByStudyPlanId(id));
+
+    }
+
+    private List<Schedule> sortOccupationCounters(List<Schedule> schedules){
+        List<Occupation> occupations = occupationRepository.findAll();
+        for(Schedule schedule: schedules){
+            List<OccupationCounter> occupationCounters = new ArrayList<>();
+            for(Occupation occupation: occupations){
+                OccupationCounter occupationCounter = findOccupationCounerByOccupation(occupation, schedule.getCountOccupation());
+                if(occupationCounter != null){
+                    occupationCounters.add(occupationCounter);
+                }
+            }
+            schedule.setCountOccupation(occupationCounters);
+            for(Course course: schedule.getCourses()){
+                List<OccupationCounterCourse> occupationCounterCourses = new ArrayList<>();
+                for(Occupation occupation: occupations){
+                    OccupationCounterCourse occupationCounterCourse = findOccupationCounterCourseByOccupation(occupation, course.getCountOccupation());
+                    if(occupationCounterCourse != null){
+                        occupationCounterCourses.add(occupationCounterCourse);
+                    }
+                }
+                course.setCountOccupation(occupationCounterCourses);
+            }
+        }
+        return schedules;
+    }
+
+    private OccupationCounter findOccupationCounerByOccupation(Occupation occupation, List<OccupationCounter> list){
+        for(OccupationCounter occupationCounter: list){
+            if(occupationCounter.getOccupation().getId().equals(occupation.getId())){
+                return occupationCounter;
+            }
+        }
+        return null;
+    }
+
+    private OccupationCounterCourse findOccupationCounterCourseByOccupation(Occupation occupation, List<OccupationCounterCourse> list){
+        for(OccupationCounterCourse occupationCounter: list){
+            if(occupationCounter.getOccupation().getId().equals(occupation.getId())){
+                return occupationCounter;
+            }
+        }
+        return null;
     }
 }
 

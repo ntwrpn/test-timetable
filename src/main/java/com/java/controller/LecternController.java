@@ -4,6 +4,7 @@ package com.java.controller;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
@@ -50,8 +51,12 @@ public class LecternController {
 
     @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Lectern> addLectern(HttpServletRequest request, @RequestParam(name = "deaneryId", required = false) UUID id, @RequestBody Lectern lectern) {
-        return new ResponseEntity<>(lecternService.save(lectern,id), HttpStatus.CREATED);
+    public ResponseEntity<Object> addLectern(HttpServletRequest request, @RequestParam(name = "deaneryId", required = false) UUID id, @RequestBody Lectern lectern) {
+        try {
+            return new ResponseEntity<>(lecternService.save(lectern,id), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(),new HttpHeaders(),HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/{id}")
@@ -66,6 +71,15 @@ public class LecternController {
     public ResponseEntity<Void> deleteLectern(HttpServletRequest request, @PathVariable UUID id) {
         lecternService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/checkUniqLectern/")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Boolean> checkUniqueName(HttpServletRequest request, @RequestParam(name = "name", required = false) String name, @RequestParam(name = "fullname", required = false) String fullname) {
+        if(fullname != null){
+            return new ResponseEntity<>(lecternService.findByFullname(fullname).size() == 0, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(lecternService.findByName(name).size() == 0, HttpStatus.OK);
     }
 }
 

@@ -35,7 +35,7 @@ public class OccupationCounterCourse {
     @JsonBackReference
     private Schedule schedule;*/
 
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name="occupation", referencedColumnName="id")
     private Occupation occupation;
 

@@ -31,9 +31,15 @@ public class LecternServiceImpl implements LecternService {
 	
 	
     @Override
-    public Lectern save(Lectern obj, UUID id) {
+    public Lectern save(Lectern obj, UUID id) throws Exception {
         if(id !=null){
 		    obj.setDeanery(deaneryRepository.findById(id).get());
+        }
+        if(lecternRepository.findByName(obj.getName()).size() !=0){
+            throw new Exception("Lectern with same name already exists");
+        }
+        if(lecternRepository.findByFullname(obj.getFullname()).size() !=0){
+            throw new Exception("Lectern with same fullname already exists");
         }
         return lecternRepository.save(obj);
     }
@@ -87,6 +93,18 @@ public class LecternServiceImpl implements LecternService {
 	public List<Lectern> findLecternsByDeaneryId(UUID id){
 
         return lecternRepository.findByDeaneryId(id);
-	};
+	}
+
+    @Override
+    public List<Lectern> findByName(String name) {
+        return lecternRepository.findByName(name);
+    }
+
+    @Override
+    public List<Lectern> findByFullname(String fullname) {
+        return lecternRepository.findByFullname(fullname);
+    }
+
+    ;
 }
 

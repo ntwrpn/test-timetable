@@ -64,5 +64,10 @@ public class FlowController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(value = "/checkUniqFlowName/")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Boolean> checkUniqueName(HttpServletRequest request, @RequestParam(name = "name", required = false) String name) {
+        return new ResponseEntity<>(flowService.findByName(name).size() == 0, HttpStatus.OK);
+    }
 }
 

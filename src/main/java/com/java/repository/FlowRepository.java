@@ -19,4 +19,6 @@ public interface FlowRepository extends JpaRepository<Flow, UUID> {
     void deleteById(UUID uuid);
 
     List<Flow> findByLecternId(UUID uuid);
+
+    List<Flow> findByName(String name);
 }

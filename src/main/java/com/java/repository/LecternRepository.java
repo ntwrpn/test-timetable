@@ -19,4 +19,8 @@ public interface LecternRepository extends JpaRepository<Lectern, UUID> {
     void deleteById(UUID uuid);
 
 	List<Lectern> findByDeaneryId(UUID id);
+
+    List<Lectern> findByName(String name);
+
+    List<Lectern> findByFullname(String fullname);
 }

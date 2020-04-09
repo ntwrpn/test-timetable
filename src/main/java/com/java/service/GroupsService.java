@@ -22,4 +22,6 @@ public interface GroupsService {
     public JsonSchema getFields();
 
     List<Groups> findByFlowLecternDeaneryId(UUID uuid);
+
+    List<Groups> findByName(String name);
 }
