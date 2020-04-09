@@ -983,6 +983,9 @@ const getMappingUrl = (name) => {
 
 
 const deleteValueFromTable = (event) => {
+    var $event = $(event.currentTarget);
+    $event.removeClass('tooltipped').tooltip('destroy');
+    
     let id = event.currentTarget.value;
     var value = localStorage.getItem("current_open_table");
     let url = getMappingUrl(value);

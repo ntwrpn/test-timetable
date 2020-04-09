@@ -13,6 +13,9 @@ const saveJSONDataToLocalStorage = (key, data) => {
 
 
 const deleteValueFromTable = (event) => {
+    
+    var $event = $(event.currentTarget);
+    $event.removeClass('tooltipped').tooltip('destroy');
     let id = event.currentTarget.value;
     let name = localStorage.getItem("current_open_table");
     let url = getMappingUrl(name);

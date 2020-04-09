@@ -151,7 +151,7 @@ const addFromEvent = () => {
             } else if (type == 'POST') {
                 M.toast({html: "Запись создана"});
             }
-            openTableEvent(localStorage.getItem("current_open_table"));
+            openTableEvent(localStorage.getItem("current_open_table"), "");
 
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -159,11 +159,11 @@ const addFromEvent = () => {
                 console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
                 M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
             }
-            openTableEvent(localStorage.getItem("current_open_table"));
+            openTableEvent(localStorage.getItem("current_open_table"), "");
 
         }
     });
-    openTableEvent(localStorage.getItem("current_open_table"));
+
 }
 
 const getJSONfromForm = (formname) => {
