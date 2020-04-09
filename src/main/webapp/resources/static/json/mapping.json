@@ -41,5 +41,6 @@
     "urn:jsonschema:com:java:domain:Week": "/api/week/",
     "urn:jsonschema:com:java:domain:Employee": "/api/employee/",
     "urn:jsonschema:com:java:domain:Year": "/api/year/",
-    "urn:jsonschema:com:java:domain:WeekCount": "/api/weekcount/"
+    "urn:jsonschema:com:java:domain:WeekCount": "/api/weekcount/",
+    "Objects": "/objects"
 }

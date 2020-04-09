@@ -95,9 +95,9 @@ public class WebController {
         return "mypage";
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/objects")
-    public String objects() {
+    public String objects(HttpServletRequest request) {
         return "object";
     }
 

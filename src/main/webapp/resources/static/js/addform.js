@@ -48,9 +48,9 @@ const getLocalization = () => {
 
 
 const getLocalizedName = (name) => {
-    if (LOCALIZATION[name]!=undefined){
+    if (LOCALIZATION[name] != undefined) {
         return LOCALIZATION[name];
-    } else{
+    } else {
         return name;
     }
 }
@@ -261,7 +261,84 @@ const createPostFormModal = (changeData) => {
         }
 
         let local_var_type = getFieldTypeByOptions(data[key]["type"]);
-        if (["text", "int"].includes(local_var_type)) {
+        if (["path"].includes(key)) {
+            let loadCaption = document.createElement("p");
+            loadCaption.innerText = getLocalizedName(key);
+            loadCaption.id = "add-modal-caption";
+            modalContent.appendChild(loadCaption);
+
+            let loadField = document.createElement("select");
+            loadField.setAttribute("name", key);
+            loadField.className = "select";
+            loadField.required = true;
+            let big_data;
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                'async': false,
+                'type': 'GET',
+                'url': "/resources/static/json/mapping.json",
+                'success': function (response) {
+                    big_data = response;
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+                    M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
+                }
+            });
+            big_data["Все ресурсы"] = "*";
+            for (let key_value in big_data) {
+                let option = document.createElement("option");
+                option.id = key;
+                option.name = key;
+                option.value = big_data[key_value];
+                option.innerText = key_value;
+                if (changeData != undefined && changeData[key] != null) {
+                    if (changeData[key] == true) {
+                        option.selected = true;
+                    }
+                }
+                loadField.appendChild(option);
+            }
+            modalContent.appendChild(loadField);
+            modalForm.appendChild(modalContent);
+
+        } else if (["type"].includes(key)) {
+            let loadCaption = document.createElement("p");
+            loadCaption.innerText = getLocalizedName(key);
+            loadCaption.id = "add-modal-caption";
+            modalContent.appendChild(loadCaption);
+
+            let loadField = document.createElement("select");
+            loadField.setAttribute("name", key);
+            loadField.className = "select";
+            loadField.required = true;
+
+
+            let big_data = {"Добавлять новые записи": "POST",
+                "Изменять записи": "PUT",
+                "Удалять записи": "DELETE",
+                "Просматривать записи": "GET",
+                "Все права": "*"};
+            for (let key_value in big_data) {
+                let option = document.createElement("option");
+                option.id = key;
+                option.name = key;
+                option.value = big_data[key_value];
+                option.innerText = key_value;
+                if (changeData != undefined && changeData[key] != null) {
+                    if (changeData[key] == true) {
+                        option.selected = true;
+                    }
+                }
+                loadField.appendChild(option);
+            }
+            modalContent.appendChild(loadField);
+            modalForm.appendChild(modalContent);
+
+        } else if (["text", "int"].includes(local_var_type)) {
             let loadCaption = document.createElement("p");
             loadCaption.innerText = getLocalizedName(key);
             loadCaption.id = "add-modal-caption";

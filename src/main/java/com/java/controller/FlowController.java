@@ -47,9 +47,6 @@ public class FlowController {
     @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Flow> addFlow(HttpServletRequest request, @RequestParam(name = "lecternId", required = false) UUID uuid, @RequestBody Flow Flow) {
-        /*Flow flow = flowService.save(Flow);
-        flow.setGroups(Flow.getGroups());
-        flowService.save(flow);*/
         return new ResponseEntity<>(flowService.save(Flow, uuid), HttpStatus.CREATED);
     }
 
