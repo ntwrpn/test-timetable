@@ -17,7 +17,9 @@ public interface SubjectService {
 
     List<Subject> getAll();
 
+    List<Subject> getSubjects(UUID lecternId);
+
     Optional<Subject> getById(UUID userId);
     
-    public JsonSchema getFields();
+    JsonSchema getFields();
 }

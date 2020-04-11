@@ -16,4 +16,6 @@ public interface PereodicSeveritySubjectRepository extends JpaRepository<Pereodi
     Optional<PereodicSeveritySubject> findById(UUID uuid);
 
     void deleteById(UUID uuid);
+
+    void deleteAllBySubject_Id(UUID uuid);
 }

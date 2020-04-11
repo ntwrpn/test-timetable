@@ -10,8 +10,6 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -39,19 +37,19 @@ public class Subject {
     private String department;
 
     @Column(name = "sum_of_hours")
-    private int sumOfHours;
+    private Integer sumOfHours;
     
     @Column(name = "free_hours")
-    private int freeHours;
+    private Integer freeHours;
     
     @Column(name = "position")
-    private int position;
+    private Integer position;
     
-    @Column(name = "description")
+    @Column(name = "description", length = 1000)
     private String description;
 
     @Column(name = "is_template")
-    private boolean isTemplate;
+    private boolean template;
     
     @OneToMany(mappedBy="subject", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -72,7 +70,6 @@ public class Subject {
     @JoinColumn(name = "study_plan_id", nullable = true)
     @JsonBackReference
     private StudyPlan studyPlan;
-
 
 }
 

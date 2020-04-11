@@ -29,10 +29,10 @@ public class Semester {
     @Column(name = "number")
     private int number;
 
-    @Column(name = "hoursPerWeek")
+    @Column(name = "hours_per_Week")
     private int hoursPerWeek;
     
-    @Column(name = "creditUnits")
+    @Column(name = "credit_units")
     private int creditUnits;
 
     @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)

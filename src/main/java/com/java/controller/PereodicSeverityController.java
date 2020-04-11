@@ -25,7 +25,7 @@ public class PereodicSeverityController {
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<PereodicSeverity>> getPereodicSeveritys(HttpServletRequest request) {
+    public ResponseEntity<List<PereodicSeverity>> getPereodicSeverities(HttpServletRequest request) {
         return new ResponseEntity<>(pereodicSeverityService.getAll(), HttpStatus.OK);
     }
 

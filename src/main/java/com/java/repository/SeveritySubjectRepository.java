@@ -11,9 +11,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface SeveritySubjectRepository extends JpaRepository<SeveritySubject,UUID> {
+public interface SeveritySubjectRepository extends JpaRepository<SeveritySubject, UUID> {
 
     Optional<SeveritySubject> findById(UUID uuid);
 
     void deleteById(UUID uuid);
+
+    void deleteAllBySubject_Id (UUID uuid);
 }

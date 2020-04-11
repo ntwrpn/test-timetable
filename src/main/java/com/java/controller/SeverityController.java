@@ -25,7 +25,7 @@ public class SeverityController {
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Severity>> getSeveritys(HttpServletRequest request) {
+    public ResponseEntity<List<Severity>> getSeverities(HttpServletRequest request) {
         return new ResponseEntity<>(severityService.getAll(), HttpStatus.OK);
     }
 
