@@ -51,6 +51,17 @@ public class ClassroomServiceImpl implements ClassroomService {
     public Optional<Classroom> getById(UUID id) {
         return classroomRepository.findById(id);
     }
+    
+    @Override
+    public List<Classroom> getByCorps(UUID id) {
+        return classroomRepository.findByCorps(id);
+    }
+    
+    @Override
+    public List<Classroom> getByLectern(UUID id) {
+        return classroomRepository.findByLectern(id);
+    }
+
 
     @Override
     public JsonSchema getFields() {

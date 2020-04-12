@@ -1,4 +1,3 @@
-
 package com.java.controller;
 
 import java.util.List;
@@ -25,8 +24,16 @@ public class ClassroomController {
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Classroom>> getClassrooms(HttpServletRequest request) {
-        return new ResponseEntity<>(classroomService.getAll(), HttpStatus.OK);
+    public ResponseEntity<List<Classroom>> getClassrooms(HttpServletRequest request,
+            @RequestParam(required = false) UUID corpsId,
+            @RequestParam(required = false) UUID lecternId) {
+        if (corpsId != null) {
+            return new ResponseEntity<>(classroomService.getByCorps(corpsId), HttpStatus.OK);
+        } else if (lecternId != null) {
+            return new ResponseEntity<>(classroomService.getByLectern(lecternId), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(classroomService.getAll(), HttpStatus.OK);
+        }
     }
 
     @RequestMapping(value = "/", method = RequestMethod.OPTIONS)
@@ -62,4 +69,3 @@ public class ClassroomController {
     }
 
 }
-

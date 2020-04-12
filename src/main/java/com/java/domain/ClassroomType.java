@@ -24,7 +24,7 @@ public class ClassroomType {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column(name = "classroom_typec_desc")
-    private String classroom_typec_desc;
+    @Column(name = "name")
+    private String name;
 }
 

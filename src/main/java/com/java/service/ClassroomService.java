@@ -19,5 +19,9 @@ public interface ClassroomService {
 
     Optional<Classroom> getById(UUID userId);
     
+    List<Classroom> getByCorps(UUID corpsId);
+    
+    List<Classroom> getByLectern(UUID lecternId);
+    
     public JsonSchema getFields();
 }

@@ -16,7 +16,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "Classroom")
+@Table(name = "classroom")
 public class Classroom {
     @Id
     @Column(name = "id")
