@@ -130,6 +130,12 @@ public class LecternFunctionalController {
             return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
         }
     }
+    
+    @GetMapping(value = "/lectern/{id}/pretimemtable")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public String getPreTimetable(HttpServletRequest request, @PathVariable("id") UUID id) {
+        return "timetablePreOpenPage";
+    }
 
     private String getJwt(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");

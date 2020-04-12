@@ -42,5 +42,12 @@
     "urn:jsonschema:com:java:domain:Employee": "/api/employee/",
     "urn:jsonschema:com:java:domain:Year": "/api/year/",
     "urn:jsonschema:com:java:domain:WeekCount": "/api/weekcount/",
-    "Objects": "/objects"
+    "urn:jsonschema:com:java:domain:Timetable": "/api/timetable/",
+    
+    
+    "Кабинет Кафедры": "/lectern",
+    "Кабинет Деканата": "/deanery",
+    
+    "Список объектов": "/objects"
+    
 }

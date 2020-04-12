@@ -3,6 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head>
+        <title>Проекты расписаний</title>
         <meta charset="utf-8"/>
         <link type="text/css" rel="stylesheet" href="/resources/static/css/jquery-ui.min.css"/>
         <link type="text/css" rel="stylesheet" href="/resources/static/css/materialize.min.css"/>
@@ -20,7 +21,7 @@
         <script src="/resources/static/js/materialize.min.js"></script>
         <script src="/resources/static/js/addform.js"></script>
         <script src="/resources/static/js/admin.js"></script>
-        <script src="/resources/static/js/openadmin.js"></script>
+        <script src="/resources/static/js/preopentimetable.js"></script>
 
 
 
@@ -32,7 +33,9 @@
         <nav class="nav-extended">
 
             <div class="nav-wrapper">
-                <a href="/" class="brand-logo">БНТУ</a>
+                <a href="/" class="breadcrumb">БНТУ</a>
+                <a href="/home" class="breadcrumb">Кафедра</a>
+                <a href="#" class="breadcrumb">Расписания</a>
                 <ul class="right hide-on-med-and-down">
                     <li><a href="/home"><i class="material-icons">home</i></a></li>
                     <li><a href="/mypage"><i class="material-icons">account_circle</i></a></li>
@@ -43,22 +46,7 @@
 
             </div>
 
-            <div class="nav-content">
-                <ul class="tabs tabs-transparent">
-                    <li class="tab col s3"><a onclick="openTableEvent('urn:jsonschema:com:java:domain:Users', '?enabled=True');">
-                            <i class="material-icons left">people</i>
-                            Аккаунты</a></li>
-                    <li class="tab col s3"><a onclick="openTableEvent('urn:jsonschema:com:java:domain:Users', '?enabled=False');">
-                            <i class="material-icons left">person_add</i>
-                            Заявки</a></li>
-                    <li class="tab col s3"><a onclick="openTableEvent('urn:jsonschema:com:java:domain:UserRoles', '');">
-                            <i class="material-icons left">group</i>
-                            Роли</a></li>
-                    <li class="tab col s3"><a onclick="openTableEvent('urn:jsonschema:com:java:domain:Access', '');">
-                            <i class="material-icons left">group_add</i>
-                            Доступы</a></li>
-                </ul>
-            </div>
+
         </nav>
 
 
@@ -75,30 +63,9 @@
                                     Мой кабинет</a><br></br>
                                 <a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="#exams-schedule">
                                     <i class="material-icons left">event</i>
-                                    Расписание экзаменов</a><br/>
+                                    Расписание</a><br/>
 
                             </span></div>
-                    </li>
-                    <li>
-                        <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Объекты</div>
-                        <div class="collapsible-body"><span>
-
-
-
-                                <a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="/objects">
-                                    <i class="material-icons left">subject</i>
-                                    Объекты</a>
-
-                                <br></br>
-                                <a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="/home">
-                                    <i class="material-icons left">people</i>
-                                    Пользователи</a>
-                                <br></br>
-                                <a class="waves-effect waves-light btn green accent-4" style="width: 100%;" href="/managerole">
-                                    <i class="material-icons left">info</i>
-                                    Роли</a>
-                            </span>
-                        </div>
                     </li>
                     <li>
                         <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Аккаунт</div>
@@ -122,21 +89,15 @@
             </div>
             <div id="users-list" class="col s8">
 
-                <h4 class="tab-body-header">Список пользователей</h4>
+                <h4 class="tab-body-header">Расписания</h4>
 
                 <div class="row">
-
-
                     <div class="right">
                         <a class="waves-effect waves-light btn green accent-4" onclick="openAddCreateModal()">
                             <i class="material-icons left">add</i>
                             Добавить</a>
 
-                        <a class="waves-effect waves-light btn green accent-4" href="#">
-                            <i class="material-icons left">email</i>
-                            Пригласить</a>
-                    </div>
-
+                    </div>                    
                     <div id='table-form'>
                         <table id = "data-tr-table" class="highlight">
                         </table>

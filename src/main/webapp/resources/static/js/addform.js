@@ -338,7 +338,35 @@ const createPostFormModal = (changeData) => {
             modalContent.appendChild(loadField);
             modalForm.appendChild(modalContent);
 
-        } else if (["text", "int"].includes(local_var_type)) {
+        } else if (data[key]["enum"]!=undefined) {
+            let loadCaption = document.createElement("p");
+            loadCaption.innerText = getLocalizedName(key);
+            loadCaption.id = "add-modal-caption";
+            modalContent.appendChild(loadCaption);
+
+            let loadField = document.createElement("select");
+            loadField.setAttribute("name", key);
+            loadField.className = "select";
+            loadField.multiple = true;
+            loadField.required = true;
+            console.log(changeData);
+            let big_data = data[key]["enum"];
+            for (let key_value in big_data) {
+                let option = document.createElement("option");
+                option.name = key;
+                option.value = big_data[key_value];
+                option.innerText = big_data[key_value];
+                if (changeData != undefined && changeData[key] != null) {
+                    if (changeData[key] == big_data[key_value]) {
+                        option.selected = true;
+                    }
+                }
+                loadField.appendChild(option);
+            }
+            modalContent.appendChild(loadField);
+            modalForm.appendChild(modalContent);
+
+        } else if (["text", "int", "number"].includes(local_var_type)) {
             let loadCaption = document.createElement("p");
             loadCaption.innerText = getLocalizedName(key);
             loadCaption.id = "add-modal-caption";

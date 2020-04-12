@@ -42,6 +42,10 @@
     "users": "Пользователи",
     "user": "Пользователь",
     "year": "Год",
+    "status": "Статус",
+    "statusApplyDate": "Статус изменен",
+    "registerNumber": "Регистрационный номер",
+    "registerNumberApplyDate": "Номер изменен",
 
 
     "countOccupation": "Количество нагрузок"
