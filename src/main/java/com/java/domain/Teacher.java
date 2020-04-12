@@ -45,7 +45,7 @@ public class Teacher {
     @Column(name = "rank")
     private String rank;
 
-    @Column(name = "academic_degree")
+    @Column(name = "academic_degree", length = 1000)
     private String academicDegree;
     
     @OneToOne(mappedBy = "teacher")

@@ -28,7 +28,7 @@ public class Speciality {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 1000)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
