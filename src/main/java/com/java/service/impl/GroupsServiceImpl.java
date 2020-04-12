@@ -44,11 +44,6 @@ public class GroupsServiceImpl implements GroupsService {
 
     @Override
     public Groups update(Groups obj) {
-        Optional<Groups> groups = groupsRepository.findById(obj.getId());
-        if(groups.isPresent()){
-            obj.setSpeciality(groups.get().getSpeciality());
-            obj.setFlow(groups.get().getFlow());
-        }
         return groupsRepository.save(obj);
     }
 

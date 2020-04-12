@@ -25,6 +25,9 @@ public class WeekCount {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
+	
+	@Column(name = "position")
+    private int position;
 
     @Column(name = "count")
     private int count;
