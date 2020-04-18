@@ -82,6 +82,11 @@ public class GroupsServiceImpl implements GroupsService {
     public List<Groups> findByFlowLecternDeaneryId(UUID uuid) {
         return groupsRepository.findByFlowLecternDeaneryId(uuid);
     }
+    
+    @Override
+    public List<Groups> findByFlowId(UUID uuid) {
+        return groupsRepository.findByFlowId(uuid);
+    }
 
     @Override
     public List<Groups> findByName(String name) {

@@ -43,7 +43,7 @@ public class Groups {
     @JoinColumn(name="speciality", referencedColumnName="id", nullable = true)
     private Speciality speciality;  
 
-	@Column(name = "count_of_student")
+    @Column(name = "count_of_student")
     private int countOfStudents;
   
 }

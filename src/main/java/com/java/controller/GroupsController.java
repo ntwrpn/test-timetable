@@ -25,9 +25,11 @@ public class GroupsController {
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Groups>> getGroupss(HttpServletRequest request, @RequestParam(name = "deaneryId", required = false) UUID uuid) {
+    public ResponseEntity<List<Groups>> getGroupss(HttpServletRequest request, @RequestParam(name = "flowId", required = false) UUID flowId, @RequestParam(name = "deaneryId", required = false) UUID uuid) {
         if(uuid != null){
             return new ResponseEntity<>(groupsService.findByFlowLecternDeaneryId(uuid), HttpStatus.OK);
+        } else if (flowId!=null){
+            return new ResponseEntity<>(groupsService.findByFlowId(flowId), HttpStatus.OK);
         }
         return new ResponseEntity<>(groupsService.getAll(), HttpStatus.OK);
     }

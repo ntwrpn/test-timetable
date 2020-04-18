@@ -20,6 +20,8 @@ public interface GroupsService {
     Optional<Groups> getById(UUID userId);
     
     public JsonSchema getFields();
+    
+    List<Groups> findByFlowId(UUID uuid);
 
     List<Groups> findByFlowLecternDeaneryId(UUID uuid);
 

@@ -75,7 +75,7 @@ public class Users {
         }
         this.name = name;
     }
-    
+
     public void setSurname(String surname) {
         if (this.employee != null) {
             this.employee.setSurname(surname);
@@ -84,7 +84,7 @@ public class Users {
         }
         this.surname = surname;
     }
-    
+
     public void setPatronymic(String patronymic) {
         if (this.employee != null) {
             this.employee.setPatronymic(patronymic);
