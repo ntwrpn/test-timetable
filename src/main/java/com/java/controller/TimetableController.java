@@ -50,8 +50,10 @@ public class TimetableController {
     @PutMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Timetable> updateTimetable(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Timetable Timetable) {
-        Timetable.setId(id);
-        return new ResponseEntity<>(timetableService.update(Timetable), HttpStatus.OK);
+        Timetable newtime = timetableService.getById(id).get();
+        newtime.setStatus(Timetable.getStatus());
+        newtime.setRegisterNumber(Timetable.getRegisterNumber());
+        return new ResponseEntity<>(timetableService.update(newtime), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

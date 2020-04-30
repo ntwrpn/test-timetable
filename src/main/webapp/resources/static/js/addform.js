@@ -347,7 +347,6 @@ const createPostFormModal = (changeData) => {
             let loadField = document.createElement("select");
             loadField.setAttribute("name", key);
             loadField.className = "select";
-            loadField.multiple = true;
             loadField.required = true;
             console.log(changeData);
             let big_data = data[key]["enum"];

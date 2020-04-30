@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
+import com.fasterxml.jackson.module.jsonSchema.customProperties.HyperSchemaFactoryWrapper;
 import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
 import java.io.IOException;
 import com.java.service.TimetableService;
@@ -56,7 +57,7 @@ public class TimetableServiceImpl implements TimetableService {
     public JsonSchema getFields() {
         JSONObject obj = new JSONObject();
         ObjectMapper mapper = new ObjectMapper();
-        SchemaFactoryWrapper visitor = new SchemaFactoryWrapper();
+        HyperSchemaFactoryWrapper  visitor = new HyperSchemaFactoryWrapper();
         try{
             mapper.acceptJsonFormatVisitor(Timetable.class, visitor);
             JsonSchema schema = visitor.finalSchema();
