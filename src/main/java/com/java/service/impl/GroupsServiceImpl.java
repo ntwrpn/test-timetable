@@ -2,8 +2,10 @@ package com.java.service.impl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.validation.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import com.java.domain.Groups;
@@ -39,11 +41,23 @@ public class GroupsServiceImpl implements GroupsService {
         if(flowId != null){
             obj.setFlow(flowRepository.findById(flowId).get());
         }
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Groups>> violations = validator.validate(obj);
+        if(violations.size()!=0){
+            throw  new ConstraintViolationException(violations);
+        }
         return groupsRepository.save(obj);
     }
 
     @Override
     public Groups update(Groups obj) {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Groups>> violations = validator.validate(obj);
+        if (violations.size() != 0) {
+            throw new ConstraintViolationException(violations);
+        }
         return groupsRepository.save(obj);
     }
 

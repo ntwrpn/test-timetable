@@ -2,10 +2,13 @@ package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.java.config.ValidationMessages;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,15 +34,23 @@ public class Employee {
     private Deanery deanery;
 
     @Column(name = "name")
+    @Size(min = 2, max = 50, message = ValidationMessages.NAME_SIZE)
+    @NotBlank(message = ValidationMessages.NAME_EMPLOYEE_NOT_BLANK)
     private String name;
 
     @Column(name = "patronymic")
+    @Size(min = 2, max = 50, message = ValidationMessages.PATRONYMIC_SIZE)
+    @NotBlank(message = ValidationMessages.PATRONYMIC_EMPLOYEE_NOT_BLANK)
     private String patronymic;
 
     @Column(name = "surname")
+    @Size(min = 2, max = 100, message = ValidationMessages.SURNAME_SIZE)
+    @NotBlank(message = ValidationMessages.SURNAME_EMPLOYEE_NOT_BLANK)
     private String surname;
 
     @Column(name = "rank")
+    @Size(min = 3, max = 100, message = ValidationMessages.RANK_SIZE)
+    @NotBlank(message = ValidationMessages.RANK_EMPLOYEE_NOT_BLANK)
     private String rank;
     
     @OneToOne(mappedBy = "employee")

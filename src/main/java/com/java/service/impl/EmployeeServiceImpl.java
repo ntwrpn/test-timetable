@@ -2,8 +2,10 @@ package com.java.service.impl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.validation.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import com.java.domain.Employee;
@@ -34,6 +36,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (id != null) {
             obj.setDeanery(deaneryRepository.findById(id).get());
         }
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Employee>> violations = validator.validate(obj);
+        if(violations.size()!=0){
+            throw  new ConstraintViolationException(violations);
+        }
         return employeeRepository.save(obj);
     }
 
@@ -49,10 +57,15 @@ public class EmployeeServiceImpl implements EmployeeService {
             if (obj.getDeanery() != null) {
                 employee.get().setDeanery(obj.getDeanery());
             }
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+            Set<ConstraintViolation<Employee>> violations = validator.validate(obj);
+            if(violations.size()!=0){
+                throw  new ConstraintViolationException(violations);
+            }
             return employeeRepository.save(employee.get());
         }
         return null;
-        //obj.setDeanery(deaneryRepository.findById(obj.getDeanery().getId()).get());
     }
 
     @Override

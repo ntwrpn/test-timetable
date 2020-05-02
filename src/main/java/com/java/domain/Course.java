@@ -6,8 +6,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 import java.util.List;
@@ -31,9 +34,12 @@ public class Course {
     private UUID id;
     
     @Column(name = "total")
+    @NotNull
+    @Range(min = 1)
     private int total;
 
     @Column(name = "name")
+    @NotBlank
     private String name;
     
     @OneToMany(mappedBy="course", fetch = FetchType.LAZY, cascade = { CascadeType.ALL,CascadeType.PERSIST,CascadeType.MERGE }, orphanRemoval = true)

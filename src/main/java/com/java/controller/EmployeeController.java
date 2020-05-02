@@ -4,11 +4,14 @@ package com.java.controller;
 import java.util.List;
 import java.util.UUID;
 
+import com.java.domain.Response;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,9 +26,23 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+    @ExceptionHandler
+    public ResponseEntity<Response> itemNotFExR(ConstraintViolationException exception) {
+        StringBuilder st = new StringBuilder();
+        for(ConstraintViolation e: exception.getConstraintViolations()){
+            st.append(e.getMessage());
+            break;
+        }
+        Response response = new Response();
+        response.setMessage(st.toString());
+        ResponseEntity<Response> responseEntity = new ResponseEntity<>(response,HttpStatus.BAD_GATEWAY);
+        return responseEntity;
+    }
+
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Employee>> getEmployees(HttpServletRequest request, @RequestParam(name = "deaneryId", required = false) UUID uuid) {
+    public ResponseEntity<List<Employee>> getEmployees(HttpServletRequest request,
+                                                       @RequestParam(name = "deaneryId", required = false) UUID uuid) {
         if(uuid != null){
             return new ResponseEntity<>(employeeService.findByDeanery(uuid), HttpStatus.OK);
         } else {
@@ -47,13 +64,16 @@ public class EmployeeController {
 
     @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Employee> addEmployee(HttpServletRequest request, @RequestParam(name = "deaneryId", required = false) UUID id,@RequestBody Employee Employee) {
+    public ResponseEntity<Employee> addEmployee(HttpServletRequest request,
+                                                @RequestParam(name = "deaneryId", required = false) UUID id,
+                                                @RequestBody Employee Employee) {
         return new ResponseEntity<>(employeeService.save(Employee, id), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Employee> updateEmployee(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Employee Employee) {
+    public ResponseEntity<Employee> updateEmployee(HttpServletRequest request,
+                                                   @PathVariable("id") UUID id, @RequestBody Employee Employee) {
         Employee.setId(id);
         return new ResponseEntity<>(employeeService.update(Employee), HttpStatus.OK);
     }

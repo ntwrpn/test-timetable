@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,4 +17,8 @@ public interface OccupationRepository extends JpaRepository<Occupation,UUID> {
     Optional<Occupation> findById(UUID ui);
 
     void deleteById(UUID uuid);
+
+    List<Occupation> findBySymbol(String symbol);
+
+    List<Occupation> findByValue(String value);
 }

@@ -20,4 +20,8 @@ public interface OccupationService {
     Optional<Occupation> getById(UUID userId);
     
     public JsonSchema getFields();
+
+    List<Occupation> findBySymbol(String symbol);
+
+    List<Occupation> findByValue(String value);
 }

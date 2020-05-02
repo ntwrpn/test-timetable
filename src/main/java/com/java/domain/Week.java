@@ -7,6 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,9 +29,11 @@ public class Week {
     private UUID id;
     
     @Column(name = "colspan")
+    @NotBlank
     private int colspan;
 	
 	@Column(name = "position")
+    @NotBlank
     private int position;
     
     @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.MERGE)

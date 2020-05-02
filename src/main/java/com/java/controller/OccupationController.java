@@ -4,11 +4,14 @@ package com.java.controller;
 import java.util.List;
 import java.util.UUID;
 
+import com.java.domain.Response;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +25,19 @@ public class OccupationController {
 
     @Autowired
     private OccupationService occupationService;
+
+    @ExceptionHandler
+    public ResponseEntity<Response> itemNotFExR(ConstraintViolationException exception) {
+        StringBuilder st = new StringBuilder();
+        for(ConstraintViolation e: exception.getConstraintViolations()){
+            st.append(e.getMessage());
+            break;
+        }
+        Response response = new Response();
+        response.setMessage(st.toString());
+        ResponseEntity<Response> responseEntity = new ResponseEntity<>(response,HttpStatus.BAD_GATEWAY);
+        return responseEntity;
+    }
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
@@ -59,6 +75,15 @@ public class OccupationController {
     public ResponseEntity<Void> deleteOccupation(HttpServletRequest request, @PathVariable UUID id) {
         occupationService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/checkUniqOccupation/")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Boolean> checkUniqueName(HttpServletRequest request, @RequestParam(name = "symbol", required = false) String symbol, @RequestParam(name = "value", required = false) String value) {
+        if(symbol != null){
+            return new ResponseEntity<>(occupationService.findBySymbol(symbol).size() == 0, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(occupationService.findByValue(value).size() == 0, HttpStatus.OK);
     }
 
 }

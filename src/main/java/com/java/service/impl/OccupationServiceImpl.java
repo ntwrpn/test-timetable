@@ -2,8 +2,10 @@ package com.java.service.impl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.validation.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import com.java.domain.Occupation;
@@ -27,11 +29,23 @@ public class OccupationServiceImpl implements OccupationService {
 
     @Override
     public Occupation save(Occupation obj) {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Occupation>> violations = validator.validate(obj);
+        if(violations.size()!=0){
+            throw  new ConstraintViolationException(violations);
+        }
         return occupationRepository.save(obj);
     }
 
     @Override
     public Occupation update(Occupation obj) {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Occupation>> violations = validator.validate(obj);
+        if(violations.size()!=0){
+            throw  new ConstraintViolationException(violations);
+        }
         return occupationRepository.save(obj);
     }
 
@@ -64,6 +78,16 @@ public class OccupationServiceImpl implements OccupationService {
         } catch (IOException exx){
             return null;
         } 
+    }
+
+    @Override
+    public List<Occupation> findBySymbol(String symbol) {
+        return occupationRepository.findBySymbol(symbol);
+    }
+
+    @Override
+    public List<Occupation> findByValue(String value) {
+        return occupationRepository.findByValue(value);
     }
 }
 

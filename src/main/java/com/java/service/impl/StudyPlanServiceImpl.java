@@ -3,6 +3,7 @@ package com.java.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import com.java.domain.StudyPlan;
@@ -19,6 +20,8 @@ import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
 import java.io.IOException;
 import com.java.service.StudyPlanService;
 
+import javax.validation.*;
+
 @Service
 public class StudyPlanServiceImpl implements StudyPlanService {
 
@@ -31,12 +34,24 @@ public class StudyPlanServiceImpl implements StudyPlanService {
     @Override
     public StudyPlan save(StudyPlan obj) {
         obj.setSpeciality(specialityRepository.findById(obj.getSpeciality().getId()).get());
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<StudyPlan>> violations = validator.validate(obj);
+        if(violations.size()!=0){
+            throw  new ConstraintViolationException(violations);
+        }
         return studyPlanRepository.save(obj);
     }
 
     @Override
     public StudyPlan update(StudyPlan obj) {
         obj.setSpeciality(specialityRepository.findById(obj.getSpeciality().getId()).get());
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<StudyPlan>> violations = validator.validate(obj);
+        if(violations.size()!=0){
+            throw  new ConstraintViolationException(violations);
+        }
         return studyPlanRepository.save(obj);
     }
 

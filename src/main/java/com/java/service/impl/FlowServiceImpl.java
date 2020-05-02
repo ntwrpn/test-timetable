@@ -2,8 +2,10 @@ package com.java.service.impl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.validation.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import com.java.domain.Flow;
@@ -35,6 +37,12 @@ public class FlowServiceImpl implements FlowService {
         if(id !=null){
             obj.setLectern(lecternRepository.findById(id).get());
         }
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Flow>> violations = validator.validate(obj);
+        if(violations.size()!=0){
+            throw  new ConstraintViolationException(violations);
+        }
         return flowRepository.save(obj);
     }
 
@@ -43,6 +51,12 @@ public class FlowServiceImpl implements FlowService {
         Optional<Flow> flow = flowRepository.findById(obj.getId());
         if(flow.isPresent()){
             obj.setLectern(flow.get().getLectern());
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+            Set<ConstraintViolation<Flow>> violations = validator.validate(obj);
+            if(violations.size()!=0){
+                throw  new ConstraintViolationException(violations);
+            }
             return flowRepository.save(obj);
         }
         return null;

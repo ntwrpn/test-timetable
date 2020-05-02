@@ -2,8 +2,10 @@ package com.java.service.impl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.validation.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import com.java.domain.Lectern;
@@ -19,6 +21,7 @@ import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
 import java.io.IOException;
 import com.java.service.LecternService;
+import javax.validation.ConstraintViolationException;
 
 @Service
 public class LecternServiceImpl implements LecternService {
@@ -35,11 +38,11 @@ public class LecternServiceImpl implements LecternService {
         if(id !=null){
 		    obj.setDeanery(deaneryRepository.findById(id).get());
         }
-        if(lecternRepository.findByName(obj.getName()).size() !=0){
-            throw new Exception("Lectern with same name already exists");
-        }
-        if(lecternRepository.findByFullname(obj.getFullname()).size() !=0){
-            throw new Exception("Lectern with same fullname already exists");
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Lectern>> violations = validator.validate(obj);
+        if(violations.size()!=0){
+            throw  new ConstraintViolationException(violations);
         }
         return lecternRepository.save(obj);
     }
@@ -53,6 +56,12 @@ public class LecternServiceImpl implements LecternService {
             lectern.get().setFullname(obj.getFullname());
             lectern.get().setName(obj.getName());
             lectern.get().setDescription(obj.getDescription());
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+            Set<ConstraintViolation<Lectern>> violations = validator.validate(lectern.get());
+            if(violations.size()!=0){
+                throw  new ConstraintViolationException(violations);
+            }
             return lecternRepository.save(lectern.get());
         }
         return null;

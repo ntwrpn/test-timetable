@@ -3,10 +3,15 @@ package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.java.config.ValidationMessages;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.UUID;
 import java.util.Date;
@@ -39,10 +44,14 @@ public class StudyPlan {
     private List<Schedule> schedules;
 
     @Column(name = "coefficient")
-    private int coefficient;
+    @Range(min = 1, max = 15, message = ValidationMessages.COEFFICIENT_SIZE)
+    @NotNull(message = ValidationMessages.COEFFICIENT_NOT_BLANK)
+    private Integer coefficient;
 
     @Column(name = "count_of_sem")
-    private int countOfSem;
+    @Range(min = 1, max = 12, message = ValidationMessages.COUNT_OF_SEM_SIZE)
+    @NotNull(message = ValidationMessages.COUNT_OF_SEM_NOT_BLANK)
+    private Integer countOfSem;
 
     @OneToMany(mappedBy="studyPlan", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value="studyPlan-week-movement")
@@ -68,7 +77,7 @@ public class StudyPlan {
     private Date registerNumberApplyDate;
 
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "education_form")
+    @Column(name = "education_forme")
     private EducationForm educationForm;
 }
 
