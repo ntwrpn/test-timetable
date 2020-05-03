@@ -36,7 +36,7 @@ public class Course {
     @Column(name = "total")
     @NotNull
     @Range(min = 1)
-    private int total;
+    private Integer total;
 
     @Column(name = "name")
     @NotBlank

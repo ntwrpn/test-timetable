@@ -31,8 +31,8 @@ public class OccupationCounter {
     
     @Column(name = "count")
     @NotNull
-    @Range(min = 1)
-    private int count;
+    @Range(min = 0)
+    private Integer count;
    
     @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
     @JoinColumn(name="schedule", referencedColumnName="id")

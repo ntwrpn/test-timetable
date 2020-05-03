@@ -44,12 +44,12 @@ public class StudyPlan {
     private List<Schedule> schedules;
 
     @Column(name = "coefficient")
-    @Range(min = 1, max = 15, message = ValidationMessages.COEFFICIENT_SIZE)
+    @Range(min = 0, max = 15, message = ValidationMessages.COEFFICIENT_SIZE)
     @NotNull(message = ValidationMessages.COEFFICIENT_NOT_BLANK)
     private Integer coefficient;
 
     @Column(name = "count_of_sem")
-    @Range(min = 1, max = 12, message = ValidationMessages.COUNT_OF_SEM_SIZE)
+    @Range(min = 0, max = 12, message = ValidationMessages.COUNT_OF_SEM_SIZE)
     @NotNull(message = ValidationMessages.COUNT_OF_SEM_NOT_BLANK)
     private Integer countOfSem;
 
@@ -77,7 +77,7 @@ public class StudyPlan {
     private Date registerNumberApplyDate;
 
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "education_forme")
+    @Column(name = "education_form")
     private EducationForm educationForm;
 }
 

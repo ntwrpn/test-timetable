@@ -6,9 +6,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.java.config.ValidationMessages;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.UUID;
@@ -30,13 +32,13 @@ public class WeekCount {
     private UUID id;
 	
 	@Column(name = "position")
-    @NotBlank
-    private int position;
+    @NotNull
+    private Integer position;
 
     @Column(name = "count")
-    @Size(min = 1, max = 20, message = ValidationMessages.WEEK_COUNT_SIZE)
-    @NotBlank(message = ValidationMessages.WEEK_COUNT_NOT_BLANK)
-    private int count;
+    @Range(min = 1, max = 20, message = ValidationMessages.WEEK_COUNT_SIZE)
+    @NotNull(message = ValidationMessages.WEEK_COUNT_NOT_BLANK)
+    private Integer count;
     
     @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
     @JoinColumn(name="studyplan", referencedColumnName="id")
