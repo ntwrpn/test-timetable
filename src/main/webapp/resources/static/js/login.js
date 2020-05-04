@@ -30,8 +30,18 @@ const LoginClick = () => {
             window.location.href = "/";
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
-            M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
+            if (jqXHR.status == 200) {
+                M.toast({html: "Неверный пароль!"});
+                $('.modal').modal();
+                $("#login-modal").modal("open");
+            }else if (jqXHR.status == 400) {
+                M.toast({html: "Неверный логин!"});
+                $('.modal').modal();
+                $("#login-modal").modal("open");
+            } else {
+                console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+                M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
+            }
         }
     });
 
@@ -39,25 +49,25 @@ const LoginClick = () => {
 
 function setCookie(name, value, options = {}) {
 
-  options = {
-    path: '/',
-  };
+    options = {
+        path: '/',
+    };
 
-  if (options.expires instanceof Date) {
-    options.expires = options.expires.toUTCString();
-  }
-
-  let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
-
-  for (let optionKey in options) {
-    updatedCookie += "; " + optionKey;
-    let optionValue = options[optionKey];
-    if (optionValue !== true) {
-      updatedCookie += "=" + optionValue;
+    if (options.expires instanceof Date) {
+        options.expires = options.expires.toUTCString();
     }
-  }
 
-  document.cookie = updatedCookie;
+    let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+
+    for (let optionKey in options) {
+        updatedCookie += "; " + optionKey;
+        let optionValue = options[optionKey];
+        if (optionValue !== true) {
+            updatedCookie += "=" + optionValue;
+        }
+    }
+
+    document.cookie = updatedCookie;
 }
 
 
