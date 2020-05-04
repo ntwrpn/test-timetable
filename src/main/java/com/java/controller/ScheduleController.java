@@ -4,11 +4,14 @@ package com.java.controller;
 import java.util.List;
 import java.util.UUID;
 
+import com.java.domain.Response;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +25,19 @@ public class ScheduleController {
 
     @Autowired
     private ScheduleService scheduleService;
+
+    @ExceptionHandler
+    public ResponseEntity<Response> itemNotFExR(ConstraintViolationException exception) {
+        StringBuilder st = new StringBuilder();
+        for(ConstraintViolation e: exception.getConstraintViolations()){
+            st.append(e.getMessage());
+            break;
+        }
+        Response response = new Response();
+        response.setMessage(st.toString());
+        ResponseEntity<Response> responseEntity = new ResponseEntity<>(response,HttpStatus.BAD_GATEWAY);
+        return responseEntity;
+    }
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")

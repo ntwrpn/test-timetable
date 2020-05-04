@@ -57,8 +57,7 @@ public class Lectern {
     private String name;
 
     @Column(name = "description")
-    @Size(min = 3, max = 255, message = ValidationMessages.LECTERN_DESCRIPTION_SIZE)
-    @NotBlank(message = ValidationMessages.LECTERN_DESCRIPTION_NOT_BLANK)
+    @Size(max = 255, message = ValidationMessages.LECTERN_DESCRIPTION_SIZE)
     private String description;
 }
 

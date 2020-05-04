@@ -2,10 +2,8 @@ package com.java.service.impl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import javax.validation.*;
+import java.util.*;
 
 import com.java.domain.*;
 import com.java.repository.OccupationRepository;
@@ -42,6 +40,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 		if(id != null){
 			obj.setStudyPlan(studyPlanRepository.findById(id).get());
 		}
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Schedule>> violations = validator.validate(obj);
+        if(violations.size()!=0){
+            throw  new ConstraintViolationException(violations);
+        }
         return scheduleRepository.save(obj);
     }
 
@@ -50,6 +54,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 		Optional<Schedule> schedule = scheduleRepository.findById(obj.getId());
         if(schedule.isPresent()){
             obj.setStudyPlan(schedule.get().getStudyPlan());
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+            Set<ConstraintViolation<Schedule>> violations = validator.validate(obj);
+            if(violations.size()!=0){
+                throw  new ConstraintViolationException(violations);
+            }
             return scheduleRepository.save(obj);
         }
         return null;

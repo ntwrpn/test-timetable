@@ -11,12 +11,10 @@ public class ValidationMessages {
     public static final String RANK_SIZE = "Длина названия должности должна быть от 3 до 100 символов";
 
     public static final String FLOW_NAME_NOT_BLANK = "Название потока не должно быть пустым";
-    public static final String FLOW_DESCRIPTION_NOT_BLANK = "Описание потока не должна быть пустым";
     public static final String FLOW_NAME_SIZE = "Длина названия потока должна быть от 3 до 50 символов";
     public static final String FLOW_DESCRIPTION_SIZE = "Длина описания потока должна быть от 3 до 255 символов";
 
     public static final String GROUP_NAME_NOT_BLANK = "Название группы не должно быть пустым";
-    public static final String GROUP_DESCRIPTION_NOT_BLANK = "Описание группы не должно быть пустым";
     public static final String GROUP_COUNT_STUDENTS_NOT_BLANK = "Количество студентов не должно быть пустым";
     public static final String GROUP_NAME_SIZE = "Длина названия группы быть от 3 до 50 символов";
     public static final String GROUP_DESCRIPTION_SIZE = "Длина описания группы должна быть от 3 до 255 символов";
@@ -28,7 +26,6 @@ public class ValidationMessages {
     public static final String OCCUPATION_VALUE_SIZE = "Длина название нагрузки должна быть от 3 до 255 символов";
 
     public static final String LECTERN_NAME_NOT_BLANK = "Название кафедры не должнл быть пустым";
-    public static final String LECTERN_DESCRIPTION_NOT_BLANK = "Описание кафедры не должно быть пустым";
     public static final String LECTERN_FULLNAME_NOT_BLANK = "Полное название кафедры не должно быть пустым";
     public static final String LECTERN_NAME_SIZE = "Длина названия кафедры быть от 3 до 50 символов";
     public static final String LECTERN_DESCRIPTION_SIZE = "Длина описания кафедры должна быть от 3 до 255 символов";
