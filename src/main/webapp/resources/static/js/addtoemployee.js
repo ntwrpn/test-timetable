@@ -76,7 +76,7 @@ const openTableEvent = (form, table_name, value, add) => {
     let url = getMappingUrl(value);
     if (value == "urn:jsonschema:com:java:domain:Employee") {
         let fullurl = window.location.pathname;
-        url += "?deaneryId=" + fullurl.match("lectern\/(.+)\/")[1];
+        url += "?deaneryId=" + fullurl.match("deanery\/(.+)\/")[1];
     } else if (value == "urn:jsonschema:com:java:domain:Users") {
         url += "?clear=true";
     }
