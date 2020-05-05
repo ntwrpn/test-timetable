@@ -240,13 +240,20 @@ const openTableEvent = (value, add) => {
             value = newvalue;
         }
     }
-    localStorage.setItem("current_open_table", value);
+
+    if (value != undefined) {
+       localStorage.setItem("current_open_table", value);
+    }else {
+       value = localStorage.getItem("current_open_table");
+    }
 
     clearPostFromModal();
-    createPostFormModal(value);
+    createPostFormModal();
+    
     let url = getMappingUrl(value);
+    console.log(url);
     $.get(url, function (data, status) {
-        //saveJSONDataToLocalStorage(value, data);
+        saveJSONDataToLocalStorage(value, data);
         var container = document.getElementById("table-forme");
         container.className = 'display z-depth-4 table-format-01';
         while (container.hasChildNodes()) {
@@ -256,6 +263,7 @@ const openTableEvent = (value, add) => {
         table.id = 'data-tr-table';
 
         if (data.length > 0) {
+            console.log(data);
             var thread = createThread(data);
             table.appendChild(thread);
             var tbody = createTbody(data, false);
@@ -272,7 +280,7 @@ const openTableEvent = (value, add) => {
             $('#data-tr-table').on('draw.dt', function () {
                 $('select').formSelect();
                 $('.tooltipped').tooltip();
-            }); 
+            });
         });
 
     });
@@ -347,7 +355,7 @@ const createTbody = (data, accept) => {
         i.textContent = 'edit';
         a.append(i);
         td.append(a);
-        
+
         var a = document.createElement("span");
         a.className = "tooltipped";
         //a.href = '#1';
@@ -929,7 +937,7 @@ const addFromEvent = () => {
     let name = getMappingUrl(localStorage.getItem("current_open_table"));
     console.log(json);
     let type = 'POST';
-    if (json['id'] != undefined && json['id'] != null) {
+    if (json['id'] != undefined && json['id'] != null && json['id'] != "") {
         type = 'PUT';
         name = name + json['id'];
     }
@@ -985,7 +993,7 @@ const getMappingUrl = (name) => {
 const deleteValueFromTable = (event) => {
     var $event = $(event.currentTarget);
     $event.removeClass('tooltipped').tooltip('destroy');
-    
+
     let id = event.currentTarget.value;
     var value = localStorage.getItem("current_open_table");
     let url = getMappingUrl(value);
@@ -1090,15 +1098,15 @@ const createPostFormModal = (changeData) => {
 
 
     for (let key in data) {
-        console.log(key + "  " + data[key]["type"] + "  " + getFieldTypeByOptions(data[key]["type"]));
-        console.log(changeData[key]);
 
         if (key == "id") {
             let loadField = document.createElement("input");
             loadField.id = key;
             loadField.name = key;
             loadField.type = "hidden";
-            loadField.value = changeData[key];
+            if (changeData != undefined && changeData[key] != null) {
+                loadField.value = changeData[key];
+            }            
             modalContent.appendChild(loadField);
             continue;
         }
@@ -1242,25 +1250,6 @@ const createPostFormModal = (changeData) => {
 $(document).ready(() => {
 
 
-    $.get("/learningseverity/", function (data, status) {
-        console.log(data);
-        saveJSONDataToLocalStorage("loads", data);
-        renderLoadsList(data);
-    });
-
-    $.get("/syllabus/", function (data, status) {
-        saveJSONDataToLocalStorage("subjects", data);
-        renderSubjectsList(data);
-
-    });
-
-    if (localStorage.getItem("subjects_identity") == undefined) {
-        localStorage.setItem("subjects_identity", 0);
-    }
-
-    if (localStorage.getItem("loads_identity") == undefined) {
-        localStorage.setItem("loads_identity", 0);
-    }
 
 
     createLoadsFormModal();
@@ -1283,8 +1272,6 @@ $(document).ready(() => {
         });
     });
 
-    let subjectsData = getJSONDataFromLocalStorage("subjects");
-    let loadsData = getJSONDataFromLocalStorage("loads");
     let dataformData = [
         {"name": "CanTeach", "key": "urn:jsonschema:com:java:domain:CanTeach"},
         {"name": "Classroom", "key": "urn:jsonschema:com:java:domain:Classroom"},
@@ -1323,7 +1310,6 @@ $(document).ready(() => {
         {"name": "WeekCount", "key": "urn:jsonschema:com:java:domain:WeekCount"},
         {"name": "Employee", "key": "urn:jsonschema:com:java:domain:Employee"},
         {"name": "Year", "key": "urn:jsonschema:com:java:domain:Year"},
-
     ]
 
     renderDataList(dataformData);

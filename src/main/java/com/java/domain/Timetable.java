@@ -20,7 +20,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "timetable")
-@JsonPropertyOrder({ "id", "name", "status", "registerNumber", "statusApplyDate","registerNumberApplyDate" })
+@JsonPropertyOrder({ "id", "name", "status", "registerNumber", "flow", "statusApplyDate","registerNumberApplyDate" })
 public class Timetable {
 
     @Id
@@ -48,6 +48,12 @@ public class Timetable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Europe/Moscow")
     @Column(name = "register_number_apply_date")
     private Date registerNumberApplyDate;
+    
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "flow", referencedColumnName = "id", nullable = true)
+    @JsonIgnoreProperties({"lectern"})
+    private Flow flow;
+    
 
     public void setStatus(StudyPlanStatus status) {
         if (status != this.getStatus()) {

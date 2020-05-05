@@ -26,22 +26,22 @@ public class Classroom {
     
 
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @JoinColumn(name="classroom_type_id", referencedColumnName="id", nullable = true)
-    private ClassroomType classroom_type_id;
+    @JoinColumn(name="classroom_type", referencedColumnName="id", nullable = true)
+    private ClassroomType classroom_type;
 
-    @Column(name = "classroomc_desc")
-    private String classroomc_desc;
+    @Column(name = "description")
+    private String description;
 
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @JoinColumn(name="corps_id", referencedColumnName="id", nullable = true)
-    private Corps corps_id;
+    @JoinColumn(name="corps", referencedColumnName="id", nullable = true)
+    private Corps corps;
 
     @Column(name = "count_of_place")
     private int count_of_place;
 
     @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @JoinColumn(name="lectern_id", referencedColumnName="id", nullable = true)
-    private Lectern lectern_id;
+    @JoinColumn(name="lectern", referencedColumnName="id", nullable = true)
+    private Lectern lectern;
 
     @Column(name = "name")
     private String name;

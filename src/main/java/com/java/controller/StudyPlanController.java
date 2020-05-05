@@ -41,9 +41,12 @@ public class StudyPlanController {
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<StudyPlan>> getStudyPlans(HttpServletRequest request, @RequestParam(name = "lecternId", required = false) UUID uuid) {
-        if(uuid != null){
-            return new ResponseEntity<>(studyplanService.findStudyplansByLecternId(uuid), HttpStatus.OK);
+    public ResponseEntity<List<StudyPlan>> getStudyPlans(HttpServletRequest request, @RequestParam(name = "lecternId", required = false) UUID lecternId, 
+            @RequestParam(name = "specialityId", required = false) UUID specialityId) {
+        if(lecternId != null){
+            return new ResponseEntity<>(studyplanService.findStudyplansByLecternId(lecternId), HttpStatus.OK);
+        }else if(specialityId != null){
+            return new ResponseEntity<>(studyplanService.findStudyplansBySpecialityId(specialityId), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(studyplanService.getAll(), HttpStatus.OK);
         }

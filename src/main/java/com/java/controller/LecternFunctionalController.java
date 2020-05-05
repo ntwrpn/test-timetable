@@ -144,5 +144,12 @@ public class LecternFunctionalController {
         }
         return null;
     }
+    
+    @GetMapping(value = "/timetable/{id}")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public String getTimetable(HttpServletRequest request, @PathVariable("id") UUID id) {
+        return "timetable";
+    }
+    
 
 }

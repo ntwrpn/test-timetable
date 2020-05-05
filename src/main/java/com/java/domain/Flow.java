@@ -45,15 +45,16 @@ public class Flow {
     private String description;
 
     @OneToMany(mappedBy = "flow", cascade = CascadeType.ALL)
-    //@JsonManagedReference(value = "flow-group")
-    //@Column(nullable = true)
     @JsonIgnore
     private List<Groups> groups;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "lectern", referencedColumnName = "id", nullable = true)
-    //@JsonManagedReference
     private Lectern lectern;
+    
+    @OneToMany(mappedBy="flow", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Timetable> timetable;
 
     /*public void setGroups(List<Groups> newgroups) {
         if (newgroups != null) {

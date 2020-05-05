@@ -18,9 +18,9 @@ public interface ClassroomRepository extends JpaRepository<Classroom,UUID> {
 
     void deleteById(UUID uuid);
     
-    @Query(value = "select * from classroom where corps_id=?1", nativeQuery = true)
+    @Query(value = "select * from classroom where corps=?1", nativeQuery = true)
     List<Classroom> findByCorps(UUID uuid);
     
-    @Query(value = "select * from classroom where lectern_id=?1", nativeQuery = true)
+    @Query(value = "select * from classroom where lectern=?1", nativeQuery = true)
     List<Classroom> findByLectern(UUID uuid);
 }

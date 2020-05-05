@@ -51,6 +51,7 @@ public class TimetableController {
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Timetable> updateTimetable(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Timetable Timetable) {
         Timetable newtime = timetableService.getById(id).get();
+        newtime.setFlow(Timetable.getFlow());
         newtime.setStatus(Timetable.getStatus());
         newtime.setRegisterNumber(Timetable.getRegisterNumber());
         return new ResponseEntity<>(timetableService.update(newtime), HttpStatus.OK);

@@ -42,7 +42,7 @@ public class Lectern {
     @JsonIgnore
     private List<Speciality> specialities;
 	
-	@OneToMany(mappedBy="lectern", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="lectern", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Flow> flows;
 

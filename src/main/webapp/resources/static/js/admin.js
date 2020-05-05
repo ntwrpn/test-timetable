@@ -131,7 +131,7 @@ const createThread = (data) => {
     return threadHeader;
 }
 
-const createTbody = (data, accept) => {
+let createTbody = (data, accept) => {
     var tbody = document.createElement("tbody");
     let name = localStorage.getItem("current_open_table");
     let optionType = getListDataFromServer(name);

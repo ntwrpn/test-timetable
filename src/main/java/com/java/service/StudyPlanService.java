@@ -22,4 +22,7 @@ public interface StudyPlanService {
     public JsonSchema getFields();
     
     List<StudyPlan> findStudyplansByLecternId(UUID id);
+    
+    List<StudyPlan> findStudyplansBySpecialityId(UUID id);
+
 }

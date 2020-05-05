@@ -18,6 +18,10 @@ public interface StudyPlanRepository extends JpaRepository<StudyPlan,UUID> {
 
     void deleteById(UUID uuid);
 	
-	@Query(value = "select st.* from studyplan st, speciality sp where st.speciality_id=sp.id and sp.lectern=?1",nativeQuery = true)
-	List<StudyPlan> findStudyplansByLecternId(UUID id);
+    @Query(value = "select st.* from studyplan st, speciality sp where st.speciality_id=sp.id and sp.lectern_id=?1",nativeQuery = true)
+    List<StudyPlan> findStudyplansByLecternId(UUID id);
+    
+    @Query(value = "select * from studyplan where speciality_id=?1", nativeQuery = true)
+    List<StudyPlan> findStudyplansBySpecialityId(UUID id);
+
 }
