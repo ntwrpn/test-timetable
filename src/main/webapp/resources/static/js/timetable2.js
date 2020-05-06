@@ -112,10 +112,7 @@ const printTest = (event) => {
         RenderTable(flow.groups, times, classes, 4);
     } else {
         RenderTable(flow.groups, times, classes, 1);
-
     }
-
-
     reloadDraggable();
 
 
@@ -139,11 +136,12 @@ const renderLoadsList = (data, type_of_lesson) => {
         loadsList.removeChild(loadsList.firstChild);
     }
 
+    console.log(data);
     type_of_lesson.forEach(lesson => {
         let li = document.createElement("li");
-        let lesson_type_data = data.filter(x => x.severities.some(x => x.id == lesson.id));
+        let lesson_type_data = data.filter(x => x.severities.some(y => y.severity.id == lesson.id));
         let Caption = document.createElement("div");
-        Caption.innerText = lesson.severity.name;
+        Caption.innerText = lesson.name;
         Caption.id = lesson.id;
         Caption.className = "collapsible-header";
         Caption.addEventListener("click", printTest);
@@ -245,7 +243,7 @@ const createFormLoadEl = (id, div, name, teacher, corps, classroom, subject) => 
         classroom = div.getElementsByClassName('classroom')[0];
         if (div.className == "drag-item ui-draggable ui-draggable-handle") {
             let subjects = getJSONDataFromLocalStorage("subjects");
-            subject = subjects.find(x => x.id == id).severities.find(x => x.id == div.parentElement.parentElement.childNodes[0].id).severity.name;
+            subject = subjects.find(x => x.id == id).severities.find(x => x.severity.id == div.parentElement.parentElement.childNodes[0].id).severity.name;
             div = div.cloneNode(true);
             div.id = ID();
         } else {
@@ -602,7 +600,6 @@ const RenderTable = (groups, times, classes, size) => {
                 rCellE.append(rTableRowDr);
                 previos = orders;
             }
-
             rCell.append(rCellE);
         }
         rTableRow.append(rCell);
@@ -851,8 +848,8 @@ const createLoadSpecialityForm = (id) => {
         let type_of_classes = [];
         loads.forEach(item => {
             item.severities.forEach(severity => {
-                if (!type_of_classes.some(obj => obj.id == severity.id)) {
-                    type_of_classes.push(severity);
+                if (!type_of_classes.some(obj => obj.id == severity.severity.id)) {
+                    type_of_classes.push(severity.severity);
                 }
             });
         });
