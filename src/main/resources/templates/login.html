@@ -43,12 +43,14 @@
                     <form id="login-form" th:action="@{/api/auth/signin}" method="post">
                         <div class="row">
                             <div class="input-field col s12">
+                                <i class="material-icons prefix">person_outline</i>
                                 <label for="username">Логин(email): </label>
                                 <input type="text" class="validate" id="username" placeholder="Введите логин" name="username"/>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
+                                <i class="material-icons prefix">lock_outline</i>
                                 <label for="password">Пароль </label>
                                 <input type="password" class="validate" id="password" placeholder="Введите пароль" name="password"/>
                             </div>
@@ -58,10 +60,17 @@
                         </a>
                     </form>
                 </div>
-                <div>
-                    <hr></hr>
-                    <a class="modal-close btn waves-effect waves-light green accent-4 left" href="/registration/">Присоединиться</a>
-                    <a class="modal-close btn waves-effect waves-light green accent-4 right" href="/resetPassword">Забыли пароль?</a>
+                <div class="row">
+                    <div class="input-field col s6 m6 l6">
+                        <p class="margin medium-small">
+                            <a class="modal-close btn waves-effect waves-light green accent-4 left" href="/registration/">Присоединиться</a>
+                        </p>
+                    </div>
+                    <div class="input-field col s6 m6 l6">
+                        <p class="margin medium-small">
+                            <a class="modal-close btn waves-effect waves-light green accent-4 right" href="/resetPassword">Забыли пароль?</a>
+                        </p>
+                    </div>
                 </div>
             </div>
 

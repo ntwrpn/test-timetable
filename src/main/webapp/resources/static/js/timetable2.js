@@ -102,14 +102,20 @@ const printTest = (event) => {
 
     SaveTable();
     let sizeRender = event.currentTarget.id;
-    let values = {
-        "37fe2edc-a42c-424d-af3d-2e9c678314e1": 4,
-        1: 2,
-        "b15dbef6-ddf0-4595-9883-2617bd5b7ff2": 1
-    }
     let classes = getJSONDataFromLocalStorage("classes");
     let flow = getJSONDataFromLocalStorage("flow");
-    RenderTable(flow.groups, times, classes, values[sizeRender]);
+    if (event.currentTarget.innerText.indexOf("Практ") != -1) {
+        RenderTable(flow.groups, times, classes, 1);
+    } else if (event.currentTarget.innerText.indexOf("Поток") != -1) {
+        RenderTable(flow.groups, times, classes, 2);
+    } else if (event.currentTarget.innerText.indexOf("Лекци") != -1) {
+        RenderTable(flow.groups, times, classes, 4);
+    } else {
+        RenderTable(flow.groups, times, classes, 1);
+
+    }
+
+
     reloadDraggable();
 
 
@@ -239,7 +245,7 @@ const createFormLoadEl = (id, div, name, teacher, corps, classroom, subject) => 
         classroom = div.getElementsByClassName('classroom')[0];
         if (div.className == "drag-item ui-draggable ui-draggable-handle") {
             let subjects = getJSONDataFromLocalStorage("subjects");
-            subject = subjects.find(x => x.id == id).severities.find(x=>x.id==div.parentElement.parentElement.childNodes[0].id).severity.name;
+            subject = subjects.find(x => x.id == id).severities.find(x => x.id == div.parentElement.parentElement.childNodes[0].id).severity.name;
             div = div.cloneNode(true);
             div.id = ID();
         } else {
@@ -455,10 +461,10 @@ const SaveTable = () => {
             name: name,
             groups: group,
             subject: subject,
-            type:type_name,
+            type: type_name,
             day: parseInt(day),
             time: time,
-            corps:corps,
+            corps: corps,
             classroom: classroom,
             teacher: teacher
         }
