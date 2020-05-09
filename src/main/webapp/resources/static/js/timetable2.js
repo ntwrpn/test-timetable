@@ -86,8 +86,6 @@ const createLoadItemEl = (id, name) => {
     loadCap.className = "load-caption";
     loadCap.innerText = name;
     newItem.append(loadCap);
-    //newItem.innerText = name;
-
     return newItem;
 }
 
@@ -101,7 +99,6 @@ const changeBGColorOfLoad = (el, name_id) => {
 const printTest = (event) => {
 
     SaveTable();
-    let sizeRender = event.currentTarget.id;
     let classes = getJSONDataFromLocalStorage("classes");
     let flow = getJSONDataFromLocalStorage("flow");
     if (event.currentTarget.innerText.indexOf("Практ") != -1) {
@@ -124,14 +121,9 @@ const printTest = (event) => {
 }
 
 const renderLoadsList = (data, type_of_lesson) => {
-
-
     let loadsList = document.getElementById("loads-list");
-
     let ulList = document.createElement("ul");
     ulList.className = "collapsible";
-
-
     while (loadsList.firstChild) {
         loadsList.removeChild(loadsList.firstChild);
     }
@@ -169,10 +161,6 @@ const renderLoadsList = (data, type_of_lesson) => {
                     TweenMax.set(this.target, {x: "+=" + (this.x - SX) * ratio, y: "+=" + (this.y - SY) * ratio});
                 }
             }, draggableProps);
-            //let loadsData = getJSONDataFromLocalStorage("loads");
-            //let name_id = loadsData.find(x => x.name == dataItem["name"])["id"];
-            //changeBGColorOfLoad(elItem, name_id);
-
             return elItem;
         });
 
@@ -180,10 +168,7 @@ const renderLoadsList = (data, type_of_lesson) => {
         itemsList.forEach(item => Body.appendChild(item));
         li.append(Body);
         ulList.append(li);
-
-
     })
-
     loadsList.append(ulList);
     $('.collapsible').collapsible();
 
@@ -197,9 +182,7 @@ const ClearTable = () => {
 
 const getJSONDataFromLocalStorage = (key) => {
     let dataString = localStorage.getItem(key);
-
     let data = JSON.parse(dataString);
-
     return data;
 }
 
@@ -214,11 +197,6 @@ const getSelect = (classname, data, selected) => {
     div_input1.className = classname;
 
     let loadCap = document.createElement("select");
-    /*let option = document.createElement("option");
-     option.value = null;
-     option.id = null;
-     option.innerText = "Выберите";
-     loadCap.append(option);*/
     for (let index in data) {
         let option = document.createElement("option");
         if (data[index].id == selected) {
@@ -236,7 +214,6 @@ const getSelect = (classname, data, selected) => {
 
 const createFormLoadEl = (id, div, name, teacher, corps, classroom, subject) => {
     if (div) {
-
         name = div.getElementsByClassName('load-caption')[0].innerText;
         teacher = div.getElementsByClassName('teacher')[0];
         corps = div.getElementsByClassName('corps')[0];
@@ -250,9 +227,7 @@ const createFormLoadEl = (id, div, name, teacher, corps, classroom, subject) => 
             subject = div.getElementsByClassName('load-caption')[1].innerText;
         }
         return createLoadWithDiv(id, div, name, teacher, corps, classroom, subject);
-
     }
-
     return createLoadWithoutDiv(id, name, teacher, corps, classroom, subject);
 }
 
@@ -319,7 +294,6 @@ const getClassroomSortByCorpsId = (event) => {
 
 const createLoadWithDiv = (id, div, name, teacher, corps, classroom, subject) => {
     id = div.id;
-    let loadsData = getJSONDataFromLocalStorage("loads");
     let loadEl = document.createElement("div");
 
     $(loadEl).draggable({
@@ -338,9 +312,6 @@ const createLoadWithDiv = (id, div, name, teacher, corps, classroom, subject) =>
     loadEl.id = id;
     loadEl.value = name;
     loadEl.className = "drag-item-inline";
-
-    /*let name_id = loadsData.find(x => x.name == name)["id"];
-     changeBGColorOfLoad(loadEl, name_id);*/
 
     let removeButton = document.createElement("i");
     removeButton.className = "material-icons load-remove-button tiny right";
@@ -402,8 +373,6 @@ const createLoadWithDiv = (id, div, name, teacher, corps, classroom, subject) =>
 
 
 const getSubjectsBySpeciality = (speciality) => {
-
-
     return subjects;
 }
 
@@ -537,7 +506,7 @@ const RenderTable = (groups, times, classes, size) => {
                 var rTableRowDr = document.createElement("div");
                 let orders = classes.filter(x => x.day == day && x.time == times[time] && x.groups.find(x => x.id == groups[group].id));
                 rTableRowDr.id = groups[group].name;
-                if (orders.length != 0 && orders[0].groups.length >= groups.length) {
+                if (orders.length != 0 && orders[0].groups.length >= groups.length) { //write lecternlesson  for all groups
                     rTableRowDr.className = 'rTableCell' + groups.length + ' droppable';
                     rTableRowDr.id = getGroupsNamesList(groups);
                     group = group + groups.length - 1;
@@ -546,22 +515,7 @@ const RenderTable = (groups, times, classes, size) => {
                             rTableRowDr.append(createFormLoadEl(order.id, null, order.name, order.teacher.id, order.classroom.corps.id, order.classroom.id, order.type));
                         }
                     });
-                } else if (orders.length != 0 && orders[0].groups.length > 1 && groups[group + 1] &&
-                        orders[0].groups[0].id == groups[group].id &&
-                        orders[0].groups[1].id == groups[group + 1].id &&
-                        orders[0].groups.length != groups.length
-                        ) {
-                    rTableRowDr.className = 'rTableCell' + groups.length + ' droppable';
-                    rTableRowDr.id = [groups[group].name, groups[group + 1].name];
-                    group = group + groups.length - 1;
-                    orders.forEach(order => {
-                        if (order.teacher && order.classroom) {
-                            rTableRowDr.append(createFormLoadEl(order.id, null, order.name, order.teacher.id, order.classroom.corps.id, order.classroom.id, order.type));
-                        }
-                    });
-                    //rTableRowDr.append(rCellGRPO);
-
-                } else if ((size == 4 && orders.length == 0) &&
+                } else if ((size == 4 && orders.length == 0) && //write flow lessons
                         group != groups.length - 1 &&
                         (groups.length - group) >= 3 &&
                         classes.filter(x => x.day == day && x.time == times[time]).length == 0) {
@@ -573,7 +527,7 @@ const RenderTable = (groups, times, classes, size) => {
                             rTableRowDr.append(createFormLoadEl(order.id, null, order.name, order.teacher.id, order.classroom.corps.id, order.classroom.id, order.type));
                         }
                     });
-                } else if ((size != 1 && orders.length == 0 && size != 4) && //write speciality cell
+                } else if ((size != 1 && orders.length == 0 && size != 4) && //write speciality lessons on count_groups block
                         (size != 1 && previos.length == 0) && (group == groups.indexOf(groups.filter(x => x.speciality.id == groups[group].speciality.id)[0])) &&
                         classes.filter(x => x.day == day && x.time == times[time])
                         ) {
@@ -586,7 +540,7 @@ const RenderTable = (groups, times, classes, size) => {
                             rTableRowDr.append(createFormLoadEl(order.id, null, order.name, order.teacher.id, order.classroom.corps.id, order.classroom.id, order.type));
                         }
                     });
-                } else {
+                } else { //write practice on 1 block
                     rTableRowDr.className = 'rTableCell1 droppable';
                     orders.forEach(order => {
                         if (order.teacher && order.classroom) {
@@ -604,19 +558,9 @@ const RenderTable = (groups, times, classes, size) => {
         }
         rTableRow.append(rCell);
         rTableBody.append(rTableRow);
-
     }
     container.append(rTableBody);
-
-
 }
-
-
-
-
-
-
-
 
 
 function setZoom(zoom, el) {
@@ -626,26 +570,18 @@ function setZoom(zoom, el) {
     var p = ["webkit", "moz", "ms", "o"],
             s = "scale(" + zoom + ")",
             oString = (transformOrigin[0] * 100) + "% " + (transformOrigin[1] * 100) + "%";
-
     for (var i = 0; i < p.length; i++) {
         el.style[p[i] + "Transform"] = s;
         el.style[p[i] + "TransformOrigin"] = oString;
     }
-
-    /*el.style["transform"] = s;*/
-    /*el.style["transformOrigin"] = oString;
-     */
     el.style["zoom"] = s;
 
 
 }
 
-//setZoom(5,document.getElementsByClassName('container')[0]);
-
 function showVal(a) {
     var zoomScale = Number(a) / 10;
     setZoom(zoomScale, document.getElementsByClassName('rTable')[0]);
-
 }
 
 
@@ -653,14 +589,11 @@ function reloadDraggable() {
 
     $(() => {
         let SX, SY = 1;
-
         $(".droppable").droppable({
             classes: {
                 "ui-droppable-hover": "ui-state-hover"
             },
             drop: function (event, ui) {
-
-
                 let loadEl = createFormLoadEl(ui.draggable[0].id, ui.draggable[0]);
                 if (ui.draggable[0].className == "drag-item-inline") {
                     ui.draggable[0].parentNode.removeChild(ui.draggable[0]);
@@ -668,8 +601,6 @@ function reloadDraggable() {
                 $(loadEl).appendTo(this);
                 $('select').formSelect();
                 SaveTable();
-
-
             }
         });
 
@@ -780,17 +711,6 @@ let teachers = [{
 let global_corps = getDataFromServer("corps");
 
 
-let type_of_classes = [{
-        id: 0,
-        name: "Потоковая лекция"
-    }, {
-        id: 1,
-        name: "Лекция"
-    }, {
-        id: 2,
-        name: "Практика"
-    }]
-
 let times = ["8:00-8:30", "9:55-11:15", "11:30-13:00", "13:15-14:45", "15:00-16:40"];
 
 
@@ -800,14 +720,12 @@ function openNav() {
     document.getElementById("mySidenav").style.width = "250px";
     document.getElementById("table").style.marginLeft = "250px";
     document.getElementById("openLeft").style.display = 'none';
-
 }
 
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
     document.getElementById("table").style.marginLeft = "0";
     document.getElementById("openLeft").style.display = 'block';
-
 }
 
 
@@ -838,8 +756,6 @@ const createLoadSpecialityForm = (id) => {
     loadField.setAttribute("name", id);
     loadField.className = "select";
     loadField.required = true;
-
-
 
     loadField.addEventListener("change", function (event) {
 
@@ -872,8 +788,6 @@ const createLoadSpecialityForm = (id) => {
         loadField.appendChild(option);
     }
     newItem.appendChild(loadField);
-
-
     return newItem;
 }
 
@@ -935,7 +849,6 @@ const renderSpecialityList = (data, type_of_lesson) => {
                     if (ui.draggable[0].className.includes("lessonType0")) {
                         console.log("Lection");
                     }
-                    ;
                 },
                 onPress: function () {
                     SX = this.x;
@@ -973,18 +886,12 @@ $(document).ready(() => {
         groups: getDataFromServer("groups", timetable.flow.id, "flowId").sort((a, b) => (a.speciality.id != b.speciality.id) ? 1 : -1)
     };
     saveJSONDataToLocalStorage("flow", flow);
-    //let loads = getSubjectsByFlow(flow);
 
     let classes = getJSONDataFromLocalStorage("classes");
     if (classes == null)
         classes = [];
     RenderTable(flow.groups, times, classes, 4);
-
-
     reloadDraggable();
-
-    //saveJSONDataToLocalStorage("loads", loads);
-    //renderLoadsList(loads, type_of_classes);
     renderSpecialityLoadForm();
 
 
@@ -1001,5 +908,3 @@ $(document).ready(() => {
 
 });
 
-
-//saveJSONDataToLocalStorage("subjects", subjects)
