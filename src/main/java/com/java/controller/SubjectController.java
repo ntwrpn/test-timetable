@@ -25,8 +25,8 @@ public class SubjectController {
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Subject>> getSubjects(@RequestParam(name = "lecternId", required = false)  UUID lecternId, HttpServletRequest request) {
-        return new ResponseEntity<>(subjectService.getSubjects(lecternId), HttpStatus.OK);
+    public ResponseEntity<List<Subject>> getSubjects(@RequestParam(name = "lecternId", required = false)  UUID lecternId, @RequestParam(name = "isTemplate", required = false)  boolean isTemplate, HttpServletRequest request) {
+        return new ResponseEntity<>(subjectService.getSubjects(lecternId, isTemplate), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.OPTIONS)

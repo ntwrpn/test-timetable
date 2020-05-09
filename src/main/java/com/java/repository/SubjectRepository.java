@@ -18,5 +18,7 @@ public interface SubjectRepository extends JpaRepository<Subject,UUID> {
 
     List<Subject> findAllByDepartmentAndTemplate(String department, boolean template);
 
+    List<Subject> findAllByTemplate (boolean template);
+
     void deleteById(UUID uuid);
 }

@@ -17,7 +17,7 @@ public interface SubjectService {
 
     List<Subject> getAll();
 
-    List<Subject> getSubjects(UUID lecternId);
+    List<Subject> getSubjects(UUID lecternId, boolean isTemplate);
 
     Optional<Subject> getById(UUID userId);
     

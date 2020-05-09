@@ -68,11 +68,16 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public List<Subject> getSubjects(UUID lecternId) {
-        if(lecternId != null){
-            Optional<Lectern> lectern = lecternRepository.findById(lecternId);
-            return lectern.isPresent() ? subjectRepository.findAllByDepartmentAndTemplate(lectern.get().getName(), true) : subjectRepository.findAll();
-        } else {
+    public List<Subject> getSubjects(UUID lecternId, boolean isTemplate) {
+        if (isTemplate){
+            if(lecternId != null) {
+                Optional<Lectern> lectern = lecternRepository.findById(lecternId);
+                return lectern.isPresent() ? subjectRepository.findAllByDepartmentAndTemplate(lectern.get().getName(), true) : subjectRepository.findAll();
+            } else {
+                return subjectRepository.findAllByTemplate(true);
+            }
+        }
+       else {
             return subjectRepository.findAll();
         }
     }
