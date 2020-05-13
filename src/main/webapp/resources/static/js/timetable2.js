@@ -128,7 +128,6 @@ const renderLoadsList = (data, type_of_lesson) => {
         loadsList.removeChild(loadsList.firstChild);
     }
 
-    console.log(data);
     type_of_lesson.forEach(lesson => {
         let li = document.createElement("li");
         let lesson_type_data = data.filter(x => x.severities.some(y => y.severity.id == lesson.id));
@@ -189,6 +188,26 @@ const getJSONDataFromLocalStorage = (key) => {
 const saveJSONDataToLocalStorage = (key, data) => {
     let dataString = JSON.stringify(data);
     localStorage.setItem(key, dataString);
+}
+
+const getSelectName = (classname, data, selected) => {
+    let div_input1 = document.createElement("div");
+    div_input1.className = classname;
+
+    let loadCap = document.createElement("select");
+    for (let index in data) {
+        let option = document.createElement("option");
+        if (data[index].id == selected) {
+            option.selected = true;
+        }
+        option.value = data[index].id;
+        option.id = data[index].id;
+        option.innerText = data[index].name + " " + data[index].surname + " " + data[index].patronymic;
+        loadCap.append(option);
+    }
+    div_input1.append(loadCap);
+
+    return div_input1;
 }
 
 
@@ -264,8 +283,14 @@ const createLoadWithoutDiv = (id, name, teacher, corps, classroom, subject) => {
 
 
     //TODO - create lectern list
-    let teachers_list = teachers;//teachers.filter(x => x.subjects.filter(y => y.name == name).length > 0);
-    let div_input = getSelect("teacher input-field", teachers_list, teacher);
+    let subjects = getJSONDataFromLocalStorage("subjects");
+    let subj = subjects.find(x => x.name == name);
+    let teachers_list = [];
+
+    if (subj != undefined) {
+        teachers_list = getDataFromServer("teacher");//teachers.filter(x => x.subjects.filter(y => y.name == name).length > 0);
+    }//teachers.filter(x => x.subjects.filter(y => y.name == name).length > 0);
+    let div_input = getSelectName("teacher input-field", teachers_list, teacher);
 
     div_input.id = "teacher" + id;
     loadEl.append(div_input);
@@ -336,8 +361,15 @@ const createLoadWithDiv = (id, div, name, teacher, corps, classroom, subject) =>
         div_input = teacher;
     } else {
         //TODO - teacher list
-        let teachers_list = teachers;//teachers.filter(x => x.subjects.filter(y => y.name == name).length > 0);
-        div_input = getSelect("teacher input-field", teachers_list);
+        let teachers_list = [];
+        let subjects = getJSONDataFromLocalStorage("subjects");
+        let subj = subjects.find(x => x.name == name);
+        if (subj != undefined) {
+            teachers_list = getDataFromServer("teacher");//teachers.filter(x => x.subjects.filter(y => y.name == name).length > 0);
+        }//teachers.filter(x => x.subjects.filter(y => y.name == name).length > 0);
+
+        //let teachers_list = teachers;//teachers.filter(x => x.subjects.filter(y => y.name == name).length > 0);
+        div_input = getSelectName("teacher input-field", teachers_list);
     }
     div_input.id = "teacher" + id;
     loadEl.append(div_input);
@@ -413,7 +445,7 @@ const SaveTable = () => {
         let time = divs.parentElement.parentElement.id;
         let day = divs.parentElement.parentElement.parentElement.id;
         let corps_id = document.getElementById("corps" + divs.id).getElementsByTagName("select")[0].options.selectedIndex;
-        let teacher_id = document.getElementById("teacher" + divs.id).getElementsByTagName("select")[0].options.selectedIndex;
+        let teacher_id = document.getElementById("teacher" + divs.id).getElementsByTagName("select")[0].value;
         let classroom_id = document.getElementById("classroom" + divs.id).getElementsByTagName("select")[0].value;
         let type_name = document.getElementById("type" + divs.id).innerText;
 
@@ -421,6 +453,7 @@ const SaveTable = () => {
         let subject = subjects.find(x => x.name == name);
         let corps = global_corps.find(x => x.id == corps_id);
         let classroom = classrooms.find(x => x.id == classroom_id);
+        let teachers = getJSONDataFromLocalStorage("teachers");
         let teacher = teachers.find(x => x.id == teacher_id);
 
         let order = {
@@ -882,9 +915,12 @@ $(document).ready(() => {
     let fullurl = window.location.pathname;
     let timetableId = fullurl.match("timetable\/(.+)")[1];
     let timetable = getDataFromServer("timetable", timetableId);
+    
     let flow = {
         groups: getDataFromServer("groups", timetable.flow.id, "flowId").sort((a, b) => (a.speciality.id != b.speciality.id) ? 1 : -1)
     };
+    let teachers = getDataFromServer("teacher");
+    saveJSONDataToLocalStorage("teachers", teachers);
     saveJSONDataToLocalStorage("flow", flow);
 
     let classes = getJSONDataFromLocalStorage("classes");

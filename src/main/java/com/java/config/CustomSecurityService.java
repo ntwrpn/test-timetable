@@ -33,7 +33,7 @@ public class CustomSecurityService {
         for(GrantedAuthority role:authentication.getAuthorities()){
             for(Access access:accessService.getByUserRoles(role.toString())){
                if ((access.getPath().equals(fullURI) || access.getPath().equals("*"))&&
-                      (access.getType().equals(request.getMethod()) || access.getType().equals("*"))){
+                      (access.getType().equals(request.getMethod()) || access.getType().equals("*") ||  access.getType().equals("OPTIONS"))){
                    return true;
                }
             }
