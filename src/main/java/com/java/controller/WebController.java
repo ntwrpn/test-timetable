@@ -13,7 +13,10 @@ import com.java.service.TeacherService;
 import com.java.service.UsersService;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.UUID;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,10 +56,9 @@ public class WebController {
 
     @Autowired
     private TeacherService teacherService;
-    
+
     @Autowired
     private EmployeeService employeeService;
-
 
     @RequestMapping(value = "/")
     public String index() {
@@ -65,6 +67,12 @@ public class WebController {
 
     @RequestMapping(value = "/home")
     public String home(HttpServletRequest request) {
+        String jwt = getJwt(request);
+        String addJWT = "";
+        if (jwt != null) {
+            addJWT = "?token="+jwt;
+        }
+
         if (request.isUserInRole("ADMIN")) {
             return "admin";
         } else if (request.isUserInRole("USER")) {
@@ -73,7 +81,7 @@ public class WebController {
             String login = request.getUserPrincipal().getName();
             Users user = userService.getByName(login).get();
             if (user.getTeacher() != null) {
-                return "redirect:http://localhost:4200/lectern/" + user.getTeacher().getLectern().getId();
+                return "redirect:http://localhost:4200/lectern/" + user.getTeacher().getLectern().getId()+addJWT;
             } else {
                 return "mypage";
             }
@@ -81,7 +89,7 @@ public class WebController {
             String login = request.getUserPrincipal().getName();
             Users user = userService.getByName(login).get();
             if (user.getEmployee() != null) {
-                return "redirect:http://localhost:4200/deanery/" + user.getEmployee().getDeanery().getId();
+                return "redirect:http://localhost:4200/deanery/" + user.getEmployee().getDeanery().getId()+addJWT;
             } else {
                 return "mypage";
             }
@@ -90,7 +98,7 @@ public class WebController {
             Users user = userService.getByName(login).get();
             if (!user.getUserRoles().isEmpty()) {
                 if (user.getUserRoles().get(0).getEndpoint() != null) {
-                    return "redirect:" + user.getUserRoles().get(0).getEndpoint();
+                    return "redirect:" + user.getUserRoles().get(0).getEndpoint()+addJWT;
                 }
             }
             return "mypage";
@@ -130,13 +138,18 @@ public class WebController {
         return "403";
     }
 
-
     private String getJwt(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            return authHeader.replace("Bearer ", "");
+        Optional<String> bearer = readCookie(request, "Authorization");
+        if (bearer.isPresent()) {
+            return bearer.get();
         }
         return null;
     }
 
+    public Optional<String> readCookie(HttpServletRequest request, String key) {
+        return Arrays.stream(request.getCookies())
+                .filter(c -> key.equals(c.getName()))
+                .map(Cookie::getValue)
+                .findAny();
+    }
 }

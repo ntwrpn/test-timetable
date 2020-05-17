@@ -26,7 +26,7 @@ const LoginClick = () => {
         'success': function (response) {
             var myHeaders = new Headers();
             myHeaders.set('Authorization', response['tokenType']+" "+response['accessToken']);
-            setCookie('Authorization', response['tokenType']+" "+response['accessToken']);   
+            setCookie('Authorization', response['accessToken']);   
             window.location.href = "/";
         },
         error: function (jqXHR, textStatus, errorThrown) {
