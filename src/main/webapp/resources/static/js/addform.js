@@ -430,7 +430,7 @@ const createPostFormModal = (changeData) => {
             loadField.required = true;
 
 
-            let big_data = [true, false];
+            let big_data = ["true", "false"];
             for (let key_value in big_data) {
                 let option = document.createElement("option");
                 option.id = key;
@@ -438,7 +438,8 @@ const createPostFormModal = (changeData) => {
                 option.value = big_data[key_value].toString();
                 option.innerText = big_data[key_value].toString();
                 if (changeData != undefined && changeData[key] != null) {
-                    if (changeData[key] == true) {
+                    console.log(changeData[key].toString(), key_value);
+                    if (changeData[key].toString() == key_value) {
                         option.selected = true;
                     }
                 }
