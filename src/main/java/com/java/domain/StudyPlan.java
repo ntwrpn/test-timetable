@@ -9,9 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.UUID;
 import java.util.Date;
@@ -71,7 +69,7 @@ public class StudyPlan {
     private Date statusApplyDate;
 
     @Column(name = "register_number")
-    private int registerNumber;
+    private Integer registerNumber;
 
     @Column(name = "register_number_apply_date")
     private Date registerNumberApplyDate;
@@ -79,5 +77,8 @@ public class StudyPlan {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "education_form")
     private EducationForm educationForm;
+
+    @Column(name = "year")
+    private Integer year;
 }
 

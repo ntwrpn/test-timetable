@@ -26,23 +26,18 @@ public class Schedule {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    
-    @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference(value="courses-movement")
+
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "courses-movement")
     private List<Course> courses;
-       
-    @OneToMany(mappedBy="schedule", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference(value="countOccupation-movement")
+
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "countOccupation-movement")
     private List<OccupationCounter> countOccupation;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
-    @JoinColumn(name="study_plan", referencedColumnName="id", nullable = true)
-    @JsonBackReference(value="schedule-movement")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "study_plan", referencedColumnName = "id", nullable = true)
+    @JsonBackReference(value = "schedule-movement")
     private StudyPlan studyPlan;
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
-    @JoinColumn(name="year", referencedColumnName="id", nullable = true)
-    @JsonBackReference(value="schedule-year-movement")
-    private Year year;
 }
 

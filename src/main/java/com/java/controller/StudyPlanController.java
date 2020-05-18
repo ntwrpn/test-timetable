@@ -29,23 +29,23 @@ public class StudyPlanController {
     @ExceptionHandler
     public ResponseEntity<Response> itemNotFExR(ConstraintViolationException exception) {
         StringBuilder st = new StringBuilder();
-        for(ConstraintViolation e: exception.getConstraintViolations()){
+        for (ConstraintViolation e : exception.getConstraintViolations()) {
             st.append(e.getMessage());
             break;
         }
         Response response = new Response();
         response.setMessage(st.toString());
-        ResponseEntity<Response> responseEntity = new ResponseEntity<>(response,HttpStatus.BAD_GATEWAY);
+        ResponseEntity<Response> responseEntity = new ResponseEntity<>(response, HttpStatus.BAD_GATEWAY);
         return responseEntity;
     }
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<StudyPlan>> getStudyPlans(HttpServletRequest request, @RequestParam(name = "lecternId", required = false) UUID lecternId, 
-            @RequestParam(name = "specialityId", required = false) UUID specialityId) {
-        if(lecternId != null){
+    public ResponseEntity<List<StudyPlan>> getStudyPlans(HttpServletRequest request, @RequestParam(name = "lecternId", required = false) UUID lecternId,
+                                                         @RequestParam(name = "specialityId", required = false) UUID specialityId) {
+        if (lecternId != null) {
             return new ResponseEntity<>(studyplanService.findStudyplansByLecternId(lecternId), HttpStatus.OK);
-        }else if(specialityId != null){
+        } else if (specialityId != null) {
             return new ResponseEntity<>(studyplanService.findStudyplansBySpecialityId(specialityId), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(studyplanService.getAll(), HttpStatus.OK);
@@ -83,5 +83,5 @@ public class StudyPlanController {
     public ResponseEntity<Void> deleteStudyPlan(HttpServletRequest request, @PathVariable UUID id) {
         studyplanService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
-	}
+    }
 }

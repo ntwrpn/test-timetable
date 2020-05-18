@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
+
 import java.io.IOException;
+
 import com.java.service.StudyPlanService;
 
 import javax.validation.*;
@@ -37,8 +39,8 @@ public class StudyPlanServiceImpl implements StudyPlanService {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<StudyPlan>> violations = validator.validate(obj);
-        if(violations.size()!=0){
-            throw  new ConstraintViolationException(violations);
+        if (violations.size() != 0) {
+            throw new ConstraintViolationException(violations);
         }
         return studyPlanRepository.save(obj);
     }
@@ -49,8 +51,8 @@ public class StudyPlanServiceImpl implements StudyPlanService {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<StudyPlan>> violations = validator.validate(obj);
-        if(violations.size()!=0){
-            throw  new ConstraintViolationException(violations);
+        if (violations.size() != 0) {
+            throw new ConstraintViolationException(violations);
         }
         return studyPlanRepository.save(obj);
     }
@@ -77,23 +79,23 @@ public class StudyPlanServiceImpl implements StudyPlanService {
         JSONObject obj = new JSONObject();
         ObjectMapper mapper = new ObjectMapper();
         SchemaFactoryWrapper visitor = new SchemaFactoryWrapper();
-        try{
+        try {
             mapper.acceptJsonFormatVisitor(StudyPlan.class, visitor);
             JsonSchema schema = visitor.finalSchema();
             return schema;
-        } catch (IOException exx){
+        } catch (IOException exx) {
             return null;
-        } 
+        }
     }
-	
+
     @Override
-    public List<StudyPlan> findStudyplansByLecternId(UUID id){
-            return studyPlanRepository.findStudyplansByLecternId(id);
+    public List<StudyPlan> findStudyplansByLecternId(UUID id) {
+        return studyPlanRepository.findStudyplansByLecternId(id);
     }
-    
+
     @Override
-    public List<StudyPlan> findStudyplansBySpecialityId(UUID id){
-            return studyPlanRepository.findStudyplansBySpecialityId(id);
+    public List<StudyPlan> findStudyplansBySpecialityId(UUID id) {
+        return studyPlanRepository.findStudyplansBySpecialityId(id);
     }
 }
 
