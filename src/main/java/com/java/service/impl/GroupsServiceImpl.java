@@ -9,12 +9,10 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.java.domain.Groups;
-import com.java.repository.FlowRepository;
 import com.java.repository.GroupsRepository;
 
 import java.lang.reflect.Field;
 
-import com.java.repository.SpecialityRepository;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,24 +28,20 @@ public class GroupsServiceImpl implements GroupsService {
     @Autowired
     private GroupsRepository groupsRepository;
 
-    @Autowired
-    private FlowRepository flowRepository;
-
-    @Autowired
-    private SpecialityRepository specialityRepository;
-
     @Override
-    public Groups save(Groups obj, UUID flowId) {
-        if(flowId != null){
-            obj.setFlow(flowRepository.findById(flowId).get());
+    public Groups save(Groups obj) {
+        Optional<Groups> groups = groupsRepository.findById(obj.getId());
+        if(groups.isPresent()){
+            obj.setFlow(groups.get().getFlow());
+            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+            Validator validator = factory.getValidator();
+            Set<ConstraintViolation<Groups>> violations = validator.validate(obj);
+            if(violations.size()!=0){
+                throw  new ConstraintViolationException(violations);
+            }
+            return groupsRepository.save(obj);
         }
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        Set<ConstraintViolation<Groups>> violations = validator.validate(obj);
-        if(violations.size()!=0){
-            throw  new ConstraintViolationException(violations);
-        }
-        return groupsRepository.save(obj);
+        return null;
     }
 
     @Override
@@ -94,17 +88,17 @@ public class GroupsServiceImpl implements GroupsService {
 
     @Override
     public List<Groups> findByFlowLecternDeaneryId(UUID uuid) {
-        return groupsRepository.findByFlowLecternDeaneryId(uuid);
-    }
-    
-    @Override
-    public List<Groups> findByFlowId(UUID uuid) {
-        return groupsRepository.findByFlowId(uuid);
+        return groupsRepository.findBySpecialityLecternDeaneryId(uuid);
     }
 
     @Override
     public List<Groups> findByName(String name) {
         return groupsRepository.findByName(name);
+    }
+
+    @Override
+    public List<Groups> findByFlowAndSpecialityLecternDeaneryId(UUID flowId, UUID uuid) {
+        return groupsRepository.findByFlowIdAndSpecialityLecternDeaneryId(flowId, uuid);
     }
 }
 

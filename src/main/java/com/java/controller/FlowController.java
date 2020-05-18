@@ -4,13 +4,13 @@ package com.java.controller;
 import java.util.List;
 import java.util.UUID;
 
+import com.java.config.ExceptionResponceCreator;
 import com.java.domain.Response;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,23 +27,15 @@ public class FlowController {
     private FlowService flowService;
 
     @ExceptionHandler
-    public ResponseEntity<Response> itemNotFExR(ConstraintViolationException exception) {
-        StringBuilder st = new StringBuilder();
-        for(ConstraintViolation e: exception.getConstraintViolations()){
-            st.append(e.getMessage());
-            break;
-        }
-        Response response = new Response();
-        response.setMessage(st.toString());
-        ResponseEntity<Response> responseEntity = new ResponseEntity<>(response,HttpStatus.BAD_GATEWAY);
-        return responseEntity;
+    public ResponseEntity<Response> handleException(ConstraintViolationException exception) {
+        return  new ResponseEntity<>(ExceptionResponceCreator.createResponse(exception.getConstraintViolations()),HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Flow>> getFlows(HttpServletRequest request, @RequestParam(name = "lecternId", required = false) UUID uuid) {
+    public ResponseEntity<List<Flow>> getFlows(HttpServletRequest request, @RequestParam(name = "deaneryId", required = false) UUID uuid) {
         if(uuid != null){
-            return new ResponseEntity<>(flowService.findByLecternId(uuid), HttpStatus.OK);
+            return new ResponseEntity<>(flowService.findByDeaneryId(uuid), HttpStatus.OK);
         }
         return new ResponseEntity<>(flowService.getAll(), HttpStatus.OK);
     }
@@ -62,8 +54,8 @@ public class FlowController {
 
     @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Flow> addFlow(HttpServletRequest request, @RequestParam(name = "lecternId", required = false) UUID uuid, @RequestBody Flow Flow) {
-        return new ResponseEntity<>(flowService.save(Flow, uuid), HttpStatus.CREATED);
+    public ResponseEntity<Flow> addFlow(HttpServletRequest request, @RequestBody Flow Flow) {
+        return new ResponseEntity<>(flowService.save(Flow), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

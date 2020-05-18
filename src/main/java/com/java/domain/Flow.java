@@ -44,14 +44,11 @@ public class Flow {
     @Size(max = 255, message = ValidationMessages.FLOW_DESCRIPTION_SIZE)
     private String description;
 
-    @OneToMany(mappedBy = "flow", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @OneToMany(mappedBy = "flow",cascade = CascadeType.REFRESH, orphanRemoval = true)
+    @JsonManagedReference(value = "flow-group")
+    @Column(nullable = true)
     private List<Groups> groups;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "lectern", referencedColumnName = "id", nullable = true)
-    private Lectern lectern;
-    
     @OneToMany(mappedBy="flow", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Timetable> timetable;

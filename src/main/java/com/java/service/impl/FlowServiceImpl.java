@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.java.domain.Flow;
+import com.java.domain.Groups;
 import com.java.repository.FlowRepository;
 
 import java.lang.reflect.Field;
@@ -33,10 +34,19 @@ public class FlowServiceImpl implements FlowService {
     private LecternRepository lecternRepository;
     
     @Override
-    public Flow save(Flow obj, UUID id) {
-        if(id !=null){
-            obj.setLectern(lecternRepository.findById(id).get());
+    public Flow save(Flow obj) {
+        return saveOrUpdateFlow(obj);
+    }
+
+    @Override
+    public Flow update(Flow obj) {
+        for(Groups groups:obj.getGroups()){
+            groups.setFlow(obj);
         }
+        return saveOrUpdateFlow(obj);
+    }
+
+    private Flow saveOrUpdateFlow(Flow obj){
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<Flow>> violations = validator.validate(obj);
@@ -45,23 +55,6 @@ public class FlowServiceImpl implements FlowService {
         }
         return flowRepository.save(obj);
     }
-
-    @Override
-    public Flow update(Flow obj) {
-        Optional<Flow> flow = flowRepository.findById(obj.getId());
-        if(flow.isPresent()){
-            obj.setLectern(flow.get().getLectern());
-            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-            Validator validator = factory.getValidator();
-            Set<ConstraintViolation<Flow>> violations = validator.validate(obj);
-            if(violations.size()!=0){
-                throw  new ConstraintViolationException(violations);
-            }
-            return flowRepository.save(obj);
-        }
-        return null;
-    }
-
     
     @Override
     public void delete(UUID id) {
@@ -94,8 +87,8 @@ public class FlowServiceImpl implements FlowService {
     }
 
     @Override
-    public List<Flow> findByLecternId(UUID uuid) {
-        return flowRepository.findByLecternId(uuid);
+    public List<Flow> findByDeaneryId(UUID uuid) {
+        return flowRepository.findDistinctByGroupsSpecialityLecternDeaneryId(uuid);
     }
 
     @Override

@@ -9,7 +9,7 @@ import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface FlowService {
     
-    Flow save(Flow Flow, UUID id);
+    Flow save(Flow Flow);
 
     Flow update(Flow Flow);
 
@@ -21,7 +21,7 @@ public interface FlowService {
     
     public JsonSchema getFields();
 
-    List<Flow> findByLecternId(UUID uuid);
+    List<Flow> findByDeaneryId(UUID uuid);
 
     List<Flow> findByName(String name);
 }

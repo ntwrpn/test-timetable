@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,12 +30,12 @@ public class Week {
     private UUID id;
     
     @Column(name = "colspan")
-    @NotBlank
-    private int colspan;
+    @NotNull
+    private Integer colspan;
 	
 	@Column(name = "position")
-    @NotBlank
-    private int position;
+    @NotNull
+    private Integer position;
     
     @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name="occupation", referencedColumnName="id")

@@ -18,12 +18,9 @@ public interface GroupsRepository extends JpaRepository<Groups,UUID> {
 
     void deleteById(UUID uuid);
 
-    List<Groups> findByFlowLecternDeaneryId(UUID uuid);
-    
-    //@Query(value = "select * from groups WHERE flow = ?1", nativeQuery = true)
-    List<Groups> findByFlowId(UUID uuid);
-
+    List<Groups> findBySpecialityLecternDeaneryId(UUID uuid);
 
     List<Groups> findByName(String name);
 
+    List<Groups> findByFlowIdAndSpecialityLecternDeaneryId(UUID flowId,UUID uuid);
 }

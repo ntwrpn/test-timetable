@@ -4,13 +4,13 @@ package com.java.controller;
 import java.util.List;
 import java.util.UUID;
 
+import com.java.config.ExceptionResponceCreator;
 import com.java.domain.Response;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,25 +27,15 @@ public class GroupsController {
     private GroupsService groupsService;
 
     @ExceptionHandler
-    public ResponseEntity<Response> itemNotFExR(ConstraintViolationException exception) {
-        StringBuilder st = new StringBuilder();
-        for(ConstraintViolation e: exception.getConstraintViolations()){
-            st.append(e.getMessage());
-            break;
-        }
-        Response response = new Response();
-        response.setMessage(st.toString());
-        ResponseEntity<Response> responseEntity = new ResponseEntity<>(response,HttpStatus.BAD_GATEWAY);
-        return responseEntity;
+    public ResponseEntity<Response> handleException(ConstraintViolationException exception) {
+        return  new ResponseEntity<>(ExceptionResponceCreator.createResponse(exception.getConstraintViolations()),HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Groups>> getGroupss(HttpServletRequest request, @RequestParam(name = "flowId", required = false) UUID flowId, @RequestParam(name = "deaneryId", required = false) UUID uuid) {
+    public ResponseEntity<List<Groups>> getGroupss(HttpServletRequest request, @RequestParam(name = "deaneryId", required = false) UUID uuid) {
         if(uuid != null){
             return new ResponseEntity<>(groupsService.findByFlowLecternDeaneryId(uuid), HttpStatus.OK);
-        } else if (flowId!=null){
-            return new ResponseEntity<>(groupsService.findByFlowId(flowId), HttpStatus.OK);
         }
         return new ResponseEntity<>(groupsService.getAll(), HttpStatus.OK);
     }
@@ -64,8 +54,8 @@ public class GroupsController {
 
     @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Groups> addGroups(HttpServletRequest request, @RequestParam(name = "flowId", required = false) UUID flowId, @RequestBody Groups Groups) {
-        return new ResponseEntity<>(groupsService.save(Groups, flowId), HttpStatus.CREATED);
+    public ResponseEntity<Groups> addGroups(HttpServletRequest request, @RequestBody Groups groups) {
+        return new ResponseEntity<>(groupsService.save(groups), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -86,6 +76,15 @@ public class GroupsController {
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Boolean> checkUniqueName(HttpServletRequest request, @RequestParam(name = "name", required = false) String name) {
         return new ResponseEntity<>(groupsService.findByName(name).size() == 0, HttpStatus.OK);
+    }
+
+    @GetMapping("/freeGroups/")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<Groups>> getFreeGroups(HttpServletRequest request, @RequestParam(name = "deaneryId", required = false) UUID uuid) {
+        if(uuid != null){
+            return new ResponseEntity<>(groupsService.findByFlowAndSpecialityLecternDeaneryId(null,uuid), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(groupsService.getAll(), HttpStatus.OK);
     }
 }
 

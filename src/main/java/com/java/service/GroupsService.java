@@ -9,7 +9,7 @@ import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface GroupsService {
 
-    Groups save(Groups Groups, UUID flowId);
+    Groups save(Groups Groups);
 
     Groups update(Groups Groups);
 
@@ -20,10 +20,10 @@ public interface GroupsService {
     Optional<Groups> getById(UUID userId);
     
     public JsonSchema getFields();
-    
-    List<Groups> findByFlowId(UUID uuid);
 
     List<Groups> findByFlowLecternDeaneryId(UUID uuid);
 
     List<Groups> findByName(String name);
+
+    List<Groups> findByFlowAndSpecialityLecternDeaneryId(UUID flowId,UUID uuid);
 }

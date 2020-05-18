@@ -41,10 +41,6 @@ public class Lectern {
     @OneToMany(mappedBy = "lectern", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Speciality> specialities;
-	
-    @OneToMany(mappedBy="lectern", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Flow> flows;
 
     @Column(name = "fullname", unique = true)
     @Size(min = 3, max = 255, message = ValidationMessages.LECTERN_FULLNAME_SIZE)

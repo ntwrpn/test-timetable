@@ -45,7 +45,7 @@ public class Groups {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name="flow", referencedColumnName="id", nullable = true)
-    //@JsonIgnoreProperties(value = {"flow-group"})
+    @JsonBackReference(value="flow-group")
     private Flow flow;
     
     @ManyToOne(fetch=FetchType.LAZY, cascade = CascadeType.REFRESH)
