@@ -44,7 +44,7 @@ public class Flow {
     @Size(max = 255, message = ValidationMessages.FLOW_DESCRIPTION_SIZE)
     private String description;
 
-    @OneToMany(mappedBy = "flow",cascade = CascadeType.REFRESH, orphanRemoval = true)
+    @OneToMany(mappedBy = "flow",cascade = CascadeType.MERGE)
     @JsonManagedReference(value = "flow-group")
     @Column(nullable = true)
     private List<Groups> groups;

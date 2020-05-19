@@ -43,12 +43,12 @@ public class Lectern {
     private List<Speciality> specialities;
 
     @Column(name = "fullname", unique = true)
-    @Size(min = 3, max = 255, message = ValidationMessages.LECTERN_FULLNAME_SIZE)
+    @Size(min = 2, max = 255, message = ValidationMessages.LECTERN_FULLNAME_SIZE)
     @NotBlank(message = ValidationMessages.LECTERN_FULLNAME_NOT_BLANK)
     private String fullname;
 
-    @Column(name = "name", unique = true)
-    @Size(min = 3, max = 50, message = ValidationMessages.LECTERN_NAME_SIZE)
+    @Column(name = "name")
+    @Size(min = 2, max = 50, message = ValidationMessages.LECTERN_NAME_SIZE)
     @NotBlank(message = ValidationMessages.LECTERN_NAME_NOT_BLANK)
     private String name;
 

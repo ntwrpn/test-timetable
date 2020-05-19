@@ -30,6 +30,17 @@ public class GroupsServiceImpl implements GroupsService {
 
     @Override
     public Groups save(Groups obj) {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Groups>> violations = validator.validate(obj);
+        if (violations.size() != 0) {
+            throw new ConstraintViolationException(violations);
+        }
+        return groupsRepository.save(obj);
+    }
+
+    @Override
+    public Groups update(Groups obj) {
         Optional<Groups> groups = groupsRepository.findById(obj.getId());
         if(groups.isPresent()){
             obj.setFlow(groups.get().getFlow());
@@ -44,18 +55,7 @@ public class GroupsServiceImpl implements GroupsService {
         return null;
     }
 
-    @Override
-    public Groups update(Groups obj) {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        Set<ConstraintViolation<Groups>> violations = validator.validate(obj);
-        if (violations.size() != 0) {
-            throw new ConstraintViolationException(violations);
-        }
-        return groupsRepository.save(obj);
-    }
 
-    
     @Override
     public void delete(UUID id) {
         groupsRepository.deleteById(id);
@@ -99,6 +99,12 @@ public class GroupsServiceImpl implements GroupsService {
     @Override
     public List<Groups> findByFlowAndSpecialityLecternDeaneryId(UUID flowId, UUID uuid) {
         return groupsRepository.findByFlowIdAndSpecialityLecternDeaneryId(flowId, uuid);
+    }
+
+    @Override
+    public Groups setNullFlow(Groups obj) {
+        obj.setFlow(null);
+        return groupsRepository.save(obj);
     }
 }
 

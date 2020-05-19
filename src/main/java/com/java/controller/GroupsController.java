@@ -86,5 +86,12 @@ public class GroupsController {
         }
         return new ResponseEntity<>(groupsService.getAll(), HttpStatus.OK);
     }
+
+    @PutMapping("/setNullFlow/{id}")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Groups> setNullFlow(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody Groups Groups) {
+        Groups.setId(id);
+        return new ResponseEntity<>(groupsService.setNullFlow(Groups), HttpStatus.OK);
+    }
 }
 

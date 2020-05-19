@@ -26,4 +26,6 @@ public interface GroupsService {
     List<Groups> findByName(String name);
 
     List<Groups> findByFlowAndSpecialityLecternDeaneryId(UUID flowId,UUID uuid);
+
+    Groups setNullFlow(Groups obj);
 }

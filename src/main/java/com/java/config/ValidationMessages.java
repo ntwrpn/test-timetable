@@ -27,9 +27,9 @@ public class ValidationMessages {
 
     public static final String LECTERN_NAME_NOT_BLANK = "Название кафедры не должнл быть пустым";
     public static final String LECTERN_FULLNAME_NOT_BLANK = "Полное название кафедры не должно быть пустым";
-    public static final String LECTERN_NAME_SIZE = "Длина названия кафедры быть от 3 до 50 символов";
-    public static final String LECTERN_DESCRIPTION_SIZE = "Длина описания кафедры должна быть от 3 до 255 символов";
-    public static final String LECTERN_FULLNAME_SIZE = "Длина полного названия кафедры должна быть от 3 до 255";
+    public static final String LECTERN_NAME_SIZE = "Длина названия кафедры быть от 2 до 50 символов";
+    public static final String LECTERN_DESCRIPTION_SIZE = "Длина описания кафедры должна быть до 255 символов";
+    public static final String LECTERN_FULLNAME_SIZE = "Длина полного названия кафедры должна быть от 2 до 255";
 
     public static final String COEFFICIENT_NOT_BLANK = "Коэффициент не должен быть пустым";
     public static final String COUNT_OF_SEM_NOT_BLANK = "Количество семестров не должно быть пустым";
