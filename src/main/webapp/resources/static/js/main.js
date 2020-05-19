@@ -1076,7 +1076,6 @@ const clearPostFromModal = () => {
 
 
 const createPostFormModal = (changeData) => {
-    console.log(changeData);
     let name = localStorage.getItem("current_open_table");
     let data = getListDataFromServer(name);
 
@@ -1140,10 +1139,8 @@ const createPostFormModal = (changeData) => {
             loadField.className = "select";
             loadField.multiple = true;
             loadField.required = true;
-            console.log(data[key]["items"]["id"]);
             let big_data = getDataFromServer(data[key]["items"]["id"]);
             for (let key_value in big_data) {
-                console.log(changeData[key]);
                 let option = document.createElement("option");
                 option.id = key;
                 option.name = key;
@@ -1160,7 +1157,6 @@ const createPostFormModal = (changeData) => {
             modalForm.appendChild(modalContent);
 
         } else if (["boolean"].includes(local_var_type)) {
-            console.log(local_var_type);
 
             let loadCaption = document.createElement("p");
             loadCaption.innerText = getLocalizedName(key);
@@ -1273,7 +1269,6 @@ $(document).ready(() => {
     });
 
     let dataformData = [
-        {"name": "CanTeach", "key": "urn:jsonschema:com:java:domain:CanTeach"},
         {"name": "Classroom", "key": "urn:jsonschema:com:java:domain:Classroom"},
         {"name": "ClassroomType", "key": "urn:jsonschema:com:java:domain:ClassroomType"},
         {"name": "Corps", "key": "urn:jsonschema:com:java:domain:Corps"},
@@ -1282,12 +1277,8 @@ $(document).ready(() => {
         {"name": "Faculty", "key": "urn:jsonschema:com:java:domain:Faculty"},
         {"name": "Flow", "key": "urn:jsonschema:com:java:domain:Flow"},
         {"name": "Groups", "key": "urn:jsonschema:com:java:domain:Groups"},
-        {"name": "LearningSeverity", "key": "urn:jsonschema:com:java:domain:LearningSeverity"},
-        {"name": "LearningSeverityList", "key": "urn:jsonschema:com:java:domain:LearningSeverityList"},
         {"name": "Lectern", "key": "urn:jsonschema:com:java:domain:Lectern"},
-        {"name": "LecternType", "key": "urn:jsonschema:com:java:domain:LecternType"},
         {"name": "Lesson", "key": "urn:jsonschema:com:java:domain:Lesson"},
-        {"name": "NeededLesson", "key": "urn:jsonschema:com:java:domain:NeededLesson"},
         {"name": "Occupation", "key": "urn:jsonschema:com:java:domain:Occupation"},
         {"name": "OccupationCounter", "key": "urn:jsonschema:com:java:domain:OccupationCounter"},
         {"name": "OccupationCounterCourse", "key": "urn:jsonschema:com:java:domain:OccupationCounterCourse"},
@@ -1300,16 +1291,13 @@ $(document).ready(() => {
         {"name": "SeveritySubject", "key": "urn:jsonschema:com:java:domain:SeveritySubject"},
         {"name": "Speciality", "key": "urn:jsonschema:com:java:domain:Speciality"},
         {"name": "StudyPlan", "key": "urn:jsonschema:com:java:domain:StudyPlan"},
-        {"name": "Subgroup", "key": "urn:jsonschema:com:java:domain:Subgroup"},
         {"name": "Subject", "key": "urn:jsonschema:com:java:domain:Subject"},
-        {"name": "Syllabus", "key": "urn:jsonschema:com:java:domain:Syllabus"},
         {"name": "Teacher", "key": "urn:jsonschema:com:java:domain:Teacher"},
         {"name": "Turn", "key": "urn:jsonschema:com:java:domain:Turn"},
         {"name": "TypeOfLesson", "key": "urn:jsonschema:com:java:domain:TypeOfLesson"},
         {"name": "Week", "key": "urn:jsonschema:com:java:domain:Week"},
         {"name": "WeekCount", "key": "urn:jsonschema:com:java:domain:WeekCount"},
         {"name": "Employee", "key": "urn:jsonschema:com:java:domain:Employee"},
-        {"name": "Year", "key": "urn:jsonschema:com:java:domain:Year"},
     ]
 
     renderDataList(dataformData);

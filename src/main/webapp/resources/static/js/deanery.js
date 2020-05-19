@@ -3,5 +3,5 @@ $(document).ready(function () {
     $("ul.tabs").tabs();
     $(".sidenav").sidenav();
     $('.modal').modal();
-    openTableEvent("urn:jsonschema:com:java:domain:Timetable", "");
+    openTableEvent("urn:jsonschema:com:java:domain:Deanery", "");
 });

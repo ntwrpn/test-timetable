@@ -46,6 +46,12 @@
     "statusApplyDate": "Статус изменен",
     "registerNumber": "Регистрационный номер",
     "registerNumberApplyDate": "Номер изменен",
+    "classroom_type": "Тип аудитории",
+    "Lesson": "Занятия",
+    "Occupation": "Нагрузки",
+    "OccupationCounter": "Счетчик нагрузок",
+    "Subject": "Предметы",
+    "endpoint": "Кабинет",
 
 
     "countOccupation": "Количество нагрузок"

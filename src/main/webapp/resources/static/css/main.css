@@ -1,3 +1,5 @@
+  
+
 .nav-extended{
     height: 60px;
     align-items: center;
@@ -247,3 +249,21 @@ a#exit-subject-button {
 .green.accent-4{
     background-color: #1dae17!important;
 }
+
+body {
+    background-color: #fcfcfc;
+}
+
+/*.row {
+    min-height: calc(100vh - 112px)!important;
+}
+*/
+footer.page-footer {
+    background-color: #1dae17!important;
+    padding-top: 0px;
+    width: 100%;
+}
+
+
+
+

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org">
 
     <head>
         <meta charset="utf-8"/>
@@ -52,9 +52,9 @@
                 </div>
                 <div class="subjects-form">
                     <div class="row">
-                    <div class="right">
-                        <a class="waves-effect waves-light btn green accent-4" onclick="openAddCreateModal()"><i class="material-icons left">add</i>Добавить</a>
-                    </div>
+                        <div class="right">
+                            <a class="waves-effect waves-light btn green accent-4" onclick="openAddCreateModal()"><i class="material-icons left">add</i>Добавить</a>
+                        </div>
                         <div id="table-forme">
                             <table class="highlight" id="data-tr-table">
                             </table>
@@ -66,6 +66,13 @@
 
 
         </div>
+        <footer class="page-footer">
+            <div class="footer-copyright">
+                <div class="container">
+                    <span>Copyright © 2020 <a class="grey-text text-lighten-4" href="/" target="_blank">БНТУ</a> All rights not reserved.</span>
+                </div>
+            </div>
+        </footer>        
     </body>
 
 </html>

@@ -27,6 +27,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -97,6 +98,32 @@ public class LecternFunctionalController {
     }
     
     
+    @GetMapping(value = "/deanery")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public String getDeanery(HttpServletRequest request, Model model) {
+        model.addAttribute("title", "Деканаты");
+        model.addAttribute("table", "deanery");
+        return "timetablePreOpenPage";
+    }
+    
+    
+    @GetMapping(value = "/lectern")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public String getLectern(HttpServletRequest request, Model model) {
+        model.addAttribute("title", "Кафедры");
+        model.addAttribute("table", "lectern");
+        return "timetablePreOpenPage";
+    }
+    
+    @GetMapping(value = "/lectern/{id}/pretimemtable")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public String getPreTimetable(HttpServletRequest request, @PathVariable("id") UUID id, Model model) {
+        model.addAttribute("title", "Расписания");
+        model.addAttribute("table", "timetable");
+        return "timetablePreOpenPage";
+    }
+    
+    
     @GetMapping(value = "/deanery/{id}/addusertoemployee")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public String getusertoemployee(HttpServletRequest request, @PathVariable("id") UUID id, ModelMap map) {
@@ -130,13 +157,7 @@ public class LecternFunctionalController {
             return new ResponseEntity<>(userService.save(user), HttpStatus.OK);
         }
     }
-    
-    @GetMapping(value = "/lectern/{id}/pretimemtable")
-    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public String getPreTimetable(HttpServletRequest request, @PathVariable("id") UUID id) {
-        return "timetablePreOpenPage";
-    }
-
+   
     private String getJwt(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
         if (authHeader != null && authHeader.startsWith("Bearer ")) {

@@ -40,15 +40,32 @@ createTbody = (data, accept) => {
 
         var a = document.createElement("span");
         a.className = "tooltipped";
-        a.setAttribute("data-tooltip", "Редактирование расписания");
-        a.setAttribute("data-position", "top");
         a.value = item.id;
-        a.addEventListener("click", function() {
-            redirectTo('/timetable/' + item['id']);
-          }, false);
+        a.setAttribute("data-position", "top");
+
         var i = document.createElement("i");
         i.className = 'material-icons';
         i.textContent = 'view_module';
+        if (name == "urn:jsonschema:com:java:domain:Timetable") {
+            a.setAttribute("data-tooltip", "Редактирование расписания");
+            a.addEventListener("click", function () {
+                redirectTo('/timetable/' + item['id']);
+            }, false);
+            i.textContent = 'view_module';
+        } else if (name == "urn:jsonschema:com:java:domain:Deanery") {
+            a.setAttribute("data-tooltip", "Перейти на деканат");
+            a.addEventListener("click", function () {
+                redirectTo('http://localhost:4200/deanery/' + item['id']+"?token="+getCookie("Authorization"));
+            }, false);
+            i.textContent = 'pageview';
+        } else if (name == "urn:jsonschema:com:java:domain:Lectern") {
+            a.setAttribute("data-tooltip", "Перейти на кафедру");
+            a.addEventListener("click", function () {
+                redirectTo('http://localhost:4200/lectern/' + item['id']+"?token="+getCookie("Authorization"));
+            }, false);
+            i.textContent = 'pageview';
+        }
+
         a.append(i);
         td.append(a);
 
@@ -84,20 +101,14 @@ createTbody = (data, accept) => {
     return tbody;
 }
 
-const redirectTo = (url)=>{
-    window.location=url;
+const redirectTo = (url) => {
+    window.location = url;
 }
 
 
-$(document).ready(function () {
-    $('.collapsible').collapsible();
-    $("ul.tabs").tabs();
-    $(".sidenav").sidenav();
-    $('.modal').modal();
-    let fullurl = window.location.pathname;
-    let url = fullurl.match("lectern\/(.+)\/")[1];
-    openTableEvent("urn:jsonschema:com:java:domain:Timetable", "");
-});
-
-
-
+function getCookie(name) {
+  let matches = document.cookie.match(new RegExp(
+    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+  ));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}

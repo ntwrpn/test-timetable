@@ -1,4 +1,4 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html><html xmlns:th="http://www.thymeleaf.org">
 
     <head>
         <meta charset="utf-8"/>
@@ -45,17 +45,14 @@
                                     <i class="material-icons left">home</i>
                                     Мой кабинет</a>
                                 <br></br>
-                                <a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="#exams-schedule">
+                                <a sec:authorize="hasRole({'ADMIN', 'LECTERN', 'DEANERY'})" class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="#exams-schedule">
                                     <i class="material-icons left">event</i>
                                     Расписание экзаменов</a>
                             </span></div>
                     </li>
-                    <li>
+                    <li sec:authorize="hasRole({'ADMIN'})">
                         <div class="collapsible-header"><i class="material-icons">arrow_drop_down</i>Объекты</div>
                         <div class="collapsible-body"><span>
-
-
-                                <hr></hr>
                                 <a class="waves-effect waves-light btn green accent-4" style="width: 100%;"  href="/objects">
                                     <i class="material-icons left">subject</i>
                                     Объекты</a>
@@ -129,6 +126,13 @@
 
             </div>
         </div>
+        <footer class="page-footer">
+            <div class="footer-copyright">
+                <div class="container">
+                    <span>Copyright © 2020 <a class="grey-text text-lighten-4" href="/" target="_blank">БНТУ</a> All rights not reserved.</span>
+                </div>
+            </div>
+        </footer>
     </body>
 
 </html>

@@ -767,8 +767,9 @@ const OpenLoadSpeciality = (event) => {
     $(".sidenav").sidenav();
     $('.modal').modal();
     $('select').formSelect();
-
 }
+
+
 const getSubjectsByPlan = (planId) => {
     let subjects = getDataFromServer("studyplan", planId).subjects;
     saveJSONDataToLocalStorage("subjects", subjects);
@@ -915,7 +916,7 @@ $(document).ready(() => {
     let fullurl = window.location.pathname;
     let timetableId = fullurl.match("timetable\/(.+)")[1];
     let timetable = getDataFromServer("timetable", timetableId);
-    
+
     let flow = {
         groups: getDataFromServer("groups", timetable.flow.id, "flowId").sort((a, b) => (a.speciality.id != b.speciality.id) ? 1 : -1)
     };
