@@ -3,7 +3,7 @@ Test timetable
 Requirements: 
  - glassfish4.0
  - postgres11
- - openjdk1.8
+ - openjdk11
 
 Installation:
  - install PostgreSQL with your credentials
