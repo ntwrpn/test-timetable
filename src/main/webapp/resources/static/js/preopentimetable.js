@@ -55,13 +55,13 @@ createTbody = (data, accept) => {
         } else if (name == "urn:jsonschema:com:java:domain:Deanery") {
             a.setAttribute("data-tooltip", "Перейти на деканат");
             a.addEventListener("click", function () {
-                redirectTo('http://localhost:4200/deanery/' + item['id']+"?token="+getCookie("Authorization"));
+                redirectTo('/modules/deanery/' + item['id']+"?token="+getCookie("Authorization"));
             }, false);
             i.textContent = 'pageview';
         } else if (name == "urn:jsonschema:com:java:domain:Lectern") {
             a.setAttribute("data-tooltip", "Перейти на кафедру");
             a.addEventListener("click", function () {
-                redirectTo('http://localhost:4200/lectern/' + item['id']+"?token="+getCookie("Authorization"));
+                redirectTo('/modules/lectern/' + item['id']+"?token="+getCookie("Authorization"));
             }, false);
             i.textContent = 'pageview';
         }
