@@ -18,12 +18,18 @@ $.ajax({
     'url': "/users/me/",
     'success': function (response) {
         $("#email").val(response["username"]);
-        $("#name").val(response["teacher"]["name"]);
-        $("#surname").val(response["teacher"]["surname"]);
-        $("#patronymic").val(response["teacher"]["patronymic"]);
-        $("#position").val(response["teacher"]["position"]);
-        $("#rank").val(response["teacher"]["rank"]);
-        $("#academicDegree").val(response["teacher"]["academicDegree"]);
+        if (response["teacher"] != null) {
+            $("#name").val(response["teacher"]["name"]);
+            $("#surname").val(response["teacher"]["surname"]);
+            $("#patronymic").val(response["teacher"]["patronymic"]);
+            $("#position").val(response["teacher"]["position"]);
+            $("#rank").val(response["teacher"]["rank"]);
+            $("#academicDegree").val(response["teacher"]["academicDegree"]);
+        } else {
+            $("#name").val(response["name"]);
+            $("#surname").val(response["surname"]);
+            $("#patronymic").val(response["patronymic"]);
+        }
 
         $(document).ready(function () {
             M.updateTextFields();
@@ -51,7 +57,7 @@ const Update = () => {
                 'Content-Type': 'application/json'
             },
             'type': 'POST',
-            'url': "/users/me/?Academic="+academicDegree,
+            'url': "/users/me/?Academic=" + academicDegree,
             'data': JSON.stringify(data),
             'dataType': 'json',
             'success': function (response) {
