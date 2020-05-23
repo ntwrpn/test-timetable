@@ -48,8 +48,12 @@ public class TeacherServiceImpl implements TeacherService {
             teacher.get().setSurname(obj.getSurname());
             teacher.get().setPatronymic(obj.getPatronymic());
             teacher.get().setAcademicDegree(obj.getAcademicDegree());
+            teacher.get().setAcademicDegreeAbbreviation(obj.getAcademicDegreeAbbreviation());
+            teacher.get().setStaffType(obj.getStaffType());
             teacher.get().setPosition(obj.getPosition());
-            teacher.get().setRank(obj.getRank());
+            teacher.get().setAcademicRank(obj.getAcademicRank());
+            teacher.get().setAdditionalInfo(obj.getAdditionalInfo());
+            teacher.get().setRate(obj.getRate());
             if (obj.getLectern() != null) {
                 teacher.get().setLectern(obj.getLectern());
             }

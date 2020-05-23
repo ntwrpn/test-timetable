@@ -38,4 +38,34 @@ public class ValidationMessages {
 
     public static final String WEEK_COUNT_SIZE = "Количесто недель в семестре должет быть от 1 до 20";
     public static final String WEEK_COUNT_NOT_BLANK = "Количесто недель в семестре не должно быть пустым";
+
+    public static final String NAME_SIZE_LENGTH = "Длина имени должна быть от 1 до 1000 символов";
+    public static final String ABBREVIATION_SIZE_LENGTH = "Длина аббревиатуры должна быть от 1 до 255 символов";
+    public static final String DESCRIPTION_SIZE_LENGTH = "Длина описания должна быть от 1 до 10000 символов";
+    public static final String SURNAME_SIZE_LENGTH = "Длина фамилии должна быть от 1 до 1000 символов";
+    public static final String PATRONYMIC_SIZE_LENGTH = "Длина отчества должна быть от 1 до 1000 символов";
+    public static final String POSITION_SIZE_LENGTH = "Длина должности должна быть от 1 до 1000 символов";
+
+    public static final String ACADEMIC_RANK_SIZE = "Длина научного звания должна быть не больше 1000 символов";
+    public static final String ACADEMIC_DEGREE_SIZE = "Длина научной степени должна быть не больше 1000 символов";
+    public static final String ADDITIONAL_INFO_SIZE = "Длина дополнительной информации должна быть не больше 10000 символов";
+    public static final String ACADEMIC_DEGREE_ABBREVIATION_SIZE = "Длина аббревиатуры научной степени должна быть не больше 255 символов";
+
+    public static final String NAME_NOT_BLANK = "Имя не должно быть пустым";
+    public static final String SURNAME_NOT_BLANK = "Фамилия не должна быть пустой";
+    public static final String PATRONYMIC_NOT_BLANK = "Отчество не должно быть пустым";
+    public static final String ABBREVIATION_NOT_BLANK = "Аббревиатура не должна быть пустой";
+    public static final String POSITION_NOT_BLANK = "Должность не должна быть пустой";
+
+    public static final String TEMPLATE_NOT_NULL = "Поле шаблон должно быть указано";
+    public static final String YEAR_NOT_NULL = "Учебный год должен быть указан";
+    public static final String EDUCATION_FORM_NOT_NULL = "Форма обучения должна быть указана";
+    public static final String STAFF_TYPE_NOT_NULL = "Тип штатного состава должен быть указан";
+
+    public static final String RATE_RANGE = "Поле ставки должно содержать значение от 0 до 9999";
+    public static final String YEAR_RANGE = "Учебный год должен в диапозоне быть от 1900 до 2100";
+    public static final String SEMESTER_NUMBER_RANGE = "Номер семестра должен быть указан от 1 до 12";
+    public static final String SEVERITY_HOURS_RANGE = "Количество часов в нагрузке должно быть от 1 до 9999";
+
+
 }

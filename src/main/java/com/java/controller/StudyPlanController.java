@@ -6,12 +6,12 @@ import java.util.UUID;
 
 import com.java.config.ExceptionResponceCreator;
 import com.java.domain.Response;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,7 +47,7 @@ public class StudyPlanController {
 
     @RequestMapping(value = "/", method = RequestMethod.OPTIONS)
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity getStudyPlanKeys(HttpServletRequest request, Model model) {
+    public ResponseEntity getStudyPlanKeys(HttpServletRequest request) {
         return new ResponseEntity<>(studyplanService.getFields(), HttpStatus.OK);
     }
 
@@ -59,13 +59,13 @@ public class StudyPlanController {
 
     @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<StudyPlan> addStudyPlan(HttpServletRequest request, @RequestBody StudyPlan studyPlan) {
+    public ResponseEntity<StudyPlan> addStudyPlan(HttpServletRequest request, @Valid @RequestBody StudyPlan studyPlan) {
         return new ResponseEntity<>(studyplanService.save(studyPlan), HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<StudyPlan> updateStudyPlan(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody StudyPlan studyPlan) {
+    public ResponseEntity<StudyPlan> updateStudyPlan(HttpServletRequest request, @PathVariable("id") UUID id, @Valid @RequestBody StudyPlan studyPlan) {
         studyPlan.setId(id);
         return new ResponseEntity<>(studyplanService.update(studyPlan), HttpStatus.OK);
     }

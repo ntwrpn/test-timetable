@@ -1,18 +1,15 @@
 
 package com.java.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.java.config.ValidationMessages;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.UUID;
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -31,13 +28,14 @@ public class Severity {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
     
-    @Column(name = "name")
+    @Column(name = "name", length = 1000)
+    @Size(max = 1000, message = ValidationMessages.NAME_SIZE_LENGTH)
+    @NotBlank(message = ValidationMessages.NAME_NOT_BLANK)
     private String name;
     
     @OneToMany(mappedBy="severity", cascade = CascadeType.ALL)
-//    @JsonManagedReference(value = "severity-movement")
     @JsonIgnoreProperties(value = "severity", allowSetters = true)
-    @Column(nullable = true)
+    @Column
     private Set<SeveritySubject> severitySubjects;
 
 }

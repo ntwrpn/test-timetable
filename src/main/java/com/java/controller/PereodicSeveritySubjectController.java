@@ -4,11 +4,14 @@ package com.java.controller;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.ui.Model;
+import com.java.config.ExceptionResponceCreator;
+import com.java.domain.Response;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +26,11 @@ public class PereodicSeveritySubjectController {
     @Autowired
     private PereodicSeveritySubjectService pereodicSeveritySubjectService;
 
+    @ExceptionHandler
+    public ResponseEntity<Response> handleException(ConstraintViolationException exception) {
+        return new ResponseEntity<>(ExceptionResponceCreator.createResponse(exception.getConstraintViolations()), HttpStatus.BAD_REQUEST);
+    }
+
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<PereodicSeveritySubject>> getPereodicSeveritySubjects(HttpServletRequest request) {
@@ -31,7 +39,7 @@ public class PereodicSeveritySubjectController {
 
     @RequestMapping(value = "/", method = RequestMethod.OPTIONS)
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity getPereodicSeveritySubjectKeys(HttpServletRequest request, Model model) {
+    public ResponseEntity getPereodicSeveritySubjectKeys(HttpServletRequest request) {
         return new ResponseEntity(pereodicSeveritySubjectService.getFields(), HttpStatus.OK);
     }
 
@@ -43,13 +51,13 @@ public class PereodicSeveritySubjectController {
 
     @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<PereodicSeveritySubject> addPereodicSeveritySubject(HttpServletRequest request, @RequestBody PereodicSeveritySubject PereodicSeveritySubject) {
+    public ResponseEntity<PereodicSeveritySubject> addPereodicSeveritySubject(HttpServletRequest request, @Valid @RequestBody PereodicSeveritySubject PereodicSeveritySubject) {
         return new ResponseEntity<>(pereodicSeveritySubjectService.save(PereodicSeveritySubject), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<PereodicSeveritySubject> updatePereodicSeveritySubject(HttpServletRequest request, @PathVariable("id") UUID id, @RequestBody PereodicSeveritySubject PereodicSeveritySubject) {
+    public ResponseEntity<PereodicSeveritySubject> updatePereodicSeveritySubject(HttpServletRequest request, @PathVariable("id") UUID id, @Valid @RequestBody PereodicSeveritySubject PereodicSeveritySubject) {
         PereodicSeveritySubject.setId(id);
         return new ResponseEntity<>(pereodicSeveritySubjectService.update(PereodicSeveritySubject), HttpStatus.OK);
     }

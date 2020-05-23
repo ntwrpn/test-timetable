@@ -2,17 +2,14 @@
 package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.java.config.ValidationMessages;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.UUID;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Builder
@@ -23,21 +20,20 @@ import java.util.Set;
 @Entity
 @Table(name = "semeseternumber")
 public class SemesterNumber {
-    
+
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    
+
     @Column(name = "number")
+    @Range(min = 1, max = 12, message = ValidationMessages.SEMESTER_NUMBER_RANGE)
     private int number;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="pereodic_severity_subject_id", nullable = true)
-    @JsonBackReference(value="semester-numbers-movement")
+    @JoinColumn(name = "pereodic_severity_subject_id")
+    @JsonBackReference(value = "semester-numbers-movement")
     private PereodicSeveritySubject pereodicSeveritySubject;
 
-    
-    
 }

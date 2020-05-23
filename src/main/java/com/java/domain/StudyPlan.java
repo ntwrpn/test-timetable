@@ -9,7 +9,9 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.UUID;
 import java.util.Date;
@@ -29,12 +31,14 @@ public class StudyPlan {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column(name = "name")
+    @Column(name = "name", length = 1000)
+    @Size(min = 1, max = 1000, message = ValidationMessages.NAME_SIZE_LENGTH)
+    @NotBlank(message = ValidationMessages.NAME_NOT_BLANK)
     private String name;
 
     @OneToMany(mappedBy = "studyPlan", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    @Column(nullable = true)
+    @Column
     private List<Subject> subjects;
 
     @OneToMany(mappedBy = "studyPlan", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -51,9 +55,9 @@ public class StudyPlan {
     @NotNull(message = ValidationMessages.COUNT_OF_SEM_NOT_BLANK)
     private Integer countOfSem;
 
-    @OneToMany(mappedBy="studyPlan", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference(value="studyPlan-week-movement")
-    @Column(nullable = true)
+    @OneToMany(mappedBy = "studyPlan", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "studyPlan-week-movement")
+    @Column
     private List<WeekCount> weeks;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
@@ -76,9 +80,12 @@ public class StudyPlan {
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "education_form")
+    @NotNull(message = ValidationMessages.EDUCATION_FORM_NOT_NULL)
     private EducationForm educationForm;
 
     @Column(name = "year")
+    @Range(min = 1900, max = 2100, message = ValidationMessages.YEAR_RANGE)
+    @NotNull(message = ValidationMessages.YEAR_NOT_NULL)
     private Integer year;
 }
 

@@ -3,16 +3,13 @@ package com.java.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.java.config.ValidationMessages;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.UUID;
-import java.util.Date;
-import java.util.List;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Builder
@@ -29,17 +26,18 @@ public class SeveritySubject {
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="severity_id", nullable = true)
+    @JoinColumn(name = "severity_id")
     @JsonIgnoreProperties(value = "severitySubjects", allowSetters = true)
     private Severity severity;
 
     @Column(name = "hours")
+    @Range(min = 1, max = 9999, message = ValidationMessages.SEVERITY_HOURS_RANGE)
     private int hours;
-    
-    @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
-    @JoinColumn(name="subject_id", nullable = true)
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "subject_id")
     @JsonBackReference(value = "severity-subject-movement")
     private Subject subject;
 
