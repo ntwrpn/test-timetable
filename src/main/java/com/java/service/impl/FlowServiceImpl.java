@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import com.java.domain.Flow;
 import com.java.domain.Groups;
+import com.java.repository.DeaneryRepository;
 import com.java.repository.FlowRepository;
 
 import java.lang.reflect.Field;
@@ -31,19 +32,27 @@ public class FlowServiceImpl implements FlowService {
     private FlowRepository flowRepository;
 
     @Autowired
-    private LecternRepository lecternRepository;
+    private DeaneryRepository deaneryRepository;
     
     @Override
-    public Flow save(Flow obj) {
+    public Flow save(Flow obj, UUID uuid) {
+        if(uuid != null){
+            obj.setDeanery(deaneryRepository.findById(uuid).get());
+        }
         return saveOrUpdateFlow(obj);
     }
 
     @Override
     public Flow update(Flow obj) {
-        for(Groups groups:obj.getGroups()){
-            groups.setFlow(obj);
+        Optional<Flow> flow = flowRepository.findById(obj.getId());
+        if(flow.isPresent()){
+            obj.setDeanery(flow.get().getDeanery());
+            for(Groups groups:obj.getGroups()){
+                groups.setFlow(obj);
+            }
+            return saveOrUpdateFlow(obj);
         }
-        return saveOrUpdateFlow(obj);
+        return null;
     }
 
     private Flow saveOrUpdateFlow(Flow obj){
@@ -88,7 +97,7 @@ public class FlowServiceImpl implements FlowService {
 
     @Override
     public List<Flow> findByDeaneryId(UUID uuid) {
-        return flowRepository.findDistinctByGroupsSpecialityLecternDeaneryId(uuid);
+        return flowRepository.findAllByDeaneryId(uuid);
     }
 
     @Override

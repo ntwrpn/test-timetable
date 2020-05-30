@@ -33,23 +33,23 @@ public class Employee {
     @JsonIgnore
     private Deanery deanery;
 
-    @Column(name = "name")
-    @Size(min = 2, max = 50, message = ValidationMessages.NAME_SIZE)
+    @Column(name = "name", length = 1000)
+    @Size(max = 1000, message = ValidationMessages.NAME_SIZE)
     @NotBlank(message = ValidationMessages.NAME_EMPLOYEE_NOT_BLANK)
     private String name;
 
-    @Column(name = "patronymic")
-    @Size(min = 2, max = 50, message = ValidationMessages.PATRONYMIC_SIZE)
+    @Column(name = "patronymic", length = 1000)
+    @Size(max = 1000, message = ValidationMessages.PATRONYMIC_SIZE)
     @NotBlank(message = ValidationMessages.PATRONYMIC_EMPLOYEE_NOT_BLANK)
     private String patronymic;
 
-    @Column(name = "surname")
-    @Size(min = 2, max = 100, message = ValidationMessages.SURNAME_SIZE)
+    @Column(name = "surname", length = 1000)
+    @Size(max = 1000, message = ValidationMessages.SURNAME_SIZE)
     @NotBlank(message = ValidationMessages.SURNAME_EMPLOYEE_NOT_BLANK)
     private String surname;
 
-    @Column(name = "rank")
-    @Size(min = 3, max = 100, message = ValidationMessages.RANK_SIZE)
+    @Column(name = "rank", length = 1000)
+    @Size(max = 1000, message = ValidationMessages.RANK_SIZE)
     @NotBlank(message = ValidationMessages.RANK_EMPLOYEE_NOT_BLANK)
     private String rank;
     

@@ -54,8 +54,8 @@ public class FlowController {
 
     @PostMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Flow> addFlow(HttpServletRequest request, @RequestBody Flow Flow) {
-        return new ResponseEntity<>(flowService.save(Flow), HttpStatus.CREATED);
+    public ResponseEntity<Flow> addFlow(HttpServletRequest request, @RequestParam(name = "deaneryId", required = false) UUID uuid,@RequestBody Flow Flow) {
+        return new ResponseEntity<>(flowService.save(Flow, uuid), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

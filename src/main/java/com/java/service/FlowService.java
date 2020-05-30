@@ -9,7 +9,7 @@ import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 
 public interface FlowService {
     
-    Flow save(Flow Flow);
+    Flow save(Flow Flow, UUID uuid);
 
     Flow update(Flow Flow);
 

@@ -35,13 +35,13 @@ public class Flow {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column(name = "name", unique = true)
-    @Size(min = 3, max = 100, message = ValidationMessages.FLOW_NAME_SIZE)
+    @Column(name = "name",  length = 1000)
+    @Size(max = 1000, message = ValidationMessages.FLOW_NAME_SIZE)
     @NotBlank(message = ValidationMessages.FLOW_NAME_NOT_BLANK)
     private String name;
 
-    @Column(name = "description")
-    @Size(max = 255, message = ValidationMessages.FLOW_DESCRIPTION_SIZE)
+    @Column(name = "description", length = 10000)
+    @Size(max = 10000, message = ValidationMessages.FLOW_DESCRIPTION_SIZE)
     private String description;
 
     @OneToMany(mappedBy = "flow",cascade = CascadeType.MERGE)
@@ -52,6 +52,11 @@ public class Flow {
     @OneToMany(mappedBy="flow", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Timetable> timetable;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "deanery", referencedColumnName = "id", nullable = true)
+    @JsonIgnore
+    private Deanery deanery;
 
     /*public void setGroups(List<Groups> newgroups) {
         if (newgroups != null) {

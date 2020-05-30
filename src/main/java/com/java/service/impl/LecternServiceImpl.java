@@ -9,10 +9,13 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.java.domain.Lectern;
+import com.java.domain.Subject;
 import com.java.repository.LecternRepository;
 import com.java.repository.DeaneryRepository;
 
 import java.lang.reflect.Field;
+
+import com.java.repository.SubjectRepository;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +34,9 @@ public class LecternServiceImpl implements LecternService {
 	
 	@Autowired
     private DeaneryRepository deaneryRepository;
-	
+
+    @Autowired
+    private SubjectRepository subjectRepository;
 	
     @Override
     public Lectern save(Lectern obj, UUID id) throws Exception {
@@ -52,6 +57,9 @@ public class LecternServiceImpl implements LecternService {
 		//obj.setDeanery(deaneryRepository.findById(obj.getDeanery().getId()).get());
 		Optional<Lectern> lectern = lecternRepository.findById(obj.getId());
         if(lectern.isPresent()){
+            if(!lectern.get().getName().equals(obj.getName())){
+                updateDepartmentOfSubjects(lectern.get().getName(), obj.getName());
+            }
             lectern.get().setId(obj.getId());
             lectern.get().setFullname(obj.getFullname());
             lectern.get().setName(obj.getName());
@@ -70,9 +78,22 @@ public class LecternServiceImpl implements LecternService {
     
     @Override
     public void delete(UUID id) {
+        deleteTemplate(lecternRepository.findById(id).get().getName());
         lecternRepository.deleteById(id);
     }
 
+    private void deleteTemplate(String name) {
+        for(Subject subject: subjectRepository.findAllByDepartmentAndTemplate(name,true)){
+            subjectRepository.delete(subject);
+        }
+    }
+
+    private void updateDepartmentOfSubjects(String nameOld, String nameNew){
+        for(Subject subject: subjectRepository.findAllByDepartment(nameOld)){
+            subject.setDepartment(nameNew);
+            subjectRepository.save(subject);
+        }
+    }
 
     @Override
     public List<Lectern> getAll() {
@@ -114,6 +135,9 @@ public class LecternServiceImpl implements LecternService {
         return lecternRepository.findByFullname(fullname);
     }
 
-    ;
+    @Override
+    public Optional<Lectern> findByGroupsId(UUID uuid) {
+        return lecternRepository.findBySpecialitiesGroupsId(uuid);
+    }
 }
 

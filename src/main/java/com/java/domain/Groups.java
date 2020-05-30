@@ -34,13 +34,13 @@ public class Groups {
     private UUID id;
     
 
-    @Column(name = "name", unique = true)
-    @Size(min = 3, max = 50, message = ValidationMessages.GROUP_NAME_SIZE)
+    @Column(name = "name", unique = true, length = 1000)
+    @Size(max = 1000, message = ValidationMessages.GROUP_NAME_SIZE)
     @NotBlank(message = ValidationMessages.GROUP_NAME_NOT_BLANK)
     private String name;
 
-    @Column(name = "description")
-    @Size(max = 255, message = ValidationMessages.GROUP_DESCRIPTION_SIZE)
+    @Column(name = "description", length = 10000)
+    @Size(max = 10000, message = ValidationMessages.GROUP_DESCRIPTION_SIZE)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
@@ -53,7 +53,7 @@ public class Groups {
     private Speciality speciality;  
 
 	@Column(name = "count_of_student")
-    @Range(min = 5, max = 40, message = ValidationMessages.GROUP_COUNT_STUDENTS_SIZE)
+    @Range(max = 99, message = ValidationMessages.GROUP_COUNT_STUDENTS_SIZE)
     @NotNull(message = ValidationMessages.GROUP_COUNT_STUDENTS_NOT_BLANK)
     private Integer countOfStudents;
   

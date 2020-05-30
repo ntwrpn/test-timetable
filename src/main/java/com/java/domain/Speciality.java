@@ -44,6 +44,10 @@ public class Speciality {
     @JsonIgnore
     private List<StudyPlan> studyPlans;
 
+    @OneToMany(mappedBy = "speciality", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Groups> groups;
+
     @Column(name = "name", length = 1000)
     @Size(max = 1000, message = ValidationMessages.NAME_SIZE_LENGTH)
     @NotBlank(message = ValidationMessages.NAME_NOT_BLANK)
