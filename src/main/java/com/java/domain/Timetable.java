@@ -1,7 +1,10 @@
 package com.java.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.Date;
@@ -53,6 +56,21 @@ public class Timetable {
     @JoinColumn(name = "flow", referencedColumnName = "id", nullable = true)
     @JsonIgnoreProperties({"lectern"})
     private Flow flow;
+    
+    @OneToMany(mappedBy="timetable", cascade = CascadeType.ALL)
+    @Column
+    private List<Lesson> lesson;
+    
+    @JsonProperty("lesson")
+    public void setLesson(List<Lesson> lesson) {
+        this.lesson = lesson;
+    }
+    
+    @JsonIgnore
+    public List<Lesson> getLesson() {
+        return this.lesson;
+    }
+
     
 
     public void setStatus(StudyPlanStatus status) {

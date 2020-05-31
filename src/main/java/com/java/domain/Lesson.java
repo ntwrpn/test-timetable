@@ -1,13 +1,29 @@
 
 package com.java.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
+
+/*
+id: divs.id,
+name: name,
+groups: group,
+subject: subject,
+type: type_name,
+day: parseInt(day),
+time: time,
+corps: corps,
+classroom: classroom,
+teacher: teacher
+*/
+
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Builder
@@ -16,7 +32,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "Lesson")
+@Table(name = "lesson")
 public class Lesson {
     @Id
     @Column(name = "id")
@@ -24,30 +40,48 @@ public class Lesson {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
     
-    public UUID getId() {
-        return id;
-    }
+    @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.REFRESH)
+    @JoinColumn(name="classroom", referencedColumnName="id", nullable = true)
+    @JsonIgnoreProperties({"classroom_type","corps","description","description","count_of_place","corps","lectern"})
+    private Classroom classroom;
     
-    public void setId(UUID id) {
-        this.id = id;
-    }
+    @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.REFRESH)
+    @JoinColumn(name="corps_id", referencedColumnName="id", nullable = true)
+    private Corps corps;
 
-    @Column(name = "classroom_id")
-    private int classroom_id;
+    @Column(name = "day")
+    private int day;
 
-    @Column(name = "day_id")
-    private int day_id;
+    @Column(name = "name")
+    private String name;
+    
+    @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.REFRESH)
+    @JoinColumn(name="subject", referencedColumnName="id", nullable = true)
+    @JsonIgnoreProperties({"department","sumOfHours","freeHours","position","template","description","semesters","severities","pereodicSeverities"})
+    private Subject subject;
+    
+    @Column(name = "type")
+    private String type;
+    
+    @Column(name = "time")
+    private String time;
 
-    @Column(name = "needed_class_id")
-    private int needed_class_id;
+    @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.REFRESH)
+    @JoinColumn(name="teacher", referencedColumnName="id", nullable = true)
+    @JsonIgnoreProperties({"user","rate","staffType","additionalInfo","academicDegreeAbbreviation","academicDegree","academicRank","lectern"})
+    private Teacher teacher;
 
-    @Column(name = "subject_id")
-    private int subject_id;
-
-    @Column(name = "teacher_id")
-    private int teacher_id;
-
-    @Column(name = "turn_id")
-    private int turn_id;
+    @ManyToOne(optional=false, fetch = FetchType.LAZY, cascade=CascadeType.REFRESH)
+    @JoinColumn(name="timetable", referencedColumnName="id", nullable = true)
+    @JsonBackReference
+    private Timetable timetable;
+   
+    
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinTable(name = "group_lessons", joinColumns = { @JoinColumn(name = "lesson_id", nullable = false, updatable = true)},
+     inverseJoinColumns = { @JoinColumn(name = "groups_id", nullable = false, updatable = true)})
+    @Column(name = "groups")
+    @JsonIgnoreProperties(value={"speciality","countOfStudents","description"})
+    private List<Groups> groups;
 }
 

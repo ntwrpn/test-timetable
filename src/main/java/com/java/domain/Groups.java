@@ -52,9 +52,14 @@ public class Groups {
     @JoinColumn(name="speciality", referencedColumnName="id", nullable = true)
     private Speciality speciality;  
 
-	@Column(name = "count_of_student")
+    @Column(name = "count_of_student")
     @Range(min = 5, max = 40, message = ValidationMessages.GROUP_COUNT_STUDENTS_SIZE)
     @NotNull(message = ValidationMessages.GROUP_COUNT_STUDENTS_NOT_BLANK)
     private Integer countOfStudents;
-  
+    
+    
+    @ManyToMany(mappedBy="groups", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JsonBackReference(value = "lesson-group")
+    @Column(nullable = true)
+    private List<Lesson> lesson;
 }

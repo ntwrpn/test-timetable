@@ -1,5 +1,63 @@
 "use strict";
+const postLesson = (json) => {
+    let name = "/api/lesson/";
+    let type = 'POST';
+    /*if (json['id'] != undefined && json['id'] != null && json['id'] != "") {
+     type = 'PUT';
+     name = name + json['id'];
+     }*/
+    if (json['id'].length < 11) {
+        delete json.id;
+    }
 
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'type': type,
+        'async': false,
+        'url': name,
+        'data': JSON.stringify(json),
+        'dataType': 'json',
+    });
+}
+
+const postTimetable = (json) => {
+    let fullurl = window.location.pathname;
+    let timetableId = fullurl.match("timetable\/(.+)")[1];
+    let name = "/api/timetable/";
+    let type = 'POST';
+    for (let x = 0; x < json.lesson.length; x++) {
+        if (json.lesson[x]['id'].length < 11) {
+            delete json.lesson[x].id;
+        }
+    }
+    console.log(json);
+
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'type': type,
+        'async': false,
+        'url': name,
+        'data': JSON.stringify(json),
+        'dataType': 'json',
+        'success': function (response) {
+            if (type == 'PUT') {
+                M.toast({html: "Запись изменена"});
+            } else if (type == 'POST') {
+                M.toast({html: "Запись создана"});
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus + ": " + jqXHR.status + " " + errorThrown);
+            M.toast({html: textStatus + ": " + jqXHR.status + " " + errorThrown});
+        }
+    });
+}
 
 const getDataFromServer = (name, id, parameter) => {
     let url = "/api/" + name + "/";
@@ -60,7 +118,7 @@ var ID = function () {
     // Math.random should be unique because of its seeding algorithm.
     // Convert it to base 36 (numbers + letters), and grab the first 9 characters
     // after the decimal.
-    return '_' + Math.random().toString(36).substr(2, 9);
+    return '_' + Math.random().toString(36).substr(2, 36);
 };
 
 
@@ -298,6 +356,8 @@ const createLoadWithoutDiv = (id, name, teacher, corps, classroom, subject) => {
     div_input1.getElementsByTagName("select")[0].addEventListener("change", getClassroomSortByCorpsId);
     div_input1.id = "corps" + id;
     loadEl.append(div_input1);
+    console.log(classrooms, corps);
+    console.log(classrooms.filter(x => x.corps.id == corps));
 
     div_input1 = getSelect("classroom input-field1", classrooms.filter(x => x.corps.id == corps), classroom);
     div_input1.id = "classroom" + id;
@@ -444,18 +504,19 @@ const SaveTable = () => {
         })
         let time = divs.parentElement.parentElement.id;
         let day = divs.parentElement.parentElement.parentElement.id;
-        let corps_id = document.getElementById("corps" + divs.id).getElementsByTagName("select")[0].options.selectedIndex;
+        let corps_id = document.getElementById("corps" + divs.id).getElementsByTagName("select")[0].value;
         let teacher_id = document.getElementById("teacher" + divs.id).getElementsByTagName("select")[0].value;
         let classroom_id = document.getElementById("classroom" + divs.id).getElementsByTagName("select")[0].value;
         let type_name = document.getElementById("type" + divs.id).innerText;
 
         let name = divs.getElementsByClassName('load-caption')[0].innerText;
         let subject = subjects.find(x => x.name == name);
-        let corps = global_corps.find(x => x.id == corps_id);
         let classroom = classrooms.find(x => x.id == classroom_id);
+        let corps = global_corps.find(x => x.id == corps_id);
+
+
         let teachers = getJSONDataFromLocalStorage("teachers");
         let teacher = teachers.find(x => x.id == teacher_id);
-
         let order = {
             id: divs.id,
             name: name,
@@ -466,11 +527,69 @@ const SaveTable = () => {
             time: time,
             corps: corps,
             classroom: classroom,
-            teacher: teacher
+            teacher: teacher,
         }
         classes.push(order);
+        console.log(order);
+        //postLesson(order);
     }
     saveJSONDataToLocalStorage("classes", classes);
+}
+
+
+const SaveTableInDatabase = () => {
+    let container = document.getElementsByClassName('rTable')[0];
+    let list = container.getElementsByClassName("drag-item-inline");
+    let fullurl = window.location.pathname;
+    let timetableId = fullurl.match("timetable\/(.+)")[1];
+    let timetable = getDataFromServer("timetable", timetableId);
+    let classes = [];
+    for (let index = 0; index < list.length; index++) {
+        let divs = list[index];
+        let group_name = divs.parentElement.id.split(",");
+
+        let group = [];
+        let flow = getJSONDataFromLocalStorage("flow");
+        let subjects = getJSONDataFromLocalStorage("subjects");
+
+        group_name.forEach(name => {
+            group.push(flow.groups.find(x => x.name == name))
+        })
+        let time = divs.parentElement.parentElement.id;
+        let day = divs.parentElement.parentElement.parentElement.id;
+        let corps_id = document.getElementById("corps" + divs.id).getElementsByTagName("select")[0].value;
+        let teacher_id = document.getElementById("teacher" + divs.id).getElementsByTagName("select")[0].value;
+        let classroom_id = document.getElementById("classroom" + divs.id).getElementsByTagName("select")[0].value;
+        let type_name = document.getElementById("type" + divs.id).innerText;
+
+        let name = divs.getElementsByClassName('load-caption')[0].innerText;
+        let subject = subjects.find(x => x.name == name);
+        let classroom = classrooms.find(x => x.id == classroom_id);
+        let corps = global_corps.find(x => x.id == corps_id);
+
+        let teachers = getJSONDataFromLocalStorage("teachers");
+        let teacher = teachers.find(x => x.id == teacher_id);
+        let order = {
+            id: divs.id,
+            name: name,
+            groups: group,
+            subject: subject,
+            type: type_name,
+            day: parseInt(day),
+            time: time,
+            corps: corps,
+            classroom: classroom,
+            teacher: teacher,
+            timetable: {"id":timetableId}
+        }
+        classes.push(order);
+        console.log(order);
+        //postLesson(order);
+    }
+    timetable["lesson"] = classes;
+    saveJSONDataToLocalStorage("classes", classes);
+    postTimetable(timetable);
+
 }
 
 const RenderTable = (groups, times, classes, size) => {
