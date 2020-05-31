@@ -25,7 +25,10 @@ public class LessonController {
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Lesson>> getLessons(HttpServletRequest request) {
+    public ResponseEntity<List<Lesson>> getLessons(HttpServletRequest request, @RequestParam(name = "timetableId", required = false) UUID uuid) {
+        if(uuid != null){
+            return new ResponseEntity<>(lessonService.findByTimetableId(uuid), HttpStatus.OK);
+        }
         return new ResponseEntity<>(lessonService.getAll(), HttpStatus.OK);
     }
 

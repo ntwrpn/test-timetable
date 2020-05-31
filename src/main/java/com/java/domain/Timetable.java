@@ -57,7 +57,7 @@ public class Timetable {
     @JsonIgnoreProperties({"lectern"})
     private Flow flow;
     
-    @OneToMany(mappedBy="timetable", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="timetable", cascade = CascadeType.ALL, orphanRemoval = true)
     @Column
     private List<Lesson> lesson;
     

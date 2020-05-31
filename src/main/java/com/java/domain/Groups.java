@@ -53,7 +53,7 @@ public class Groups {
     private Speciality speciality;  
 
 	@Column(name = "count_of_student")
-    @Range(max = 99, message = ValidationMessages.GROUP_COUNT_STUDENTS_SIZE)
+    @Range(min = 5, max = 40, message = ValidationMessages.GROUP_COUNT_STUDENTS_SIZE)
     @NotNull(message = ValidationMessages.GROUP_COUNT_STUDENTS_NOT_BLANK)
     private Integer countOfStudents;
     

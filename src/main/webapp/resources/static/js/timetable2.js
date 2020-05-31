@@ -696,7 +696,7 @@ const RenderTable = (groups, times, classes, size) => {
                     rTableRowDr.className = 'rTableCell1 droppable';
                     orders.forEach(order => {
                         if (order.teacher && order.classroom) {
-                            rTableRowDr.append(createFormLoadEl(order.id, null, order.name, order.teacher.id, order.classroom.corps.id, order.classroom.id, order.type));
+                            rTableRowDr.append(createFormLoadEl(order.id, null, order.name, order.teacher.id, order.corps.id, order.classroom.id, order.type));
                         }
                         if ((group % 2 != 0) || (size != 4 && group % 2 != 0)) {
                             orders = [];
@@ -1043,7 +1043,9 @@ $(document).ready(() => {
     saveJSONDataToLocalStorage("teachers", teachers);
     saveJSONDataToLocalStorage("flow", flow);
 
-    let classes = getJSONDataFromLocalStorage("classes");
+    //let classes = getJSONDataFromLocalStorage("classes");
+    let classes = getDataFromServer("lesson", timetableId, "timetableId")
+    console.log(classes);
     if (classes == null)
         classes = [];
     RenderTable(flow.groups, times, classes, 4);

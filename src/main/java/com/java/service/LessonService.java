@@ -16,6 +16,8 @@ public interface LessonService {
     void delete(UUID id);
 
     List<Lesson> getAll();
+    
+    List<Lesson> findByTimetableId(UUID uuid);
 
     Optional<Lesson> getById(UUID userId);
     

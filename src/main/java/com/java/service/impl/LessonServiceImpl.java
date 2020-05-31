@@ -46,12 +46,18 @@ public class LessonServiceImpl implements LessonService {
     public List<Lesson> getAll() {
         return lessonRepository.findAll();
     }
-
+    
+    
+    @Override
+    public List<Lesson> findByTimetableId(UUID uuid){
+        return lessonRepository.findByTimetableId(uuid);
+    }
+    
     @Override
     public Optional<Lesson> getById(UUID id) {
         return lessonRepository.findById(id);
     }
-
+    
     @Override
     public JsonSchema getFields() {
         JSONObject obj = new JSONObject();
