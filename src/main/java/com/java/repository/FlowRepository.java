@@ -2,10 +2,9 @@ package com.java.repository;
 
 import com.java.domain.*;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 import java.util.Optional;
@@ -19,6 +18,9 @@ public interface FlowRepository extends JpaRepository<Flow, UUID> {
     void deleteById(UUID uuid);
 
     List<Flow> findAllByDeaneryId(UUID uuid);
+
+    @Query("select f from Flow f JOIN f.groups gr JOIN gr.speciality s where s.lectern.id =?1 ")
+    List<Flow> findFlowsByLecternId(UUID uuid);
 
     List<Flow> findByName(String name);
 }

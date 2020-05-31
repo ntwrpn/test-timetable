@@ -101,6 +101,11 @@ public class FlowServiceImpl implements FlowService {
     }
 
     @Override
+    public List<Flow> findByLecternId(UUID uuid) {
+        return flowRepository.findFlowsByLecternId(uuid);
+    }
+
+    @Override
     public List<Flow> findByName(String name) {
         return flowRepository.findByName(name);
     }

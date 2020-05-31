@@ -23,6 +23,8 @@ public interface GroupsService {
 
     List<Groups> findByFlowLecternDeaneryId(UUID uuid);
 
+    List<Groups> getGroupsByLecternId(UUID uuid);
+
     List<Groups> findByName(String name);
 
     List<Groups> findByFlowAndSpecialityLecternDeaneryId(UUID flowId,UUID uuid);

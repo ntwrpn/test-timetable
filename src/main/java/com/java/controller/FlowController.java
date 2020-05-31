@@ -28,14 +28,17 @@ public class FlowController {
 
     @ExceptionHandler
     public ResponseEntity<Response> handleException(ConstraintViolationException exception) {
-        return  new ResponseEntity<>(ExceptionResponceCreator.createResponse(exception.getConstraintViolations()),HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ExceptionResponceCreator.createResponse(exception.getConstraintViolations()), HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Flow>> getFlows(HttpServletRequest request, @RequestParam(name = "deaneryId", required = false) UUID uuid) {
-        if(uuid != null){
-            return new ResponseEntity<>(flowService.findByDeaneryId(uuid), HttpStatus.OK);
+    public ResponseEntity<List<Flow>> getFlows(HttpServletRequest request, @RequestParam(name = "deaneryId", required = false) UUID deaneryId, @RequestParam(name = "lecternId", required = false) UUID lecternId) {
+        if (deaneryId != null) {
+            return new ResponseEntity<>(flowService.findByDeaneryId(deaneryId), HttpStatus.OK);
+        }
+        if (lecternId != null) {
+            return new ResponseEntity<>(flowService.findByLecternId(lecternId), HttpStatus.OK);
         }
         return new ResponseEntity<>(flowService.getAll(), HttpStatus.OK);
     }

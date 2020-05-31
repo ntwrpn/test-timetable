@@ -19,7 +19,9 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
+
 import java.io.IOException;
+
 import com.java.service.GroupsService;
 
 @Service
@@ -42,13 +44,13 @@ public class GroupsServiceImpl implements GroupsService {
     @Override
     public Groups update(Groups obj) {
         Optional<Groups> groups = groupsRepository.findById(obj.getId());
-        if(groups.isPresent()){
+        if (groups.isPresent()) {
             obj.setFlow(groups.get().getFlow());
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             Validator validator = factory.getValidator();
             Set<ConstraintViolation<Groups>> violations = validator.validate(obj);
-            if(violations.size()!=0){
-                throw  new ConstraintViolationException(violations);
+            if (violations.size() != 0) {
+                throw new ConstraintViolationException(violations);
             }
             return groupsRepository.save(obj);
         }
@@ -77,18 +79,23 @@ public class GroupsServiceImpl implements GroupsService {
         JSONObject obj = new JSONObject();
         ObjectMapper mapper = new ObjectMapper();
         SchemaFactoryWrapper visitor = new SchemaFactoryWrapper();
-        try{
+        try {
             mapper.acceptJsonFormatVisitor(Groups.class, visitor);
             JsonSchema schema = visitor.finalSchema();
             return schema;
-        } catch (IOException exx){
+        } catch (IOException exx) {
             return null;
-        } 
+        }
     }
 
     @Override
     public List<Groups> findByFlowLecternDeaneryId(UUID uuid) {
         return groupsRepository.findBySpecialityLecternDeaneryId(uuid);
+    }
+
+    @Override
+    public List<Groups> getGroupsByLecternId(UUID uuid) {
+        return groupsRepository.findAllBySpeciality_Lectern_Id(uuid);
     }
 
     @Override

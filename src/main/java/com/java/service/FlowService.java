@@ -23,5 +23,7 @@ public interface FlowService {
 
     List<Flow> findByDeaneryId(UUID uuid);
 
+    List<Flow> findByLecternId(UUID uuid);
+
     List<Flow> findByName(String name);
 }

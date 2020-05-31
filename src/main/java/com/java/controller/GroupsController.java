@@ -28,14 +28,17 @@ public class GroupsController {
 
     @ExceptionHandler
     public ResponseEntity<Response> handleException(ConstraintViolationException exception) {
-        return  new ResponseEntity<>(ExceptionResponceCreator.createResponse(exception.getConstraintViolations()),HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ExceptionResponceCreator.createResponse(exception.getConstraintViolations()), HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Groups>> getGroupss(HttpServletRequest request, @RequestParam(name = "deaneryId", required = false) UUID uuid) {
-        if(uuid != null){
-            return new ResponseEntity<>(groupsService.findByFlowLecternDeaneryId(uuid), HttpStatus.OK);
+    public ResponseEntity<List<Groups>> getGroupss(HttpServletRequest request, @RequestParam(name = "deaneryId", required = false) UUID deaneryId, @RequestParam(name = "lecternId", required = false) UUID lecternId) {
+        if (deaneryId != null) {
+            return new ResponseEntity<>(groupsService.findByFlowLecternDeaneryId(deaneryId), HttpStatus.OK);
+        }
+        if (lecternId != null) {
+            return new ResponseEntity<>(groupsService.getGroupsByLecternId(lecternId), HttpStatus.OK);
         }
         return new ResponseEntity<>(groupsService.getAll(), HttpStatus.OK);
     }
@@ -81,8 +84,8 @@ public class GroupsController {
     @GetMapping("/freeGroups/")
     @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Groups>> getFreeGroups(HttpServletRequest request, @RequestParam(name = "deaneryId", required = false) UUID uuid) {
-        if(uuid != null){
-            return new ResponseEntity<>(groupsService.findByFlowAndSpecialityLecternDeaneryId(null,uuid), HttpStatus.OK);
+        if (uuid != null) {
+            return new ResponseEntity<>(groupsService.findByFlowAndSpecialityLecternDeaneryId(null, uuid), HttpStatus.OK);
         }
         return new ResponseEntity<>(groupsService.getAll(), HttpStatus.OK);
     }
