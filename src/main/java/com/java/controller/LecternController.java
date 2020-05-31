@@ -87,6 +87,12 @@ public class LecternController {
         }
         return new ResponseEntity<>(lecternService.findByName(name).size() == 0, HttpStatus.OK);
     }
+
+    @GetMapping(value = "/getLecternByGroupId/")
+    @PreAuthorize("@CustomSecurityService.hasPermission(authentication, #request) or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Lectern> getLecternByGroupId(HttpServletRequest request, @RequestParam(name = "groupsId", required = false) UUID groupsId, @RequestParam(name = "fullname", required = false) String fullname) {
+        return new ResponseEntity<>(lecternService.findByGroupsId(groupsId).get(), HttpStatus.OK);
+    }
 }
 
 

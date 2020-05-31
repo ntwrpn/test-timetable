@@ -42,18 +42,18 @@ public class Lectern {
     @JsonIgnore
     private List<Speciality> specialities;
 
-    @Column(name = "fullname", unique = true)
-    @Size(min = 2, max = 255, message = ValidationMessages.LECTERN_FULLNAME_SIZE)
+    @Column(name = "fullname", unique = true, length = 1000)
+    @Size(max = 1000, message = ValidationMessages.LECTERN_FULLNAME_SIZE)
     @NotBlank(message = ValidationMessages.LECTERN_FULLNAME_NOT_BLANK)
     private String fullname;
 
-    @Column(name = "name")
-    @Size(min = 2, max = 50, message = ValidationMessages.LECTERN_NAME_SIZE)
+    @Column(name = "name", length = 255)
+    @Size(max = 255, message = ValidationMessages.LECTERN_NAME_SIZE)
     @NotBlank(message = ValidationMessages.LECTERN_NAME_NOT_BLANK)
     private String name;
 
-    @Column(name = "description")
-    @Size(max = 255, message = ValidationMessages.LECTERN_DESCRIPTION_SIZE)
+    @Column(name = "description", length = 10000)
+    @Size(max = 10000, message = ValidationMessages.LECTERN_DESCRIPTION_SIZE)
     private String description;
 }
 

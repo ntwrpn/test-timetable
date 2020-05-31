@@ -23,4 +23,6 @@ public interface LecternRepository extends JpaRepository<Lectern, UUID> {
     List<Lectern> findByName(String name);
 
     List<Lectern> findByFullname(String fullname);
+
+    Optional<Lectern> findBySpecialitiesGroupsId(UUID uuid);
 }

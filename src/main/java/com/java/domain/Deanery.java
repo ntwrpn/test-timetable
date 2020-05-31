@@ -35,8 +35,12 @@ public class Deanery {
     @OneToMany(mappedBy="deanery", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Lectern> lecterns;
+
+    @OneToMany(mappedBy="deanery", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Flow> flows;
 	
-    @OneToMany(mappedBy = "deanery", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="deanery", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Employee> employee;
 

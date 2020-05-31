@@ -26,4 +26,6 @@ public interface LecternService {
     List<Lectern> findByName(String name);
 
     List<Lectern> findByFullname(String fullname);
+
+    Optional<Lectern> findByGroupsId(UUID uuid);
 }

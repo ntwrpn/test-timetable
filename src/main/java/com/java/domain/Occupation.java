@@ -33,12 +33,12 @@ public class Occupation {
     private UUID id;
     
     @Column(name = "symbol", unique = true)
-    @Size(min = 1, max = 3, message = ValidationMessages.OCCUPATION_SYMBOL_SIZE)
+    @Size(max = 5, message = ValidationMessages.OCCUPATION_SYMBOL_SIZE)
     @NotBlank(message = ValidationMessages.OCCUPATION_SYMBOL_NOT_BLANK)
     private String symbol;
 
-    @Column(name = "value", unique = true)
-    @Size(min = 3, max = 255, message = ValidationMessages.OCCUPATION_VALUE_SIZE)
+    @Column(name = "value", unique = true, length = 1000)
+    @Size(max = 1000, message = ValidationMessages.OCCUPATION_VALUE_SIZE)
     @NotBlank(message = ValidationMessages.OCCUPATION_VALUE_NOT_BLANK)
     private String value;
 }
