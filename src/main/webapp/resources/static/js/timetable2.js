@@ -664,7 +664,7 @@ const RenderTable = (groups, times, classes, size) => {
                     group = group + groups.length - 1;
                     orders.forEach(order => {
                         if (order.teacher && order.classroom) {
-                            rTableRowDr.append(createFormLoadEl(order.id, null, order.name, order.teacher.id, order.classroom.corps.id, order.classroom.id, order.type));
+                            rTableRowDr.append(createFormLoadEl(order.id, null, order.name, order.teacher.id, order.corps.id, order.classroom.id, order.type));
                         }
                     });
                 } else if ((size == 4 && orders.length == 0) && //write flow lessons
@@ -676,7 +676,7 @@ const RenderTable = (groups, times, classes, size) => {
                     group = group + groups.length - 1;
                     orders.forEach(order => {
                         if (order.teacher && order.classroom) {
-                            rTableRowDr.append(createFormLoadEl(order.id, null, order.name, order.teacher.id, order.classroom.corps.id, order.classroom.id, order.type));
+                            rTableRowDr.append(createFormLoadEl(order.id, null, order.name, order.teacher.id, order.corps.id, order.classroom.id, order.type));
                         }
                     });
                 } else if ((size != 1 && orders.length == 0 && size != 4) && //write speciality lessons on count_groups block
@@ -689,7 +689,7 @@ const RenderTable = (groups, times, classes, size) => {
                     group += count_sp_group - 1;
                     orders.forEach(order => {
                         if (order.teacher && order.classroom) {
-                            rTableRowDr.append(createFormLoadEl(order.id, null, order.name, order.teacher.id, order.classroom.corps.id, order.classroom.id, order.type));
+                            rTableRowDr.append(createFormLoadEl(order.id, null, order.name, order.teacher.id, order.corps.id, order.classroom.id, order.type));
                         }
                     });
                 } else { //write practice on 1 block
