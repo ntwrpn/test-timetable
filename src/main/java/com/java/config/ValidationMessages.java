@@ -45,6 +45,7 @@ public class ValidationMessages {
     public static final String SURNAME_SIZE_LENGTH = "Длина фамилии должна быть от 1 до 1000 символов";
     public static final String PATRONYMIC_SIZE_LENGTH = "Длина отчества должна быть от 1 до 1000 символов";
     public static final String POSITION_SIZE_LENGTH = "Длина должности должна быть от 1 до 1000 символов";
+    public static final String CODE_SIZE_LENGTH = "Длина кода должна быть от 1 до 100 символов";
 
     public static final String ACADEMIC_RANK_SIZE = "Длина научного звания должна быть не больше 1000 символов";
     public static final String ACADEMIC_DEGREE_SIZE = "Длина научной степени должна быть не больше 1000 символов";
@@ -56,6 +57,7 @@ public class ValidationMessages {
     public static final String PATRONYMIC_NOT_BLANK = "Отчество не должно быть пустым";
     public static final String ABBREVIATION_NOT_BLANK = "Аббревиатура не должна быть пустой";
     public static final String POSITION_NOT_BLANK = "Должность не должна быть пустой";
+    public static final String CODE_NOT_BLANK = "Код не должен быть пустым";
 
     public static final String TEMPLATE_NOT_NULL = "Поле шаблон должно быть указано";
     public static final String YEAR_NOT_NULL = "Учебный год должен быть указан";

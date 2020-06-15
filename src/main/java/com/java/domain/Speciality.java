@@ -35,6 +35,11 @@ public class Speciality {
     @Size(max = 10000, message = ValidationMessages.DESCRIPTION_SIZE_LENGTH)
     private String description;
 
+    @Column(name = "code", length = 100)
+    @Size(max = 100, message = ValidationMessages.CODE_SIZE_LENGTH)
+    @NotBlank(message = ValidationMessages.CODE_NOT_BLANK)
+    private String code;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "lectern_id")
     @JsonIgnore

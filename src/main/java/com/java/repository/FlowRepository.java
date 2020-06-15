@@ -19,7 +19,7 @@ public interface FlowRepository extends JpaRepository<Flow, UUID> {
 
     List<Flow> findAllByDeaneryId(UUID uuid);
 
-    @Query("select f from Flow f JOIN f.groups gr JOIN gr.speciality s where s.lectern.id =?1 ")
+    @Query("select distinct f from Flow f JOIN f.groups gr JOIN gr.speciality s where s.lectern.id =?1 ")
     List<Flow> findFlowsByLecternId(UUID uuid);
 
     List<Flow> findByName(String name);

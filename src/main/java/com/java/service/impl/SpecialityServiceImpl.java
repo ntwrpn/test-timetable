@@ -46,6 +46,7 @@ public class SpecialityServiceImpl implements SpecialityService {
         if(speciality.isPresent()){
             speciality.get().setId(obj.getId());
             speciality.get().setDescription(obj.getDescription());
+            speciality.get().setCode(obj.getCode());
             speciality.get().setName(obj.getName());
             speciality.get().setAbbreviation(obj.getAbbreviation());
             return specialityRepository.save(speciality.get());
